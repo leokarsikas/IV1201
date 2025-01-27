@@ -1,2 +1,2 @@
 # IV1201
- Arkitektur och design av globala applikationer
+ Arkitektur och design av globala applikationer.
