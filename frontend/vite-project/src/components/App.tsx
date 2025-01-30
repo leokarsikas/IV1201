@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Fetch from './UserList'
-import './App.css'
+import '../App.css'
 
 
 function App() {
