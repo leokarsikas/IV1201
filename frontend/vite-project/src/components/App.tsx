@@ -1,17 +1,18 @@
-import { useState } from 'react'
-import Fetch from './UserList'
+import { useNavigate } from 'react-router-dom';
 import '../App.css'
 
 
 function App() {
-  
+  const navigate = useNavigate();
+
+  function goToApplication(){
+    navigate('/users')
+  }
 
   return (
       <div>
        <div className="center-div"> Welcome to the recruting system </div>
-         <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-        </p>
+        <button onClick={goToApplication}>Start your application</button>
       </div>
     
   )
