@@ -8,7 +8,7 @@ function Root() {
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/users" element={<UsersList />} />
+        <Route path="/api" element={<UsersList />} />
       </Routes>
     </Router>
   );

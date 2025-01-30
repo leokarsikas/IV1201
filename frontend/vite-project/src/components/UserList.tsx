@@ -11,9 +11,15 @@ function UsersList() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/users')
-      .then(response => response.json())
-      .then(data => setUsers(data))
+    fetch('http://localhost:8080/api/')
+      .then(response =>{
+        console.log(response);
+        return response.json();
+      })    
+      .then(data => {
+        console.log(data);
+      }
+      )   
       .catch(error => console.error('Error fetching users:', error));
   }, []);
 
@@ -21,7 +27,8 @@ function UsersList() {
     <div>
     <h2>Users</h2>
     <ul>
-      {users.map(user => (
+
+     {} {users.map(user => (
         <li key={user.id}>{user.name}</li>
       ))}
     </ul>
