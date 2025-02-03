@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
+import Input from '../Custom Components/input'
 
 
 function UsersList() {
@@ -25,13 +26,14 @@ function UsersList() {
 
   return (
     <div>
-    <h2>Users</h2>
-    <ul>
-
-     {} {users.map(user => (
-        <li key={user.id}>{user.name}</li>
-      ))}
-    </ul>
+    <h2>Application</h2>
+     <Input label={'First Name'}></Input>
+     <Input label={'Last Name'}></Input>
+     <Input label={'Personnummer'}></Input>
+     <Input label={'Email'}></Input>
+     <Input label={'Password'}></Input>
+     <Input label={'Username'}></Input>
+     <button>Apply</button>
   </div>
   );
 }

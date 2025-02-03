@@ -6,7 +6,7 @@ function App() {
   const navigate = useNavigate();
 
   function goToApplication(){
-    navigate('/api')
+    navigate('/application')
     console.log('go to application')
   }
 
