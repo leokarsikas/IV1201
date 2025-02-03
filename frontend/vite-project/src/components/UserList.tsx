@@ -3,6 +3,7 @@ import '../App.css';
 import Input from '../Custom Components/input';
 
 function UsersList() {
+  /*User information when register */
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
