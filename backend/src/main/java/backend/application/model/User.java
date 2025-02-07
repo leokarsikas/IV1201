@@ -1,36 +1,25 @@
 package backend.application.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Setter
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter  // Lombok generates getter methods
+@Setter  // Lombok generates setter methods
+
+@Entity
+@Table(name = "person")
 public class User {
-    private String firstName;
-    private String lastName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer person_ID;
+    private Integer role_id;
+    private String name;
+    private String surname;
     private String pnr;
     private String email;
-    private String password;
     private String username;
+    private String password;
 
-    public User(String firstName, String lastName, String pnr, String email, String password, String username){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pnr = pnr;
-        this.email = email;
-        this.password = password;
-        this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pnr='" + pnr + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                '}';
-    }
 }

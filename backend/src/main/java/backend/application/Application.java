@@ -1,20 +1,19 @@
 package backend.application;
 
-import backend.application.model.person;
+import backend.application.controller.UserController;
+import backend.application.model.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import backend.application.repo.personRepository;
+import backend.application.services.UserService;
 
 @SpringBootApplication(scanBasePackages = "backend")
 public class Application {
+    private final UserService userService;
 
-    private final personRepository personRepo;
-
-    // Constructor Injection of the repository
-    public Application(personRepository personRepo) {
-        this.personRepo = personRepo;
+    public Application(UserService userService) {
+        this.userService = userService;
     }
 
     public static void main(String[] args) {
@@ -22,11 +21,11 @@ public class Application {
     }
 
     // CommandLineRunner to fetch data from the database
-    @Bean
+    /*@Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
             // Fetch all persons from the DB
-            Iterable<person> persons = personRepo.findAll();
+            Iterable<User> persons = controller.fetchAllPersons();
 
             // Iterate and print person details
             persons.forEach(p -> {
@@ -37,6 +36,35 @@ public class Application {
                 System.out.println("Username: " + p.getUsername());
                 System.out.println("-----------");
             });
+        };
+    }*/
+
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+        return args -> {
+           /* // Create a new user
+            User user = new User();
+            user.setRole_id(2);
+            user.setName("test");
+            user.setSurname("test");
+            user.setPnr("123456789");
+            user.setEmail("test.test@test.com");
+            user.setUsername("test");
+            user.setPassword("test");
+
+            // Save user to the database
+            User savedUser = userService.createUser(user);
+            System.out.println("User added: " + savedUser);*/
+
+            Integer userIdToDelete = 1011; // Replace with the ID of the user you want to delete
+            boolean isDeleted = userService.deleteUserById(userIdToDelete);
+
+            // Print result
+            if (isDeleted) {
+                System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
+            } else {
+                System.out.println("User with ID " + userIdToDelete + " was not found.");
+            }
         };
     }
 }
