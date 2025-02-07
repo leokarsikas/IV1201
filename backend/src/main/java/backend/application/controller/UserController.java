@@ -10,6 +10,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @RequestMapping("/api")
 public class UserController {
 
@@ -25,8 +26,8 @@ public class UserController {
         return userService.getAllUsers(); // Calls the integration layer to get data
     }
 
-    @PostMapping("/create-user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @PostMapping("/register-user")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }

@@ -56,7 +56,7 @@ public class Application {
             User savedUser = userService.createUser(user);
             System.out.println("User added: " + savedUser);*/
 
-            Integer userIdToDelete = 1011; // Replace with the ID of the user you want to delete
+            /*Integer userIdToDelete = 1011; // Replace with the ID of the user you want to delete
             boolean isDeleted = userService.deleteUserById(userIdToDelete);
 
             // Print result
@@ -64,7 +64,7 @@ public class Application {
                 System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
             } else {
                 System.out.println("User with ID " + userIdToDelete + " was not found.");
-            }
+            }*/
         };
     }
 }

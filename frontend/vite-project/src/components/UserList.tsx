@@ -40,7 +40,7 @@ function UsersList() {
       body: JSON.stringify(formData)
   };
     try {
-      const response = await fetch('http://localhost:8080/api/users', request);
+      const response = await fetch('http://localhost:8080/api/register-user', request);
       const result = await response.text();
       console.log(result);
     } catch (error) {
