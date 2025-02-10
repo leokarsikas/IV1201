@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css'
 
 
-function App() {
+export default  function LandingPageView() {
   const navigate = useNavigate();
 
   function goToApplication(){
@@ -19,4 +19,3 @@ function App() {
   )
 }
 
-export default App
