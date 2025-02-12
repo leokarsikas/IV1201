@@ -39,4 +39,10 @@ public class UserService {
             return false; // Return false if user doesn't exist
         }
     }
+
+    //Get a user by email
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }
