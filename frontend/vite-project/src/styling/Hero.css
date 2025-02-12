@@ -1,0 +1,48 @@
+.hero {
+  height: 100vh;
+  background: no-repeat center center/cover;
+}
+
+.hero-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  margin-top: 5%;
+}
+
+.submit-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px;
+  border-radius: 16px;
+}
+
+.submit-container h2 {
+  color: #ffffff;
+  font-size: 64px;
+  font-weight: 400;
+}
+
+.submit-container p {
+  color: #f9faf9;
+  margin: 20px;
+  font-size: 18px;
+  max-width: 350px;
+  font-weight: 500;
+}
+
+.submit-container button {
+  background-color: white;
+  color: #28a745;
+  transition: background-color 0.3s ease;
+}
+
+.submit-container button:hover {
+  background-color: #cdcdcd;
+  color: #218238;
+}

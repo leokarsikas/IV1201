@@ -1,24 +1,43 @@
 import React from 'react';
-import './input.css';
+import './input.css'; 
 
 interface InputProps {
-  label: string;
   name: string;
   value: string;
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  borderRadius?: string; 
+  padding?: string; 
+  width?: string;
+  color?: string;
 }
 
-const Input: React.FC<InputProps> = ({ label,name, value, type,onChange }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  value,
+  type,
+  onChange,
+  placeholder = '', 
+  borderRadius = '99px', 
+  padding = '10px',
+  width = "300px",
+  color = "black",
+}) => {
   return (
     <div className="input-group">
-      <label className="user-label">{label}</label>
       <input
         type={type}
-        name = {name}
+        name={name}
         value={value}
         onChange={onChange}
-        className="input"
+        placeholder={placeholder}
+        style={{
+          borderRadius,
+          padding,
+          width,
+          color
+        }}
       />
     </div>
   );
