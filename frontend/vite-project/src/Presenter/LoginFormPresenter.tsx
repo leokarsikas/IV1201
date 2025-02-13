@@ -26,7 +26,7 @@ export default function LoginForm() {
 
     try {
      
-      const message = await user.registerUser();
+      const message = await user.loginUser();
       alert(message); 
     } catch (error) {
       console.error('Error during logging in:', error);

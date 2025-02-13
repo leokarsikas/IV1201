@@ -30,11 +30,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(endpoints -> {
-                endpoints.requestMatchers("/").permitAll();
-                endpoints.requestMatchers("/login").permitAll();
-                endpoints.requestMatchers("/register").permitAll();
-                endpoints.requestMatchers("/users").permitAll();
-                endpoints.anyRequest().authenticated();
+                //endpoints.requestMatchers("/").permitAll();
+                //endpoints.requestMatchers("/login").permitAll();
+                //endpoints.requestMatchers("/register").permitAll();
+                //endpoints.requestMatchers("/users").permitAll();
+                //endpoints.anyRequest().authenticated();
+                endpoints.anyRequest().permitAll();
             })
             //.oauth2Login(withDefaults())
             //.formLogin(withDefaults())

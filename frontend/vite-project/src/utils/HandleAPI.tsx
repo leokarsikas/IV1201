@@ -27,7 +27,8 @@ export default class HandleAPI {
         const response = await fetch(`${API_URL}/login-user`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(user.toJSON()),
+          //Ändrade argumentet för bodyn från user.toJSON()
+          body: JSON.stringify(user.userData),
         });
   
         if (!response.ok) {

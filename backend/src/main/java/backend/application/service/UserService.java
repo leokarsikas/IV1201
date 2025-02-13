@@ -43,12 +43,21 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.getUserByUsername(username);
+    public UserDetails validateUser(User userWithCredentials) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
         if(user.isEmpty()) {
-            throw new UsernameNotFoundException("User not found!");
+            //Change exception type later
+            throw new UsernameNotFoundException("Email not found!");
+        }
+        if(!user.get().getPassword().equals(userWithCredentials.getPassword())) {
+            //Change exception type later
+            throw new UsernameNotFoundException("Wrong password!");
         }
         return user.get();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
