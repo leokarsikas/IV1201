@@ -10,12 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-
-/*
-    @Autowired
-    private UserRepository userRepository;
-*/
-
 //check the right port number for the frontend
 
 @RestController
@@ -44,7 +38,7 @@ public class MyController {
         public int getStatus() {
             return status;
         }
-}
+    }
 
     @PostMapping("/users")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -52,22 +46,4 @@ public class MyController {
 
         return ResponseEntity.ok("User registered successfully");
     }
-
-
 }
-/*
-    @GetMapping
-    public void createUser(Long id, String name, String email) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setEmail(email);
-        userRepository.save(user);
-    }
-
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        // Temp logic to fetch all users
-        return userRepository.findAll();
-    }
-*/
