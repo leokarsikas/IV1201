@@ -2,9 +2,9 @@ import React from "react";
 import { NavLink,  } from 'react-router-dom';
 import Input from "../Custom Components/input";
 import Button from "../Custom Components/button";
-import "../styling/ApplicationForm.css";
+import "../styling/RegistrationForm.css";
 
-interface ApplicationFormViewProps {
+interface RegistrationFormProps {
   userData: {
     name: string;
     surname: string;
@@ -17,11 +17,11 @@ interface ApplicationFormViewProps {
   onSubmit: (event: React.FormEvent) => void;
 }
 
-export default function ApplicationFormView({
+export default function RegistrationFormView({
   userData,
   onInputChange,
   onSubmit,
-}: Readonly<ApplicationFormViewProps>) {
+}: Readonly<RegistrationFormProps>) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     onInputChange(name, value);

@@ -25,6 +25,14 @@ export class User {
     }
   }
 
+  async loginUser(): Promise<string> {
+    try {
+      const message = await HandleAPI.loginUser(this)
+      return message;
+    }catch (error: any){
+      throw new Error("Error during logging in: " + error.message)
+    }
+  }
   toJSON(): object {
     return {
       name: this.userData.name,

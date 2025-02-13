@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import ApplicationFormView from '../View/ApplicationFormView';
+import LoginFormView from '../View/LoginFormView';
 import { User, UserData } from '../Model/User';
 
-export default function ApplicationFormPresenter() {
+export default function LoginForm() {
   const [userData, setUserData] = useState<UserData>({
     name: '',
     surname: '',
@@ -29,13 +29,13 @@ export default function ApplicationFormPresenter() {
       const message = await user.registerUser();
       alert(message); 
     } catch (error) {
-      console.error('Error during registration:', error);
-      alert('An error occurred during registration. Please try again.');
+      console.error('Error during logging in:', error);
+      alert('An error occurred during logging in. Please try again.');
     }
   };
 
   return (
-    <ApplicationFormView
+    <LoginFormView
       userData={userData}
       onInputChange={handleInputChange}
       onSubmit={handleSubmit}

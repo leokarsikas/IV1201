@@ -21,4 +21,23 @@ export default class HandleAPI {
       throw error;
     }
   }
-}
+
+    static async loginUser(user: User): Promise<string> {
+      try {
+        const response = await fetch(`${API_URL}/login-user`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(user.toJSON()),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Server Error: ${response.status}`);
+        }
+  
+        return await response.text();
+      } catch (error) {
+        console.error('Error saving user:', error);
+        throw error;
+      }
+    }
+  }
