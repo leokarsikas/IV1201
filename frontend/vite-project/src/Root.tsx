@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './Presenter/LandingPagePresenter.tsx';
-import ApplicationForm from './Presenter/ApplicationFormPresenter.tsx';
+import RegistrationForm from './Presenter/RegistrationFormPresenter.tsx';
+import LoginForm from './Presenter/LoginFormPresenter.tsx';
 import Navbar from './Custom Components/navbar.tsx';
 
 function Root() {
@@ -9,9 +10,9 @@ function Root() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/application" element={<ApplicationForm />} />
-        <Route path="/register" element={<ApplicationForm />} />
-        <Route path="/login" element={<ApplicationForm />} />
+        <Route path="/application" element={<RegistrationForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
     </Router>
   );
