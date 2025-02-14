@@ -16,9 +16,9 @@ import java.util.Map;
 @Service
 public class JWTService {
 
-    private String secret = "secret";
+    public static String createToken(User user) {
+        String secret = "secre8ur4opk3fi0+3fremfk+3oirngif430jirofi0fe3koejf4rji3rfjdjioerfpkjfrjf0jioencjfiejoiwefet";
 
-    public String createToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         return
                 Jwts

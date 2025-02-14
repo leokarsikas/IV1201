@@ -57,6 +57,7 @@ public class SecurityConfig {
                 //endpoints.requestMatchers("/users").permitAll();
                 endpoints.anyRequest().authenticated();
             })
+            //.addFilterBefore()
             //.oauth2Login(withDefaults())
             //.formLogin(withDefaults())
             .httpBasic(withDefaults())

@@ -74,7 +74,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public UserDetails validateUser(User userWithCredentials) throws UsernameNotFoundException {
+    public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
         Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
         if(user.isEmpty()) {
             //Change exception type later
@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
             //Change exception type later
             throw new UsernameNotFoundException("Wrong password!");
         }
-        return user.get();
+        return true;
     }
 
     @Override

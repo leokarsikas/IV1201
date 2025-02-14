@@ -1,6 +1,7 @@
 package backend.application.controller;
 
 import backend.application.model.User;
+import backend.application.service.JWTService;
 import backend.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,10 @@ public class AuthController {
     @PostMapping("/login-user")
     public ResponseEntity<String> login(@RequestBody User user) {
         //Change and move this logic later
-        if(userService.validateUser(user) != null) {
-            return ResponseEntity.ok("Success! This will be a token later.");
+        if(userService.validateUser(user)) {
+            String token = JWTService.createToken(user);
+            System.out.println(token);
+            return ResponseEntity.ok("Success! JWT token is: \n"+token);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
