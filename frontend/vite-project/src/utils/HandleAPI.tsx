@@ -1,4 +1,5 @@
 import {User, UserData} from '../Model/User';
+import { ApiError } from './ErrorType';
 
 const API_URL = 'http://localhost:8080/api';
 
@@ -12,13 +13,15 @@ export default class HandleAPI {
       });
 
       if (!response.ok) {
-        throw new Error(`Server Error: ${response.status}`);
+        const errorBody = await response.json();
+        const errorMessage = errorBody?.message || response.status || 'Unknown error';
+        throw new ApiError(response.status, errorMessage);
       }
 
-      return await response.text();
+      return await response.json();
     } catch (error) {
-      console.error('Error saving user:', error);
-      throw error;
+      console.error("Caught Error:", (error as Error).message);
+      throw error
     }
   }
 

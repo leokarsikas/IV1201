@@ -15,18 +15,21 @@ interface RegistrationFormProps {
   };
   onInputChange: (name: string, value: string) => void;
   onSubmit: (event: React.FormEvent) => void;
+  message: string;
 }
 
 export default function RegistrationFormView({
   userData,
   onInputChange,
   onSubmit,
+  message,
 }: Readonly<RegistrationFormProps>) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     onInputChange(name, value);
   };
 
+  console.log(message)
   return (
     <div className="page-container">
       <NavLink to="/" className="company-name">
@@ -53,6 +56,7 @@ export default function RegistrationFormView({
             width="242px"
           />
         </div>
+        <h2>{message}</h2>
         <Input
           placeholder="Personnummer"
           name="pnr"

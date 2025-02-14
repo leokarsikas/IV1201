@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import RegistrationFormView from '../View/RegistrationFormView';
+import { ApiError } from '../utils/ErrorType';
 import { User, UserData } from '../Model/User';
 
 export default function RegistrationForm() {
@@ -11,6 +12,8 @@ export default function RegistrationForm() {
     password: '',
     username: '',
   });
+
+  const [message, setMessage] = useState<string>('');
 
   const handleInputChange = (name: string, value: string) => {
     setUserData(prevState => ({
@@ -27,10 +30,11 @@ export default function RegistrationForm() {
     try {
      
       const message = await user.registerUser();
-      alert(message); 
+      console.log(message)
+      setMessage(message);
     } catch (error) {
       console.error('Error during registration:', error);
-      alert('An error occurred during registration. Please try again.');
+      setMessage('An error occurred during registration. Please try again.'); // Update the message on error
     }
   };
 
@@ -39,6 +43,7 @@ export default function RegistrationForm() {
       userData={userData}
       onInputChange={handleInputChange}
       onSubmit={handleSubmit}
+      message={message}
     />
   );
 }
