@@ -40,6 +40,7 @@ export class User {
       pnr: this.userData.pnr,
       email: this.userData.email,
       username: this.userData.username,
+      password: this.userData.password
     };
   }
 }
