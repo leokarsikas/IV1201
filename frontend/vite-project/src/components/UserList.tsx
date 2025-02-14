@@ -5,8 +5,8 @@ import Input from '../Custom Components/input';
 function UsersList() {
   /*User information when register */
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
+    surname: '',
     pnr: '',
     email: '',
     password: '',
@@ -52,8 +52,8 @@ function UsersList() {
     <div>
       <h2>Application</h2>
       <form method="post" onSubmit={handleSubmit}>
-        <Input label="First Name" name="firstName" value={formData.firstName} onChange={handleInputChange} type='text' />
-        <Input label="Last Name" name="lastName" value={formData.lastName} onChange={handleInputChange} type='text'/>
+        <Input label="First Name" name="name" value={formData.name} onChange={handleInputChange} type='text' />
+        <Input label="Last Name" name="surname" value={formData.surname} onChange={handleInputChange} type='text'/>
         <Input label="Personnummer" name="pnr" value={formData.pnr} onChange={handleInputChange} type='text'/>
         <Input label="Email" name="email" value={formData.email} onChange={handleInputChange} type='text'/>
         <Input label="Password" name="password" value={formData.password} onChange={handleInputChange} type="password" />
