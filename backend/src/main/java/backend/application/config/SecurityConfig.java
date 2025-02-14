@@ -25,12 +25,7 @@ import static org.springframework.security.config.Customizer.*;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-
-    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
