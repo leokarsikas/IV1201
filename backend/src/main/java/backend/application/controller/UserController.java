@@ -49,7 +49,7 @@ public class UserController {
         } catch (UsernameAlreadyRegisteredException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
-        } catch (Exception ex) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Internal Server Error", "Something went wrong."));
         }
