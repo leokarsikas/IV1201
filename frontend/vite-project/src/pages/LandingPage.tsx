@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../Custom Components/navbar';
+import Navbar from '../components/navbar';
 import "../styling/Hero.css"
 import heroImage from '../assets/hero-best.png'; // Adjust path to the image
-import Button from '../Custom Components/button';
+import Button from '../components/button';
 
 
 
-export default  function LandingPageView() {
+export default  function LandingPage() {
   const navigate = useNavigate();
 
   function goToApplication(){

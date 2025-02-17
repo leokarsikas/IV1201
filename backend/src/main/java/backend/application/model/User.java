@@ -51,4 +51,16 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+    @Override
+    public String toString() {
+        return "User {" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", pnr='" + pnr + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

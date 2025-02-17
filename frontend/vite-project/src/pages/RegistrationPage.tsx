@@ -1,31 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink,  } from 'react-router-dom';
-import Input from "../Custom Components/input";
-import Button from "../Custom Components/button";
+import Input from "../components/input";
+import Button from "../components/button";
+import { useRegisterUser } from "../hooks/useRegistrationForm";
+import { UserData } from "../types/userRegistrationData";
 import "../styling/RegistrationForm.css";
 
-interface RegistrationFormProps {
-  userData: {
-    name: string;
-    surname: string;
-    pnr: string;
-    email: string;
-    password: string;
-    username: string;
-  };
-  onInputChange: (name: string, value: string) => void;
-  onSubmit: (event: React.FormEvent) => void;
-}
+export default function RegistrationPage() {
+    
+  const { register, loading, error } = useRegisterUser();  
 
-export default function RegistrationFormView({
-  userData,
-  onInputChange,
-  onSubmit,
-}: Readonly<RegistrationFormProps>) {
+  const [userData, setUserData] = useState<UserData>({
+    name: '',
+    surname: '',
+    pnr: '',
+    email: '',
+    password: '',
+    username: '',
+  });
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    onInputChange(name, value);
+    const {name, value} = event.target
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value, 
+    }));
   };
+
+  async function onSubmit (event: React.FormEvent){
+    console.log(userData)
+    event.preventDefault();
+    await register(userData);
+  }
 
   return (
     <div className="page-container">
@@ -53,6 +59,7 @@ export default function RegistrationFormView({
             width="242px"
           />
         </div>
+        <h2>{error}</h2>
         <Input
           placeholder="Personnummer"
           name="pnr"

@@ -1,10 +1,10 @@
 package backend.application.controller;
 
 import backend.application.model.User;
-import backend.application.service.UserService;
+import backend.application.service.AuthService;
+import backend.application.service.JWTService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/secured")
@@ -31,8 +31,10 @@ public class AuthController {
     @PostMapping("/login-user")
     public ResponseEntity<String> login(@RequestBody User user) {
         //Change and move this logic later
-        if(userService.validateUser(user) != null) {
-            return ResponseEntity.ok("Success! This will be a token later.");
+        if(authService.validateUser(user)) {
+            String token = JWTService.createToken(user);
+            System.out.println(token);
+            return ResponseEntity.ok("Success! JWT token is: \n"+token);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
