@@ -1,4 +1,5 @@
 import HandleAPI from "../utils/HandleAPI";
+import { ApiError } from "../utils/ErrorType";
 
 export interface UserData {
   name: string;
@@ -20,8 +21,13 @@ export class User {
     try {
       const message = await HandleAPI.registerUser(this);
       return message;
-    } catch (error: any) {
-      throw new Error('Error during registration: ' + error.message);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        console.error(`API error (${error.status}): ${error.message}`);
+        throw new ApiError(error.status, error.message);
+      }
+      console.log(error)
+      throw error;
     }
   }
 
