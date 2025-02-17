@@ -1,6 +1,7 @@
 package backend.application.config;
 
 import backend.application.model.User;
+import backend.application.service.AuthService;
 import backend.application.service.JWTService;
 import backend.application.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class JWTConfig extends OncePerRequestFilter {
 
     private JWTService jwtService;
-    private UserService userService;
+    private AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -47,7 +48,7 @@ public class JWTConfig extends OncePerRequestFilter {
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDetails userDetails = authService.loadUserByUsername(username);
 
             //Simplifyable??
             if(jwtService.validateToken(token, userDetails)){

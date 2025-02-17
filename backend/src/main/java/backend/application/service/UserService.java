@@ -18,17 +18,15 @@ import backend.application.exception.PersonNumberAlreadyRegisteredException;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-
-        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     // Get all users
@@ -72,27 +70,5 @@ public class UserService implements UserDetailsService {
         } else {
             return false; // Return false if user doesn't exist
         }
-    }
-
-    public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
-        if(user.isEmpty()) {
-            //Change exception type later
-            throw new UsernameNotFoundException("Email not found!");
-        }
-        if(!user.get().getPassword().equals(userWithCredentials.getPassword())) {
-            //Change exception type later
-            throw new UsernameNotFoundException("Wrong password!");
-        }
-        return true;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
-    }    
-    // Verifies users password
-    public boolean verifyUserPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

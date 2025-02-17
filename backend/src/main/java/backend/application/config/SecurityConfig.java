@@ -1,6 +1,6 @@
 package backend.application.config;
 
-import backend.application.service.UserService;
+import backend.application.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,8 +18,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.*;
 
-//Vet inte om vi vill ha det här i ett separat package.
-// Feel free att flytta den vid behov eller lust.
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -54,7 +51,7 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/register").permitAll();
                 endpoints.requestMatchers("/api/login-user").permitAll();
                 endpoints.requestMatchers("/api/register-user").permitAll();
-                //endpoints.requestMatchers("/users").permitAll();
+                endpoints.requestMatchers("/users").permitAll();
                 endpoints.anyRequest().authenticated();
             })
             //.addFilterBefore()
@@ -66,10 +63,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserService userService) {
+    public AuthenticationProvider authenticationProvider(AuthService authService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setUserDetailsService(userService);
+        authProvider.setUserDetailsService(authService);
         return authProvider;
     }
 
