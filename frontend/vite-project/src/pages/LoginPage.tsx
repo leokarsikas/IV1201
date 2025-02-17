@@ -1,31 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink,  } from 'react-router-dom';
-import Input from "../Custom Components/input";
-import Button from "../Custom Components/button";
+import Input from "../components/input";
+import Button from "../components/button";
+import { UserLoginData } from "../types/userLoginData";
 import "../styling/LoginForm.css";
+import { useLoginUser } from "../hooks/useAuthLogin";
 
-interface LoginFormProps {
-  userData: {
-    name: string;
-    surname: string;
-    pnr: string;
-    email: string;
-    password: string;
-    username: string;
-  };
-  onInputChange: (name: string, value: string) => void;
-  onSubmit: (event: React.FormEvent) => void;
-}
 
-export default function LoginFormView({
-  userData,
-  onInputChange,
-  onSubmit,
-}: Readonly<LoginFormProps>) {
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    onInputChange(name, value);
-  };
+export default function LoginPage(){
+
+    const { login, loading, error } = useLoginUser();  
+  
+    const [userData, setUserData] = useState<UserLoginData>({
+      email: '',
+      password: '',
+      username: '',
+    });
+
+     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target
+        setUserData((prevData) => ({
+          ...prevData,
+          [name]: value, 
+        }));
+      };
+
+
+      async function onSubmit (event: React.FormEvent){
+          event.preventDefault();
+          await login(userData);
+        }
+      
 
   return (
     <div className="page-container">
@@ -40,7 +45,7 @@ export default function LoginFormView({
           name="email"
           value={userData.email}
           onChange={handleInputChange}
-          type="email"
+          type="text"
           width="500px"
         />
         <Input

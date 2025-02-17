@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     // Create a new user
     public User createUser(User user) {
-
+        System.out.println(user);
         if (userRepository.existsByPnr(user.getPnr())) {
             throw new PersonNumberAlreadyRegisteredException("A user with this person number already exists.");
         }
@@ -95,4 +95,5 @@ public class UserService implements UserDetailsService {
     public boolean verifyUserPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
 }
