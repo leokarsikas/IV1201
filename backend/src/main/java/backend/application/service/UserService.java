@@ -18,17 +18,15 @@ import backend.application.exception.PersonNumberAlreadyRegisteredException;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-
-        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     // Get all users
@@ -73,6 +71,7 @@ public class UserService implements UserDetailsService {
             return false; // Return false if user doesn't exist
         }
     }
+<<<<<<< HEAD
 
     public UserDetails validateUser(User userWithCredentials) throws UsernameNotFoundException {
         Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
@@ -96,4 +95,6 @@ public class UserService implements UserDetailsService {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
+=======
+>>>>>>> f0afb54652920262f6b80ceee077c1c8f24e65f6
 }
