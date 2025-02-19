@@ -24,11 +24,13 @@ public class AuthService implements UserDetailsService {
 
     public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
         Optional<User> user;
+        /*System.out.println(userWithCredentials.getEmail());*/
         if(userWithCredentials.getEmail().contains("@")) {
             user = userRepository.getUserByEmail(userWithCredentials.getEmail());
         }
         else {
             user = userRepository.getUserByUsername(userWithCredentials.getEmail());
+            /*System.out.println(user);*/
         }
         if(user.isEmpty()) {
             //Change exception type later

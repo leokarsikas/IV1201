@@ -73,17 +73,17 @@ public class Application {
                     System.out.println("User with ID " + userIdToDelete + " was not found.");
                 }
             }*/
-
-            /*Optional<User> user = userService.getUserById(Long.valueOf(1));
-            System.out.println("Username " + user.get().getUsername());
-            System.out.println("Password " + user.get().getPassword());
-            String newPassword = passwordEncoder.encode(user.get().getPassword());
-            System.out.println("Encrypted password is: " + newPassword);
-            userService.updatePassword(1, newPassword);
-            Optional<User> updatedUser = userService.getUserById(Long.valueOf(1));
-            System.out.println("Username " + updatedUser.get().getUsername());
-            System.out.println("Password " + updatedUser.get().getPassword());*/
-
+            /*for(int i = 2; i < 11; i++) {
+                Optional<User> user = userService.getUserById(Long.valueOf(i));
+                System.out.println("Username " + user.get().getUsername());
+                System.out.println("Password " + user.get().getPassword());
+                String newPassword = passwordEncoder.encode(user.get().getPassword());
+                System.out.println("Encrypted password is: " + newPassword);
+                userService.updatePassword(i, newPassword);
+                Optional<User> updatedUser = userService.getUserById(Long.valueOf(i));
+                System.out.println("Username " + updatedUser.get().getUsername());
+                System.out.println("Password " + updatedUser.get().getPassword());
+            }*/
 
         };
     }

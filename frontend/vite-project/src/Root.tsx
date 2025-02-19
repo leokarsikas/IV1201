@@ -4,13 +4,14 @@ import RegistrationPage from './pages/RegistrationPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
 import Navbar from './components/navbar.tsx';
+import ApplicationPage from './pages/ApplicationPage.tsx';
 
 function Root() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/application" element={<RegistrationPage />} />
+        <Route path="/application" element={<ApplicationPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
