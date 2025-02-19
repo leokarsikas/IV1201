@@ -23,10 +23,11 @@ public class JWTService {
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public static String createToken(String name) {
+    public static String createToken(String name, int role_id) {
         Map<String, Object> claims = new HashMap<>();
         System.out.println("Secret: "+secret);
         System.out.println("Name: "+name);
+        claims.put("role_id", role_id);
         return
                 Jwts
                     .builder()

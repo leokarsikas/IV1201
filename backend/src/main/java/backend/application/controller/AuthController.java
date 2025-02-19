@@ -21,11 +21,18 @@ public class AuthController {
     @PostMapping("/login-user")
     public ResponseEntity<String> login(@RequestBody User user) {
         System.out.println("login-user");
-        System.out.println("username"+user.getUsername());
+        System.out.println("username: "+user.getUsername());
         //Change and move this logic later. Catch the propagated exception here or pass it on?
         if(authService.validateUser(user)) {
             System.out.println("Create token!");
-            String token = JWTService.createToken(user.getEmail());
+            String token;
+            if (user.getRole_id() == null) {
+                System.out.println("Role id is null, setting it to 2(user)");
+                token = JWTService.createToken(user.getEmail(), 2);
+            }
+            else {
+                token = JWTService.createToken(user.getEmail(), user.getRole_id());
+            }
             System.out.println("Login success! Token: "+token);
             //Cookie cookie = new Cookie("JWT", token);
             //cookie.setHttpOnly(true);
