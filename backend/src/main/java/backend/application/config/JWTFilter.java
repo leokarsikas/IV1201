@@ -26,8 +26,8 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = getBearerToken(request);
         String username = null;
-        System.out.println("JWTConfig token: "+token);
             if(token != null) {
+                System.out.println("Frontend provided a token: "+token);
                 username = jwtService.extractUsername(token);
                 if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails user = authService.loadUserByUsername(username);
@@ -37,6 +37,9 @@ public class JWTFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(auth);
                     }
                 }
+            }
+            else {
+                System.out.println("Frontend provided no token.");
             }
         filterChain.doFilter(request, response);
     }

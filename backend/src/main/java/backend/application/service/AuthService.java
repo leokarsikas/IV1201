@@ -22,7 +22,7 @@ public class AuthService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
+    public Integer validateUser(User userWithCredentials) throws UsernameNotFoundException {
         Optional<User> user;
         if(userWithCredentials.getEmail().contains("@")) {
             user = userRepository.getUserByEmail(userWithCredentials.getEmail());
@@ -32,23 +32,18 @@ public class AuthService implements UserDetailsService {
         }
         if(user.isEmpty()) {
             //Change exception type later
-            throw new UsernameNotFoundException("Email not found!");
+            throw new UsernameNotFoundException("User not found!");
         }
         if(!verifyUserPassword(userWithCredentials.getPassword(), user.get().getPassword())) {
             System.out.println(userWithCredentials.getPassword());
             throw new BadCredentialsException("Wrong password!");
         }
         System.out.println("Password verified");
-        return true;
+        return user.get().getRole_id();
     }
 
     // Verifies users password
     public boolean verifyUserPassword(String rawPassword, String encodedPassword) {
-        System.out.println(rawPassword);
-        System.out.println(encodedPassword);
-        System.out.println(passwordEncoder.encode(rawPassword));
-        System.out.println(passwordEncoder.encode(encodedPassword));
-
         //DON'T FORGET TO RESOLVE THIS ENCRYPTION ISSUE
         return passwordEncoder.matches(rawPassword, encodedPassword) || encodedPassword.matches(rawPassword);
     }

@@ -27,6 +27,7 @@ public class JWTService {
         Map<String, Object> claims = new HashMap<>();
         System.out.println("Secret: "+secret);
         System.out.println("Name: "+name);
+        System.out.println("Role ID: "+role_id);
         claims.put("role_id", role_id);
         return
                 Jwts
@@ -49,7 +50,7 @@ public class JWTService {
                         .parseSignedClaims(token)
                         .getPayload()
                         .getSubject();
-            System.out.println("Username: " + username);
+            System.out.println("Username from frontend: " + username);
             return username;
     }
 
