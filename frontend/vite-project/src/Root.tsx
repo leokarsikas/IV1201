@@ -1,9 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RegistrationPage from './pages/RegistrationPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
-import Navbar from './components/navbar.tsx';
+
 
 function Root() {
   return (
