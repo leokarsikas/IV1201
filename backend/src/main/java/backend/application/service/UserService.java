@@ -69,4 +69,20 @@ public class UserService {
         }
     }
 
+    public boolean updatePassword(Integer userId, String newPassword) {
+        // Check if the user exists
+        if (userRepository.existsById(Long.valueOf(userId))) {
+            // Fetch the user from the database
+            User user = userRepository.findById(Long.valueOf(userId)).orElse(null);
+
+            if (user != null) {
+                // Update the password
+                user.setPassword(newPassword);
+                // Save the updated user back to the database
+                userRepository.save(user);
+                return true; // Password updated successfully
+            }
+        }
+        return false; // User not found or update failed
+    }
 }
