@@ -18,24 +18,21 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/secured")
-    public String secured(){
-        return "This page is open only when logged in.";
-    }
-
-    @GetMapping("/open")
-    public ResponseEntity<String> open() {
-        return ResponseEntity.ok("This page is open for all.");
-    }
-
     @PostMapping("/login-user")
     public ResponseEntity<String> login(@RequestBody User user) {
-        //Change and move this logic later
+        System.out.println("login-user");
+        System.out.println("username"+user.getUsername());
+        //Change and move this logic later. Catch the propagated exception here or pass it on?
         if(authService.validateUser(user)) {
-            String token = JWTService.createToken(user);
-            System.out.println(token);
-            return ResponseEntity.ok("Success! JWT token is: \n"+token);
+            System.out.println("Create token!");
+            String token = JWTService.createToken(user.getEmail());
+            System.out.println("Login success! Token: "+token);
+            //Cookie cookie = new Cookie("JWT", token);
+            //cookie.setHttpOnly(true);
+            //cookie.setPath("/");
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        System.out.println("Login fail!");
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

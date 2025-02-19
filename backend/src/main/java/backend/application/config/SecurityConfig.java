@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,7 +22,6 @@ import static org.springframework.security.config.Customizer.*;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,7 +42,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
             .authorizeHttpRequests(endpoints -> {
@@ -53,10 +53,10 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/api/register-user").permitAll();
                 endpoints.requestMatchers("/users").permitAll();
                 endpoints.anyRequest().authenticated();
+                //endpoints.anyRequest().permitAll();
             })
-            //.addFilterBefore()
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             //.oauth2Login(withDefaults())
-            //.formLogin(withDefaults())
             .httpBasic(withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();

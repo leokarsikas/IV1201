@@ -2,6 +2,9 @@ package backend.application;
 
 import backend.application.model.User;
 //import org.springframework.beans.factory.annotation.Autowired;
+import backend.application.service.JWTService;
+import jakarta.servlet.http.Cookie;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,4 +49,15 @@ public class MyController {
 
         return ResponseEntity.ok("User registered successfully");
     }
+
+    @GetMapping("/secured")
+    public String secured(){
+        return "This page is open only when logged in.";
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<String> open() {
+        return ResponseEntity.ok("This page is open for all.");
+    }
+
 }
