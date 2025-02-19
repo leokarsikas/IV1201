@@ -49,15 +49,4 @@ public class MyController {
 
         return ResponseEntity.ok("User registered successfully");
     }
-
-    @GetMapping("/secured")
-    public String secured(){
-        return "This page is open only when logged in.";
-    }
-
-    @GetMapping("/open")
-    public ResponseEntity<String> open() {
-        return ResponseEntity.ok("This page is open for all.");
-    }
-
 }

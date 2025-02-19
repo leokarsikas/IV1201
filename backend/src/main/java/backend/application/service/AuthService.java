@@ -22,25 +22,27 @@ public class AuthService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
-        if(user.isEmpty()) {
-            //Change exception type later
-            throw new UsernameNotFoundException("Email not found!");
+    //Checks entered credentials against the database and return the user.
+    public User loginUser(User credentials) throws UsernameNotFoundException {
+        Optional<User> user;
+        if(credentials.getEmail().contains("@")) {
+            user = userRepository.getUserByEmail(credentials.getEmail());
         }
-        if(!verifyUserPassword(userWithCredentials.getPassword(), user.get().getPassword())) {
-            System.out.println(userWithCredentials.getPassword());
+        else {
+            user = userRepository.getUserByUsername(credentials.getEmail());
+        }
+        if(user.isEmpty()) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+        if(!verifyUserPassword(credentials.getPassword(), user.get().getPassword())) {
             throw new BadCredentialsException("Wrong password!");
         }
-        return true;
+        System.out.println("Password verified");
+        return user.get();
     }
 
     // Verifies users password
     public boolean verifyUserPassword(String rawPassword, String encodedPassword) {
-        System.out.println(rawPassword);
-        System.out.println(encodedPassword);
-        System.out.println(passwordEncoder.encode(rawPassword));
-        System.out.println(passwordEncoder.encode(encodedPassword));
         //DON'T FORGET TO RESOLVE THIS ENCRYPTION ISSUE
         return passwordEncoder.matches(rawPassword, encodedPassword) || encodedPassword.matches(rawPassword);
     }

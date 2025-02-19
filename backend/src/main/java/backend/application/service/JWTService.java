@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
@@ -23,10 +24,12 @@ public class JWTService {
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public static String createToken(String name) {
+    public static String createToken(String name, int role_id) {
         Map<String, Object> claims = new HashMap<>();
         System.out.println("Secret: "+secret);
         System.out.println("Name: "+name);
+        System.out.println("Role ID: "+role_id);
+        claims.put("role_id", role_id);
         return
                 Jwts
                     .builder()
@@ -41,15 +44,14 @@ public class JWTService {
                     .compact();
     }
 
-    public static String getUsername(String token){
-         String username = Jwts
-                        .parser()
-                        .build()
-                        .parseSignedClaims(token)
-                        .getPayload()
-                        .getSubject();
-            System.out.println("Username: " + username);
-            return username;
+    public static Cookie createCookie(String token){
+        Cookie cookie = new Cookie("token", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/refresh-token");
+        //10h
+        cookie.setMaxAge(36000);
+        cookie.setSecure(true);
+        return cookie;
     }
 
     //All below is boilerplate. (ValidateToken, isExpired, extractExpiration isNotExpired)
@@ -61,14 +63,6 @@ public class JWTService {
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
-    }
-
-    private boolean isExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
     }
 
     private <Object> Object extractClaim(String token, Function<Claims, Object> claimsResolver) {
@@ -83,20 +77,6 @@ public class JWTService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        System.out.println("allClaims"+allClaims);
         return allClaims;
     }
-
-
-    private boolean isNotExpired(String token) {
-        Date expiriationTime =Jwts
-                .parser()
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
-
-        return expiriationTime.before(new Date(System.currentTimeMillis()+3600000));
-    }
-
 }
