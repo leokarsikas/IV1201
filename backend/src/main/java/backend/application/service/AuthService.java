@@ -23,7 +23,16 @@ public class AuthService implements UserDetailsService {
     }
 
     public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.getUserByEmail(userWithCredentials.getEmail());
+        System.out.println("cRED"+userWithCredentials);
+        Optional<User> user;
+        if(userWithCredentials.getEmail().contains("@")) {
+            user = userRepository.getUserByEmail(userWithCredentials.getEmail());
+            System.out.println("Email:"+user);
+        }
+        else {
+            user = userRepository.getUserByUsername(userWithCredentials.getEmail());
+            System.out.println("Username:"+user);
+        }
         if(user.isEmpty()) {
             //Change exception type later
             throw new UsernameNotFoundException("Email not found!");
@@ -32,6 +41,7 @@ public class AuthService implements UserDetailsService {
             System.out.println(userWithCredentials.getPassword());
             throw new BadCredentialsException("Wrong password!");
         }
+        System.out.println("Password verified");
         return true;
     }
 
@@ -41,6 +51,7 @@ public class AuthService implements UserDetailsService {
         System.out.println(encodedPassword);
         System.out.println(passwordEncoder.encode(rawPassword));
         System.out.println(passwordEncoder.encode(encodedPassword));
+
         //DON'T FORGET TO RESOLVE THIS ENCRYPTION ISSUE
         return passwordEncoder.matches(rawPassword, encodedPassword) || encodedPassword.matches(rawPassword);
     }
