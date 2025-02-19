@@ -2,6 +2,9 @@ package backend.application;
 
 import backend.application.model.User;
 //import org.springframework.beans.factory.annotation.Autowired;
+import backend.application.service.JWTService;
+import jakarta.servlet.http.Cookie;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,12 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-
-/*
-    @Autowired
-    private UserRepository userRepository;
-*/
 
 //check the right port number for the frontend
 
@@ -44,7 +41,7 @@ public class MyController {
         public int getStatus() {
             return status;
         }
-}
+    }
 
     @PostMapping("/users")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -53,21 +50,14 @@ public class MyController {
         return ResponseEntity.ok("User registered successfully");
     }
 
+    @GetMapping("/secured")
+    public String secured(){
+        return "This page is open only when logged in.";
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<String> open() {
+        return ResponseEntity.ok("This page is open for all.");
+    }
 
 }
-/*
-    @GetMapping
-    public void createUser(Long id, String name, String email) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setEmail(email);
-        userRepository.save(user);
-    }
-
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        // Temp logic to fetch all users
-        return userRepository.findAll();
-    }
-*/

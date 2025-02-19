@@ -4,13 +4,21 @@ package backend.application.controller;
 import backend.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import backend.application.model.User;
 import java.util.List;
 
+// Exceptions
+
+import backend.application.exception.EmailAlreadyRegisteredException;
+import backend.application.exception.PersonNumberAlreadyRegisteredException;
+import backend.application.exception.UsernameAlreadyRegisteredException;
+import backend.application.exception.ErrorResponse;
+
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @RequestMapping("/api")
 public class UserController {
 
@@ -18,19 +26,37 @@ public class UserController {
 
 
     public UserController(UserService userService) {
+
         this.userService = userService;
     }
 
     @GetMapping("/get-all-users")
     public List<User> fetchAllPersons() {
+
         return userService.getAllUsers(); // Calls the integration layer to get data
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<Object> registerUser(@RequestBody User user) {
+        try {
+            User newUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (PersonNumberAlreadyRegisteredException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Registration Failed", e.getMessage()));
+        } catch (EmailAlreadyRegisteredException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Registration Failed", e.getMessage()));
+        } catch (UsernameAlreadyRegisteredException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Registration Failed", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Internal Server Error", "Something went wrong."));
+        }
     }
+
+
 
     // DELETE endpoint to delete a user by ID
     @DeleteMapping("/delete-user/{id}")
@@ -43,4 +69,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
+
+    //For testing
+    @PreAuthorize("hasRole(1)")
+    @GetMapping("/admin")
+    public ResponseEntity<String> helloAdmin(){
+        return ResponseEntity.ok("Hello Admin");
+    }
+
+    @PreAuthorize("hasRole(2)")
+    @GetMapping("/user")
+    public ResponseEntity<String> helloUser(){
+        return ResponseEntity.ok("Hello User");
+    }
+
 }
