@@ -22,24 +22,23 @@ public class AuthService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Integer validateUser(User userWithCredentials) throws UsernameNotFoundException {
+    //Checks entered credentials against the database and return the user.
+    public User loginUser(User credentials) throws UsernameNotFoundException {
         Optional<User> user;
-        if(userWithCredentials.getEmail().contains("@")) {
-            user = userRepository.getUserByEmail(userWithCredentials.getEmail());
+        if(credentials.getEmail().contains("@")) {
+            user = userRepository.getUserByEmail(credentials.getEmail());
         }
         else {
-            user = userRepository.getUserByUsername(userWithCredentials.getEmail());
+            user = userRepository.getUserByUsername(credentials.getEmail());
         }
         if(user.isEmpty()) {
-            //Change exception type later
             throw new UsernameNotFoundException("User not found!");
         }
-        if(!verifyUserPassword(userWithCredentials.getPassword(), user.get().getPassword())) {
-            System.out.println(userWithCredentials.getPassword());
+        if(!verifyUserPassword(credentials.getPassword(), user.get().getPassword())) {
             throw new BadCredentialsException("Wrong password!");
         }
         System.out.println("Password verified");
-        return user.get().getRole_id();
+        return user.get();
     }
 
     // Verifies users password

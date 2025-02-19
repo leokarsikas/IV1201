@@ -51,8 +51,8 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/register").permitAll();
                 endpoints.requestMatchers("/api/login-user").permitAll();
                 endpoints.requestMatchers("/api/register-user").permitAll();
-                endpoints.requestMatchers("/users").permitAll();
-                endpoints.requestMatchers("/admin/**").hasRole("1");
+                endpoints.requestMatchers("/api/user/**");
+                endpoints.requestMatchers("/api/admin/**").hasRole("1");
                 endpoints.anyRequest().authenticated();
                 //endpoints.anyRequest().permitAll();
             })
