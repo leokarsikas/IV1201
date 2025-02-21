@@ -9,16 +9,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ApplicationController {
-
+/*
     private final ApplicationService applicationService;
 
     public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
     }
 
+
     @GetMapping("/get-all-applications")
-    public List<Application> getAllApplications() {
-        return applicationService.getAllApplications();
+    //Get all existing applications
+    public List<Application> getAllApplications(){
+        return ApplicationService.buildApplication();
     }
+
+     */
 
 }

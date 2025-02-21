@@ -6,13 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter  // Lombok generates getter methods
 @Setter  // Lombok generates setter methods
-
+/*
 @Entity
 @Table(name = "application")
+
+ */
 public class Application {
 
     @Id
@@ -22,10 +26,10 @@ public class Application {
     private String pnr;
     private String email;
     private int rollercoasterSkill;
-    private int someSkill;
+    private int ticketsellSkill;
     private int someOtherSkill;
-    //something for periods the applicant can work
-
+    private Date availabilityStart;
+    private Date availabilityEnd;
 
 
 
