@@ -16,7 +16,7 @@ export default function LoginPage(){
     navigate('/')
   }
 
-    const { user, login, logout, isLoading  } = useAuth();
+    const { user, login, logout, isLoading, error  } = useAuth();
    
   
     const [userData, setUserData] = useState<UserLoginData>({

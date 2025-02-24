@@ -26,7 +26,7 @@ export const loginUser = async (userData: UserLoginData) => {
 
 export const fetchUserData = async () => {
   try {
-    // Send GET request with the token in the Authorization header
+    // Send GET request with the token in the Cookie
     const response = await fetch(`${API_URL}/authTest`, {
       method: "GET",
       credentials: "include", // cookie in request
@@ -46,7 +46,6 @@ export const fetchUserData = async () => {
 
 export const logoutUser = async () => {
   try {
-    // Send GET request with the token in the Authorization header
     const response = await fetch(`${API_URL}/logout`, {
       method: "POST",
       credentials: "include",
@@ -55,7 +54,7 @@ export const logoutUser = async () => {
     if (!response.ok) {
       throw new Error("Failed to logout user, try again");
     }
-    
+
   } catch (error) {
     console.error(error);
   }
