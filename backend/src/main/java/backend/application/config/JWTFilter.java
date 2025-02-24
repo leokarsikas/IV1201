@@ -4,6 +4,7 @@ import backend.application.service.AuthService;
 import backend.application.service.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = getBearerToken(request);
+        String token = getTokenFromCookie(request);
         String username = null;
         if(token != null) {
             System.out.println("Frontend provided a token: "+token);
@@ -62,6 +63,16 @@ public class JWTFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
            return header.split(" ")[1];
         }
+        return null;
+    }
+
+
+    private String getTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if( cookies != null)
+            for(Cookie cookie : cookies)
+                if(cookie.getName().equals("token"))
+                    return cookie.getValue();
         return null;
     }
 }

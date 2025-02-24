@@ -4,12 +4,20 @@ import Input from "../components/input";
 import Button from "../components/button";
 import { UserLoginData } from "../types/userLoginData";
 import "../styling/LoginForm.css";
-import { useLoginUser } from "../hooks/useAuthLogin";
+import  {useAuth}  from "../hooks/useAuthLogin";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LoginPage(){
 
-    const { login, loading, error } = useLoginUser();  
+  const navigate = useNavigate();
+
+  function goToApplication(){
+    navigate('/')
+  }
+
+    const { user, login, logout, isLoading  } = useAuth();
+   
   
     const [userData, setUserData] = useState<UserLoginData>({
       email: '',
@@ -28,7 +36,12 @@ export default function LoginPage(){
 
       async function onSubmit (event: React.FormEvent){
           event.preventDefault();
-          await login(userData);
+          try {
+            await login(userData);
+            goToApplication();
+          } catch (error) {
+            console.error("Login failed:", error);
+          }
         }
       
 
@@ -56,10 +69,11 @@ export default function LoginPage(){
           type="password"
           width="500px"
         />
+     
         <div className="button-container">
           <Button
             className="custom-button"
-            text="Logga in"
+            text={isLoading ? 'Loggar in...' : 'Logga in'}
             type="submit"
             padding="15px 100px"
             borderRadius="99px"

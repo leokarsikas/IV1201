@@ -1,25 +1,10 @@
-import { useState} from "react";
-import { loginUser } from "../services/authService";
-import { UserLoginData } from "../types/userLoginData";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export const useLoginUser = () => {
-    const [userData, setUserData] = useState<UserLoginData | null>(null); 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-  
-    const login = async (userData: UserLoginData): Promise<void> => {
-      setLoading(true);
-      setError(null); // Reset previous errors
-      try {
-        const loginUserData = await loginUser(userData); // Register the UserData
-        setUserData(loginUserData);
-      } catch (err: any) {
-        setError(err.message || "An error occurred while registering the UserData.");
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    return { userData, loading, error, login };
-  };
-
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

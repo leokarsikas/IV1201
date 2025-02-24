@@ -1,33 +1,60 @@
-import { createContext, useContext, useState } from "react";
-import { loginUser, registerUser } from '../services/authService';
-import {UserData} from '../types/userRegistrationData'
+import { createContext, useState, useEffect, ReactNode } from "react";
+import { loginUser, fetchUserData, logoutUser } from "../services/authService"; // Adjust path if needed
+import { UserLoginData } from "../types/userLoginData";
 
-const AuthContext = createContext<any>(null);
+interface AuthContextType {
+  user: any | null;
+  login: (userData: UserLoginData) => Promise<void>;
+  logout: () => void;
+  isLoading: boolean;
+  error: string | null;
+}
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserData | null>(null);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-  async function handleRegister(userData: UserData) {
-    await registerUser(userData);
-    setUser(userData);
-  }
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null)
 
-  async function handleLogin(username: string, password: string) {
-    await loginUser(username, password);
-    setUser({ username, name: "", surname: "", pnr: "", email: "", password }); 
-  }
+  // Fetch user data on app load
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const userData = await fetchUserData();
+        setUser(userData);
+        console.log(userData)
+      } catch (error : any) {
+        console.error("Failed to fetch user", error)
+        setError(error?.message || "Failed to fetch user information"); 
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  function logout() {
-    setUser(null);
-  }
+    getUser();
+  }, []);
+
+  const login = async (userData: UserLoginData) => {
+    try {
+      await loginUser(userData);
+      const user = await fetchUserData(); // Fetch user details after login
+      setUser(user);
+    } catch (error: any) {
+      console.error("Login failed", error);
+      setError(error?.message || "Login failed"); 
+    }
+  };
+
+  const logout = () => {
+    setUser(null); 
+    logoutUser()
+  };
 
   return (
-    <AuthContext.Provider value={{ user, handleRegister, handleLogin, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, error }}>
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
+};
