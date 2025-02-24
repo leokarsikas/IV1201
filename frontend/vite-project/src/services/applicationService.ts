@@ -11,6 +11,4 @@ export const sendApplication = async (applicationData : ApplicationData) => {
     if (!response.ok) {
       throw new Error('Failed to send application');
     }
-  
-    return response.json(); // Return the token and user info
   };

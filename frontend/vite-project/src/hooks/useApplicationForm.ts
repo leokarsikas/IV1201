@@ -7,18 +7,18 @@ export const useApplicationForm = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
   
-    const application = async (applicationData: ApplicationData): Promise<void> => {
+    const competence = async (applicationData: ApplicationData): Promise<void> => {
       setLoading(true);
       setError(null); // Reset previous errors
       try {
         const registeredApplicationData = await sendApplication(applicationData); // Register the UserData
         setUserData(registeredApplicationData);
       } catch (err: any) {
-        setError(err.message || "An error occurred while handeling application");
+        setError(err.message || "An error occurred while handeling competence");
       } finally {
         setLoading(false);
       }
     };
   
-    return { applicationData, loading, error, application};
+    return { applicationData, loading, error, competence};
   };

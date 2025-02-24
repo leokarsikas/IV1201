@@ -6,7 +6,7 @@ import { UserLoginData } from "../types/userLoginData";
 export const loginUser = async (userData : UserLoginData) => {
     const response = await fetch(`${API_URL}/login-user`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'competence/json' },
       body: JSON.stringify(userData),
     });
   
@@ -20,7 +20,7 @@ export const loginUser = async (userData : UserLoginData) => {
   export const registerUser = async (user : UserData) => {
     const response = await fetch(`${API_URL}/register-user`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'competence/json' },
       body: JSON.stringify(user),
     });
   

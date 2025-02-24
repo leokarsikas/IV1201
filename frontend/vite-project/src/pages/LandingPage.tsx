@@ -10,7 +10,7 @@ export default  function LandingPage() {
   const navigate = useNavigate();
 
   function goToApplication(){
-    navigate('/application')
+    navigate('/competence')
   }
 
   return (
