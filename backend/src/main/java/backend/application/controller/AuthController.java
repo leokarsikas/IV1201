@@ -27,7 +27,12 @@ public class AuthController {
         User user = authService.loginUser(credentials);
         if(user != null) {
             System.out.println("Create token!");
-            String token = JWTService.createToken(user.getEmail(), user.getRole_id());
+            System.out.println("Username: "+user.getUsername());
+            System.out.println("Email: "+user.getEmail());
+            String token = JWTService.createToken(
+                user.getEmail() != null? user.getEmail() : user.getUsername(),
+                user.getRole_id()
+            );
             Cookie cookie = JWTService.createCookie(token);
             System.out.println("Login success! Token: "+token);
             response.addCookie(cookie);
