@@ -1,11 +1,13 @@
 package backend.application.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
@@ -44,6 +46,17 @@ public class JWTService {
                     .compact();
     }
 
+    public static ResponseCookie createResponseCookie(String token) {
+        return ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(36000)         // 10 hours
+                .sameSite("Strict") // CSRF protection by restricting cross-origin requests
+                .secure(false)                        // CHANGE THIS TO TRUE WHEN DEPLOYING!!
+                .build();
+    }
+
+    /* Old cookie implementation (saved in case of emergency usage) */
     public static Cookie createCookie(String token){
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
@@ -54,15 +67,30 @@ public class JWTService {
         return cookie;
     }
 
-    //All below is boilerplate. (ValidateToken, isExpired, extractExpiration isNotExpired)
-
     public boolean validateToken(String token) {
-        Jwts.parser().verifyWith(key).build().parse(token);
-        return true;
+        //Create more exceptions later?
+        try {
+            Jwts.parser().verifyWith(key).build().parse(token);
+            return true;
+        }
+        catch (ExpiredJwtException ex){
+            System.out.println("Expired JWT token: "+ex.getClaims().getSubject());
+            return false;
+        }
+        catch (Exception ex){
+            System.out.println("Invalid JWT token: "+ex.getMessage());
+            return false;
+        }
     }
+
+    //All below is boilerplate.
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role_id",String.class));
     }
 
     private <Object> Object extractClaim(String token, Function<Claims, Object> claimsResolver) {

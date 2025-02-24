@@ -7,6 +7,7 @@
   .navbar-container {
     display: flex;
     justify-content: space-between;
+    justify-items: center;
     align-items: center;
   }
   
@@ -19,7 +20,7 @@
   }
 
   .navbar-logo:hover{
-    color: #28a745;
+    text-decoration: underline;
   }
   
   .navbar-links {
@@ -29,29 +30,43 @@
   
   
   .navbar-button-login {
-    padding: 8px 48px;
-    background-color: white; 
-    color:#28a745;
+    margin-right: 20px;
+    color: white;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 500;
     border-radius: 99px;
     transition: background-color 0.05s ease;
   }
 
-  .navbar-button-register {
-    padding: 8px 48px;
-    border: 2px solid #ffffff; 
+  .navbar-button-username {
+    margin-right: 20px;
+    color:#ffffff;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
     border-radius: 99px;
+    transition: background-color 0.05s ease;
+  }
+
+  .navbar-button-username:hover {
+    text-decoration: underline;
+  }
+
+  .navbar-button-register {
+    margin: auto;
+    border-radius: 99px;
+    background-color: transparent;
+    border: none;
     color: #ffffff;
     text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 500;
     transition: text-decoration 0.5s ease-in-out;
   }
   
   .navbar-button-login:hover {
-    background-color: #e9e9e9; 
+    text-decoration: underline;
   }
 
   .navbar-button-register:hover {
