@@ -3,7 +3,7 @@ import '../styling/Navbar.css'
 import { useAuth } from "../hooks/useAuthLogin";
 
 const Navbar = () => {
-  const { user, login, logout, isLoading } = useAuth();
+  const { user,  logout } = useAuth();
 
   return (
     <header className="navbar">

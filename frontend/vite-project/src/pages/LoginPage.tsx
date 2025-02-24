@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { NavLink,  } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Input from "../components/input";
 import Button from "../components/button";
 import { UserLoginData } from "../types/userLoginData";
 import "../styling/LoginForm.css";
 import  {useAuth}  from "../hooks/useAuthLogin";
-import { useNavigate } from 'react-router-dom';
+
 
 
 export default function LoginPage(){
@@ -16,7 +16,7 @@ export default function LoginPage(){
     navigate('/')
   }
 
-    const { user, login, logout, isLoading, error  } = useAuth();
+    const {  login,  isLoading  } = useAuth();
    
   
     const [userData, setUserData] = useState<UserLoginData>({
