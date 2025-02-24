@@ -1,6 +1,7 @@
 package backend.application.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -54,12 +55,23 @@ public class JWTService {
         return cookie;
     }
 
-    //All below is boilerplate. (ValidateToken, isExpired, extractExpiration isNotExpired)
-
     public boolean validateToken(String token) {
-        Jwts.parser().verifyWith(key).build().parse(token);
-        return true;
+        //Create more exceptions later?
+        try {
+            Jwts.parser().verifyWith(key).build().parse(token);
+            return true;
+        }
+        catch (ExpiredJwtException ex){
+            System.out.println("Expired JWT token: "+ex.getClaims().getSubject());
+            return false;
+        }
+        catch (Exception ex){
+            System.out.println("Invalid JWT token: "+ex.getMessage());
+            return false;
+        }
     }
+
+    //All below is boilerplate.
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
