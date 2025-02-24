@@ -9,7 +9,7 @@ import { useLoginUser } from "../hooks/useAuthLogin";
 
 export default function LoginPage(){
 
-    const { login, loading, error } = useLoginUser();  
+    const { login} = useLoginUser();  
   
     const [userData, setUserData] = useState<UserLoginData>({
       email: '',

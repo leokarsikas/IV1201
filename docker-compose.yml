@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: my-springboot-app
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend/vite-project
+    image: my-react-app
+    ports:
+      - "3007:80"

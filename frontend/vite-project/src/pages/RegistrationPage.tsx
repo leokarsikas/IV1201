@@ -8,7 +8,7 @@ import "../styling/RegistrationForm.css";
 
 export default function RegistrationPage() {
     
-  const { register, loading, error } = useRegisterUser();  
+  const { register, error } = useRegisterUser();  
 
   const [userData, setUserData] = useState<UserData>({
     name: '',
