@@ -4,6 +4,11 @@ on:
   release:
     types: deployment
 
+env: 
+  AZURE_WEBAPP_NAME: leosjobbland
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish" 
+  
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -34,7 +39,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "iv1201-webapp"
-          slot-name: "production"
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           images: ${{ secrets.ACR_LOGIN_SERVER }}/my-springboot-app:latest, ${{ secrets.ACR_LOGIN_SERVER }}/my-react-app:latest
