@@ -5,9 +5,8 @@ name: Build and deploy JAR app to Azure Web App - leosjobbland-backend
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    tags: 
+      - backend/** 
 
 jobs:
   build:
