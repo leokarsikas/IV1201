@@ -52,7 +52,7 @@ public class JWTService {
                 .path("/")
                 .maxAge(36000)         // 10 hours
                 .sameSite("Strict") // CSRF protection by restricting cross-origin requests
-                .secure(false)                        // CHANGE THIS TO TRUE WHEN DEPLOYING!!
+                .secure(true)                        // CHANGE THIS TO TRUE WHEN DEPLOYING!!
                 .build();
     }
 
