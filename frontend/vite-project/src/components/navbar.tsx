@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuthLogin";
 
 const Navbar = () => {
   const { user,  logout } = useAuth();
-
+  console.log("test for frontend-deploy branch");
   return (
     <header className="navbar">
       <nav className="navbar-container">
