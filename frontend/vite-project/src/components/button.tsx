@@ -10,6 +10,7 @@ interface ButtonProps {
   className?: string;
   fontSize?: string;
   disabled?: boolean;
+  border?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,8 +22,9 @@ const Button: React.FC<ButtonProps> = ({
   padding = '10px 20px',
   className = '',
   fontSize = "16px",
-  disabled = false
-}) => {
+  disabled = false,
+  border = "none",
+}) => {  
   return (
     <button
       className={`custom-button ${className}`}
@@ -33,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
         fontWeight,
         borderRadius,
         padding,
-        border: 'none',
+        border,
         cursor: 'pointer',
         fontSize,
       }}

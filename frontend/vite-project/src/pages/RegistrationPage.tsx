@@ -101,6 +101,7 @@ export default function RegistrationPage() {
             padding="15px 100px"
             borderRadius="99px"
             fontWeight="600px"
+            border = "none"
           />
         </div>
       </form>
