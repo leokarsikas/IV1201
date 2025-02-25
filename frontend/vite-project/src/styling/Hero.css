@@ -24,25 +24,27 @@
 
 .submit-container h2 {
   color: #ffffff;
-  font-size: 64px;
-  font-weight: 400;
+  font-size: 86px;
+  font-weight: 200;
 }
 
 .submit-container p {
   color: #f9faf9;
   margin: 20px;
-  font-size: 18px;
+  font-size: 24px;
   max-width: 350px;
-  font-weight: 500;
+  font-weight: 300;
 }
 
-.submit-container button {
+.submit-container-button {
   background-color: white;
   color: #28a745;
+  border: 1px solid #ffffff; 
   transition: background-color 0.3s ease;
 }
 
+
 .submit-container button:hover {
-  background-color: #e9e9e9;
-  color: #28a745;
+  background-color: rgb(227, 227, 227);
+  
 }

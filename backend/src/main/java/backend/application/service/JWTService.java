@@ -1,10 +1,13 @@
 package backend.application.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
@@ -27,6 +30,7 @@ public class JWTService {
         Map<String, Object> claims = new HashMap<>();
         System.out.println("Secret: "+secret);
         System.out.println("Name: "+name);
+        System.out.println("Role ID: "+role_id);
         claims.put("role_id", role_id);
         return
                 Jwts
@@ -42,34 +46,51 @@ public class JWTService {
                     .compact();
     }
 
-    public static String getUsername(String token){
-         String username = Jwts
-                        .parser()
-                        .build()
-                        .parseSignedClaims(token)
-                        .getPayload()
-                        .getSubject();
-            System.out.println("Username: " + username);
-            return username;
+    public static ResponseCookie createResponseCookie(String token) {
+        return ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(36000)         // 10 hours
+                .sameSite("Strict") // CSRF protection by restricting cross-origin requests
+                .secure(false)                        // CHANGE THIS TO TRUE WHEN DEPLOYING!!
+                .build();
     }
 
-    //All below is boilerplate. (ValidateToken, isExpired, extractExpiration isNotExpired)
+    /* Old cookie implementation (saved in case of emergency usage) */
+    public static Cookie createCookie(String token){
+        Cookie cookie = new Cookie("token", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/refresh-token");
+        //10h
+        cookie.setMaxAge(36000);
+        cookie.setSecure(true);
+        return cookie;
+    }
 
     public boolean validateToken(String token) {
-        Jwts.parser().verifyWith(key).build().parse(token);
-        return true;
+        //Create more exceptions later?
+        try {
+            Jwts.parser().verifyWith(key).build().parse(token);
+            return true;
+        }
+        catch (ExpiredJwtException ex){
+            System.out.println("Expired JWT token: "+ex.getClaims().getSubject());
+            return false;
+        }
+        catch (Exception ex){
+            System.out.println("Invalid JWT token: "+ex.getMessage());
+            return false;
+        }
     }
+
+    //All below is boilerplate.
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
-    private boolean isExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role_id",String.class));
     }
 
     private <Object> Object extractClaim(String token, Function<Claims, Object> claimsResolver) {
@@ -84,20 +105,6 @@ public class JWTService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        System.out.println("allClaims"+allClaims);
         return allClaims;
     }
-
-
-    private boolean isNotExpired(String token) {
-        Date expiriationTime =Jwts
-                .parser()
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
-
-        return expiriationTime.before(new Date(System.currentTimeMillis()+3600000));
-    }
-
 }

@@ -69,18 +69,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
-
-    //For testing
-    @PreAuthorize("hasRole(1)")
-    @GetMapping("/admin")
-    public ResponseEntity<String> helloAdmin(){
-        return ResponseEntity.ok("Hello Admin");
-    }
-
-    @PreAuthorize("hasRole(2)")
-    @GetMapping("/user")
-    public ResponseEntity<String> helloUser(){
-        return ResponseEntity.ok("Hello User");
-    }
-
 }

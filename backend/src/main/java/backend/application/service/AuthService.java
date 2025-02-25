@@ -22,43 +22,40 @@ public class AuthService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean validateUser(User userWithCredentials) throws UsernameNotFoundException {
+    //Checks entered credentials against the database and return the user.
+    public User loginUser(User credentials) throws UsernameNotFoundException {
         Optional<User> user;
-        /*System.out.println(userWithCredentials.getEmail());*/
-        if(userWithCredentials.getEmail().contains("@")) {
-            user = userRepository.getUserByEmail(userWithCredentials.getEmail());
+        if(credentials.getEmail().contains("@")) {
+            user = userRepository.getUserByEmail(credentials.getEmail());
         }
         else {
-            user = userRepository.getUserByUsername(userWithCredentials.getEmail());
-            /*System.out.println(user);*/
+            user = userRepository.getUserByUsername(credentials.getEmail());
         }
         if(user.isEmpty()) {
-            //Change exception type later
-            throw new UsernameNotFoundException("Email not found!");
+            throw new UsernameNotFoundException("User not found!");
         }
-        if(!verifyUserPassword(userWithCredentials.getPassword(), user.get().getPassword())) {
-            System.out.println(userWithCredentials.getPassword());
+        if(!verifyUserPassword(credentials.getPassword(), user.get().getPassword())) {
             throw new BadCredentialsException("Wrong password!");
         }
         System.out.println("Password verified");
-        return true;
+        return user.get();
     }
 
     // Verifies users password
     public boolean verifyUserPassword(String rawPassword, String encodedPassword) {
-        System.out.println(rawPassword);
-        System.out.println(encodedPassword);
-        System.out.println(passwordEncoder.encode(rawPassword));
-        System.out.println(passwordEncoder.encode(encodedPassword));
-
         //DON'T FORGET TO RESOLVE THIS ENCRYPTION ISSUE
         return passwordEncoder.matches(rawPassword, encodedPassword) || encodedPassword.matches(rawPassword);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.getUserByEmail(username);
-        if(user.isEmpty()) {
+        Optional<User> user;
+        if(username.contains("@")) {
+            user = userRepository.getUserByEmail(username);
+        }
+        else {
+            user = userRepository.getUserByUsername(username);
+        }        if(user.isEmpty()) {
             throw new UsernameNotFoundException("User not found!");
         }
         return user.get();

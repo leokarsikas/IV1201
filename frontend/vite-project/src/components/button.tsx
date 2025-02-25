@@ -25,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   border = "none",
 }) => {  
+
   return (
     <button
       className={`custom-button ${className}`}
@@ -38,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
         border,
         cursor: 'pointer',
         fontSize,
+     
       }}
     >
       {text}

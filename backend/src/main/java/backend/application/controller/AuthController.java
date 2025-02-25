@@ -3,9 +3,16 @@ package backend.application.controller;
 import backend.application.model.User;
 import backend.application.service.AuthService;
 import backend.application.service.JWTService;
+import jakarta.servlet.http.Cookie;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
@@ -13,33 +20,61 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JWTService jwtService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+        this.jwtService = new JWTService();
     }
 
     @PostMapping("/login-user")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        System.out.println("login-user");
-        System.out.println("username: "+user.getUsername());
-        //Change and move this logic later. Catch the propagated exception here or pass it on?
-        if(authService.validateUser(user)) {
+    public ResponseEntity<?> login(@RequestBody User credentials, HttpServletResponse response) {
+        User user = authService.loginUser(credentials);
+        if(user != null) {
             System.out.println("Create token!");
-            String token;
-            if (user.getRole_id() == null) {
-                System.out.println("Role id is null, setting it to 2(user)");
-                token = JWTService.createToken(user.getEmail(), 2);
-            }
-            else {
-                token = JWTService.createToken(user.getEmail(), user.getRole_id());
-            }
+            System.out.println("Username: "+user.getUsername());
+            System.out.println("Email: "+user.getEmail());
+            String token = JWTService.createToken(
+                user.getEmail() != null? user.getEmail() : user.getUsername(),
+                user.getRole_id()
+            );
+            ResponseCookie cookie = JWTService.createResponseCookie(token);
             System.out.println("Login success! Token: "+token);
-            //Cookie cookie = new Cookie("JWT", token);
-            //cookie.setHttpOnly(true);
-            //cookie.setPath("/");
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            return ResponseEntity.ok("Bearer " + token);
         }
         System.out.println("Login fail!");
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    @GetMapping("/authTest")
+    public ResponseEntity<String> authTest(@CookieValue(value = "token", required = false) String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No token found");
+        }
+        System.out.println(token);
+        try {
+            Optional<User> user;
+            String username = jwtService.extractUsername(token); // Extract user info from token
+            return new ResponseEntity<>(username, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        ResponseCookie logoutCookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(false) // CHANGE TO TRUE WHEN DEPLOYING!!!
+                .path("/")
+                .maxAge(0)  // Expired cookie, so it gets deleted
+                .sameSite("Strict")
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, logoutCookie.toString());
+
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
 }
