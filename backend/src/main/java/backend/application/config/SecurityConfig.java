@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 import static org.springframework.security.config.Customizer.*;
 
@@ -41,7 +42,7 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
@@ -60,6 +61,29 @@ public class SecurityConfig {
             //.oauth2Login(withDefaults())
             .httpBasic(withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }*/
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(endpoints -> {
+                    endpoints.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    endpoints.requestMatchers("/api/register-user").permitAll();
+                    endpoints.requestMatchers("/").permitAll();
+                    endpoints.requestMatchers("/login").permitAll();
+                    endpoints.requestMatchers("/register").permitAll();
+                    endpoints.requestMatchers("/api/login-user").permitAll();
+                    endpoints.requestMatchers("/api/register-user").permitAll();
+                    endpoints.requestMatchers("/api/user/**").authenticated();
+                    endpoints.requestMatchers("/api/admin/**").hasRole("1");
+                    endpoints.anyRequest().authenticated();
+                })
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
         return http.build();
     }
 
