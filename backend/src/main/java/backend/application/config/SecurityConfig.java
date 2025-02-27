@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.http.HttpMethod;
 
 import static org.springframework.security.config.Customizer.*;
 
@@ -32,7 +31,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // Add your frontend origin
+        configuration.addAllowedOrigin("http://localhost:5173"); // Add your frontend origin
         configuration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, etc.)
         configuration.addAllowedHeader("*"); // Allow all headers
         configuration.setAllowCredentials(true); // Enable credentials (e.g., cookies, authorization headers)
@@ -42,35 +41,11 @@ public class SecurityConfig {
         return source;
     }
 
-    /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
-            .authorizeHttpRequests(endpoints -> {
-                endpoints.requestMatchers("/").permitAll();
-                endpoints.requestMatchers("/login").permitAll();
-                endpoints.requestMatchers("/register").permitAll();
-                endpoints.requestMatchers("/api/login-user").permitAll();
-                endpoints.requestMatchers("/api/register-user").permitAll();
-                endpoints.requestMatchers("/api/user/**").authenticated();
-                endpoints.requestMatchers("/api/admin/**").hasRole("1");
-                endpoints.anyRequest().authenticated();
-                //endpoints.anyRequest().permitAll();
-            })
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            //.oauth2Login(withDefaults())
-            .httpBasic(withDefaults())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        return http.build();
-    }*/
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
                 .authorizeHttpRequests(endpoints -> {
-                    endpoints.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                    endpoints.requestMatchers("/api/register-user").permitAll();
                     endpoints.requestMatchers("/").permitAll();
                     endpoints.requestMatchers("/login").permitAll();
                     endpoints.requestMatchers("/register").permitAll();
@@ -79,11 +54,12 @@ public class SecurityConfig {
                     endpoints.requestMatchers("/api/user/**").authenticated();
                     endpoints.requestMatchers("/api/admin/**").hasRole("1");
                     endpoints.anyRequest().authenticated();
+                    //endpoints.anyRequest().permitAll();
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                //.oauth2Login(withDefaults())
                 .httpBasic(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
         return http.build();
     }
 
