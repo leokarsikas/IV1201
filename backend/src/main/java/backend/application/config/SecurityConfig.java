@@ -32,6 +32,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:5173"); // Add your frontend origin
+        configuration.addAllowedOrigin("https://red-sky-0a11c1a03.4.azurestaticapps.net");
         configuration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, etc.)
         configuration.addAllowedHeader("*"); // Allow all headers
         configuration.setAllowCredentials(true); // Enable credentials (e.g., cookies, authorization headers)
