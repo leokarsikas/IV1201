@@ -14,7 +14,7 @@ export default function ApplicationForm() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const { competence } = useApplicationForm();
+  //const { competence } = useApplicationForm();
 
   const [applicationData, setApplicationData] = useState<ApplicationData>({
     proffesion: [
@@ -26,6 +26,28 @@ export default function ApplicationForm() {
     competence_id: null,
     years_of_experience: null,
   });
+
+  /* Rendering multiple competence profiles. 
+     Adding and removing is done by finding the index of the empty array. 
+  */
+  const [competenceProfiles, setCompetenceProfiles] = useState([{}]); // Start with one profile
+  const [availabilityProfiles, setAvailabilityProfiles] = useState([{}]); // Start with one profile
+
+  const addNewCompetence = () => {
+    setCompetenceProfiles([...competenceProfiles, {}]); // Add a new empty object to the array
+  };
+
+  const removeCompetence = (index : number) => {
+    setCompetenceProfiles(competenceProfiles.filter((_, i) => i !== index)); // Remove the selected profile
+  };
+
+  const addNewAvailability = () => {
+    setAvailabilityProfiles([...availabilityProfiles, {}]); // Add a new empty object to the array
+  }
+
+  const removeAvailability = (index : number) => {
+    setAvailabilityProfiles(availabilityProfiles.filter((_, i) => i !== index));
+  }
 
   const handleSubmit = async () => {
     // if (!isValidForm()) return; // Prevent submitting invalid form
@@ -61,24 +83,34 @@ export default function ApplicationForm() {
         <p>Fyll i din kompetensprofil och när du är tillgänglig nedan</p>
 
         <h3>Kompetensprofil</h3>
+        {competenceProfiles.map((_, index) => (
         <CompetenceProfile
+          key={index}
+          index={index}
+          removeCompetence={removeCompetence}
           applicationData={applicationData}
           handleInputChange={handleInputChange}
-        ></CompetenceProfile>
+        />
+      ))}
 
-        <button className="btn-add-new-competence" type="submit">
+        <button className="btn-add-new-competence" type="button" onClick={addNewCompetence}>
           {"Lägg till ny kompetens"}
         </button>
 
         <h3>Tillgänglighet</h3>
         <p>Ange mellan vilka datum du kommer kunna jobba</p>
 
+        {availabilityProfiles.map((_, index) => (
         <AvailabiltyProfile
+          key={index}
+          index={index}
+          removeAvailability={removeAvailability}
           applicationData={applicationData}
           handleInputChange={handleInputChange}
-        ></AvailabiltyProfile>
+        />
+      ))}
 
-        <button className="btn-add-new-period" type="submit">
+        <button className="btn-add-new-period" type="button" onClick={addNewAvailability}>
           {"Lägg till ny period"}
         </button>
 
