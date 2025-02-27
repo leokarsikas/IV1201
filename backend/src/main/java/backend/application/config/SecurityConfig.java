@@ -44,22 +44,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
-            .authorizeHttpRequests(endpoints -> {
-                endpoints.requestMatchers("/").permitAll();
-                endpoints.requestMatchers("/login").permitAll();
-                endpoints.requestMatchers("/register").permitAll();
-                endpoints.requestMatchers("/api/login-user").permitAll();
-                endpoints.requestMatchers("/api/register-user").permitAll();
-                endpoints.requestMatchers("/api/user/**").authenticated();
-                endpoints.requestMatchers("/api/admin/**").hasRole("1");
-                endpoints.anyRequest().authenticated();
-                //endpoints.anyRequest().permitAll();
-            })
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            //.oauth2Login(withDefaults())
-            .httpBasic(withDefaults())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
+                .authorizeHttpRequests(endpoints -> {
+                    endpoints.requestMatchers("/").permitAll();
+                    endpoints.requestMatchers("/login").permitAll();
+                    endpoints.requestMatchers("/register").permitAll();
+                    endpoints.requestMatchers("/api/login-user").permitAll();
+                    endpoints.requestMatchers("/api/register-user").permitAll();
+                    endpoints.requestMatchers("/api/user/**").authenticated();
+                    endpoints.requestMatchers("/api/admin/**").hasRole("1");
+                    endpoints.anyRequest().authenticated();
+                    //endpoints.anyRequest().permitAll();
+                })
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                //.oauth2Login(withDefaults())
+                .httpBasic(withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 

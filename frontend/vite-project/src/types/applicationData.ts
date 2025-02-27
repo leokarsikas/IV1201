@@ -1,5 +1,5 @@
-export interface ApplicationData{
-    role_id: number;
-    competence_id: number;
-    years_of_experience: number;
-}
+export interface ApplicationData {
+    roles: { role: string; experience: number }[];
+    periods: { startDate: string; endDate: string }[];
+  }
+  

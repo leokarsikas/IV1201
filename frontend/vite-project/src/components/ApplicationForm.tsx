@@ -16,7 +16,7 @@ export default function ApplicationForm() {
     setMessage("");
 
     const formData = { roles: selectedRoles, periods };
-
+    
     try {
       const response = await fetch("https://your-backend-api.com/applications", {
         method: "POST",
