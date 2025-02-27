@@ -65,10 +65,10 @@ public class AuthController {
     public ResponseEntity<String> logout(HttpServletResponse response) {
         ResponseCookie logoutCookie = ResponseCookie.from("token", "")
                 .httpOnly(true)
-                .secure(false) // CHANGE TO TRUE WHEN DEPLOYING!!!
+                .secure(true) // CHANGE TO TRUE WHEN DEPLOYING!!!
                 .path("/")
                 .maxAge(0)  // Expired cookie, so it gets deleted
-                .sameSite("Strict")
+                .sameSite("None")
                 .build();
 
         response.setHeader(HttpHeaders.SET_COOKIE, logoutCookie.toString());
