@@ -1,0 +1,98 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;    
+    width: 100%;      
+  }
+
+  .company-name  {
+    font-size: 32px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #000000;
+    margin-bottom: 50px;
+  }
+
+  .page-container h2 {
+    color: black;
+
+    margin-bottom: 25px;
+ } 
+ .page-container p {
+    color: rgb(83, 83, 83);
+    
+    margin-bottom: 25px;
+ } 
+ .form-container{
+
+ }
+
+ .form-container h3 {
+    color: black;
+    align-self: start;
+    margin-bottom: 25px;
+    font-weight: 600;
+ } 
+
+.competence-form {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.period-form {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.period-form h1{
+  color: rgb(117, 117, 117);
+}
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px; 
+}
+ 
+.name-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.btn-add-new-period{
+    background-color: transparent;
+    color:#28a745;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+
+.btn-add-new-competence{
+    background-color: transparent;
+    color:#28a745;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+
+.custom-button {
+    background-color: #28a745;
+    transition: background-color 0.1s ease;
+    width: 400px;
+}
+
+.custom-button:hover{
+    background-color: #1b6e2f;
+}

@@ -3,7 +3,7 @@ import './input.css';
 
 interface InputProps {
   name: string;
-  value: string;
+  value: string | number;
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
@@ -11,24 +11,29 @@ interface InputProps {
   padding?: string; 
   width?: string;
   color?: string;
+  step?: string;
+  className?: string;
 }
 
 const Input: React.FC<InputProps> = ({
   name,
   value,
   type,
+  step,
+  className = '',
   onChange,
   placeholder = '', 
   borderRadius = '99px', 
   padding = '10px',
-  width = "300px",
+  width = "",
   color = "black",
 }) => {
   return (
-    <div className="input-group">
+    <div className={className != '' ?`${className}` : "input-group"}>
       <input
         type={type}
         name={name}
+        step={step}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

@@ -1,0 +1,17 @@
+.custom-select {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .custom-select select {
+    outline: none;
+    appearance: none;
+    width: 100%;
+    font-size: 0.875rem;
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 99px;
+    color: #515151;
+    cursor: pointer;
+  }
