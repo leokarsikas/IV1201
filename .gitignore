@@ -38,5 +38,6 @@ Thumbs.db
 # ENV #
 
 
-backend/src/main/resources/application.properties
-/backend/src/main/resources
+
+# backend #
+backend/
