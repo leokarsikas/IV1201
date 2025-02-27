@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @RequestMapping("/api")
 public class AuthController {
 
