@@ -1,7 +1,7 @@
 package backend.application.model;
-
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -9,12 +9,13 @@ import lombok.*;
 @Setter  // Lombok generates setter methods
 
 @Entity
-@Table(name = "competence_profile")
-public class Competence {
+@Table(name = "availability")
+public class Availability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer competence_profile_id;
+    private Integer availability_id;
     private Integer person_id;
-    private Integer competence_id;
-    private double years_of_experience;
+    private LocalDate start_date;
+    private LocalDate end_date;
+
 }
