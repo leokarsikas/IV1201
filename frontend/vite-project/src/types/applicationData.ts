@@ -1,5 +1,7 @@
 export interface ApplicationData{
-    role_id: number;
-    competence_id: number;
-    years_of_experience: number;
+    proffesion: ["Biljettförsäljare", "Lotteriförsäljare", "Berg och dalbansoperatör"];
+    experience: number | null;
+    competence_id: number | null ;
+    years_of_experience: number | null;
 }
+

@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`custom-button ${className}`}
+      className={`${className}`}
       disabled={disabled}
       onClick={onClick}
       type={type}
