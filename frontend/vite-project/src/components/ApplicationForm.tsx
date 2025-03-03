@@ -8,47 +8,57 @@ import "../styling/ApplicationForm.css";
 import CompetenceProfile from "./CompetenceProfile";
 
 export default function ApplicationForm() {
-  const [periods, setPeriods] = useState<
-    { startDate: string; endDate: string }[]
-  >([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   //const { competence } = useApplicationForm();
 
-  const [applicationData, setApplicationData] = useState<ApplicationData>({
-    proffesion: [
-      "Biljettförsäljare",
-      "Lotteriförsäljare",
-      "Berg och dalbansoperatör",
-    ],
-    experience: null,
-    competence_id: null,
-    years_of_experience: null,
-  });
+  const [applicationData, setApplicationData] = useState<ApplicationData[]>(
+    [
+    {
+      proffesion: [
+        "Biljettförsäljare",
+        "Lotteriförsäljare",
+        "Berg och dalbansoperatör",
+      ],
+      years_of_experience: null,
+      availabilityFrom: null,
+      availabilityTo: null,
+    },
+  ]); 
 
   /* Rendering multiple competence profiles. 
      Adding and removing is done by finding the index of the empty array. 
   */
-  const [competenceProfiles, setCompetenceProfiles] = useState([{}]); // Start with one profile
-  const [availabilityProfiles, setAvailabilityProfiles] = useState([{}]); // Start with one profile
 
-  const addNewCompetence = () => {
-    setCompetenceProfiles([...competenceProfiles, {}]); // Add a new empty object to the array
+     /** 🟢 Add a new CompetenceProfile */
+  const addNewApplication = () => {
+    setApplicationData([
+      ...applicationData,
+      {
+        proffesion: ["Biljettförsäljare",
+        "Lotteriförsäljare",
+        "Berg och dalbansoperatör",],
+        years_of_experience: null,
+        availabilityFrom: null,
+        availabilityTo: null,
+      },
+    ]);
   };
 
-  const removeCompetence = (index : number) => {
-    setCompetenceProfiles(competenceProfiles.filter((_, i) => i !== index)); // Remove the selected profile
+  /** 🛑 Remove CompetenceProfile by Index */
+  const removeApplication = (index: number) => {
+    setApplicationData(applicationData.filter((_, i) => i !== index));
   };
 
-  const addNewAvailability = () => {
-    setAvailabilityProfiles([...availabilityProfiles, {}]); // Add a new empty object to the array
-  }
-
-  const removeAvailability = (index : number) => {
-    setAvailabilityProfiles(availabilityProfiles.filter((_, i) => i !== index));
-  }
-
+  /** 🎯 Update a Specific CompetenceProfile */
+  const updateApplication = (index: number, updatedData: Partial<ApplicationData>) => {
+    setApplicationData(
+      applicationData.map((data, i) =>
+        i === index ? { ...data, ...updatedData } : data
+      )
+    );
+  };
   const handleSubmit = async () => {
     // if (!isValidForm()) return; // Prevent submitting invalid form
 
@@ -83,34 +93,34 @@ export default function ApplicationForm() {
         <p>Fyll i din kompetensprofil och när du är tillgänglig nedan</p>
 
         <h3>Kompetensprofil</h3>
-        {competenceProfiles.map((_, index) => (
+        {applicationData.map((_, index) => (
         <CompetenceProfile
           key={index}
           index={index}
-          removeCompetence={removeCompetence}
+          removeCompetence={removeApplication}
           applicationData={applicationData}
           handleInputChange={handleInputChange}
         />
       ))}
 
-        <button className="btn-add-new-competence" type="button" onClick={addNewCompetence}>
+        <button className="btn-add-new-competence" type="button" onClick={addNewApplication}>
           {"Lägg till ny kompetens"}
         </button>
 
         <h3>Tillgänglighet</h3>
         <p>Ange mellan vilka datum du kommer kunna jobba</p>
 
-        {availabilityProfiles.map((_, index) => (
+        {applicationData.map((_, index) => (
         <AvailabiltyProfile
           key={index}
           index={index}
-          removeAvailability={removeAvailability}
+          removeAvailability={removeApplication}
           applicationData={applicationData}
           handleInputChange={handleInputChange}
         />
       ))}
 
-        <button className="btn-add-new-period" type="button" onClick={addNewAvailability}>
+        <button className="btn-add-new-period" type="button" onClick={addNewApplication}>
           {"Lägg till ny period"}
         </button>
 
