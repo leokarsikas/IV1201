@@ -20,6 +20,7 @@ jobs:
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
       - name: Run Tests
+        working-directory: ./frontend/vite-project
         run: npm run test  
       - name: Get Id Token
         uses: actions/github-script@v6
