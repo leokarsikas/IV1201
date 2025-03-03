@@ -4,5 +4,5 @@ interface SumParams {
 }
 
 export function sum({ a, b }: SumParams): number {
-    return a + b +1;
+    return a + b;
 }
