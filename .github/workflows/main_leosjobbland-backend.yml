@@ -20,37 +20,41 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'microsoft'
+          java-version: "21"
+          distribution: "microsoft"
+
+      - name: Run tests
+        working-directory: ./backend
+        run: mvn test
 
       - name: Build with Maven
-        working-directory: ./backend 
+        working-directory: ./backend
         run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/backend/target/*.jar'
+          path: "${{ github.workspace }}/backend/target/*.jar"
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-      
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'leosjobbland-backend'
-          slot-name: 'Production'
-          package: '*.jar'
+          app-name: "leosjobbland-backend"
+          slot-name: "Production"
+          package: "*.jar"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4907A1FA50EB40F2A9CD5547F7AE5765 }}
