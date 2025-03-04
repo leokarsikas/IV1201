@@ -87,7 +87,7 @@ export default function ApplicationForm() {
 
 
   return (
-    <div className="page-container">
+    <div style={{height: "100%"}} className="page-container">
       <a href="/" className="company-name">Leos Jobbland</a>
       <div className="form-container">
         <h2>Ansökningsformulär</h2>
