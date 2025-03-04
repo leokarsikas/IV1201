@@ -15,7 +15,7 @@ public class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer availability_id;
     private Integer person_id;
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate from_date;
+    private LocalDate to_date;
 
 }
