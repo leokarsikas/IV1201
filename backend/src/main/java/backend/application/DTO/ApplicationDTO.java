@@ -17,11 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 
 public class ApplicationDTO {
-    private List<Availability> availability;
-    private List<Competence> competence;
-    private ApplicationStatus status;
+
+    private Integer status;
     private Integer person_id;
-    private UserNameDTO userNames;
+    private String name;
+    private String surname;
 
     public ApplicationDTO(Application application) {
 

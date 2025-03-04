@@ -89,8 +89,8 @@ public class JWTService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractRole(String token){
-        return extractClaim(token, claims -> claims.get("role_id",String.class));
+    public Integer extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role_id", Integer.class));
     }
 
     private <Object> Object extractClaim(String token, Function<Claims, Object> claimsResolver) {

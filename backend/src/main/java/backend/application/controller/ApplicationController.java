@@ -24,9 +24,9 @@ public class ApplicationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(competence);
     }
 
-    @GetMapping("admin/get-application")
+    @GetMapping("admin/get-all-applications")
     public ResponseEntity<Object> getAllApplications() {
-        List<ApplicationDTO> applications = applicationService.getAllExistingApplications();
+        List<ApplicationDTO> applications = applicationService.getAllApplications();
         return ResponseEntity.status(HttpStatus.CREATED).body(applications);
     }
 
