@@ -58,7 +58,6 @@ public class ApplicationService {
     public List<ApplicationDTO> getAllApplications() {
         return applicationStatusRepository.findAllApplications();
     }
-    //Returns one applications from the database for testing
     public ApplicationDTO getOneApplication(Integer person_id){
         ApplicationDTO application;
         application = getUserApplication(person_id);
@@ -87,7 +86,7 @@ public class ApplicationService {
 
 
     //Argumenten till de olika callsen skulle kunna ändras till objekt förstås.
-    public void saveUserApplication(ApplicationDTO application){
+    public void saveUserApplication(RegAppDTO application){
         try {
             if (application == null) {
                 throw new IllegalArgumentException("Argument to set application is null");
@@ -161,9 +160,9 @@ public class ApplicationService {
         }
     }
 
-    public void setStatus(Integer person_id, String status){
+    /*public void setStatus(Integer person_id, String status){
         //Modify for ability to update later
         applicationStatusRepository.save(getStatus(person_id));
-    }
+    }*/
 
 }

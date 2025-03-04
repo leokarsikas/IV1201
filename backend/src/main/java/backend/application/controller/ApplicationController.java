@@ -39,7 +39,7 @@ public class ApplicationController {
     @PostMapping("/user/create-application")
     public ResponseEntity<Object> createApplication(@RequestBody ApplicationDTO application) {
         try{
-            //applicationService.createApplication(application);
+            /*applicationService.createApplication(application);*/
             return ResponseEntity.status(HttpStatus.CREATED).body(application);
         }
         catch (Exception ex){
