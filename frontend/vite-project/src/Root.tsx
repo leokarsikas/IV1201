@@ -5,7 +5,6 @@ import LoginPage from './pages/LoginPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
 import Navbar from './components/navbar.tsx';
 import ApplicationPage from './pages/ApplicationPage.tsx';
-import AdminPage from './pages/AdminPage.tsx';
 
 function Root() {
   return (
@@ -15,7 +14,6 @@ function Root() {
         <Route path="/application" element={<ApplicationPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/login" element={<AdminPage />} />
       </Routes>
     </Router>
   );
