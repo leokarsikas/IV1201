@@ -12,6 +12,7 @@ import backend.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +20,9 @@ import java.util.Optional;
 @Service
 public class ApplicationService {
 
-    @Autowired
     private final AvailabilityRepository availabilityRepository;
-    @Autowired
     private final CompetenceRepository competenceRepository;
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private final ApplicationStatusRepository applicationStatusRepository;
 
 
@@ -64,7 +61,7 @@ public class ApplicationService {
     //Returns one applications from the database for testing
     public ApplicationDTO getOneApplication(Integer person_id){
         ApplicationDTO application;
-
+        application = getUserApplication(person_id);
         return getUserApplication(person_id);
     }
 
@@ -89,74 +86,84 @@ public class ApplicationService {
      */
 
 
-
-
-/*
     //Argumenten till de olika callsen skulle kunna ändras till objekt förstås.
-    public ApplicationDTO setUserApplication(ApplicationDTO application){
-        if (application == null) {
-            System.out.println("Argument to set application is null");
-            return null;
+    public void saveUserApplication(ApplicationDTO application){
+        try {
+            if (application == null) {
+                throw new IllegalArgumentException("Argument to set application is null");
+            }
+            Integer personId = application.getPerson_id();
+            if (application.getAvailability() != null) {
+                saveNewAvailabilites(application.getAvailability(),personId);
+            }
+            if (application.getCompetence() != null) {
+                saveNewCompetence(application.getCompetence(),personId);
+            }
         }
-        if(application.getAvailability() != null){
-            List<AvailabilityDTO> availabilities = application.getAvailability();
-            saveNewAvailabilites(availabilities);
+        catch (Exception e) {
+            throw new RuntimeException("Error saving user application", e);
         }
-        if(application.getCompetence() != null){
-            List<CompetenceDTO> competences = application.getCompetence();
-            saveNewCompetence();
-        }
-        if(application.getUser() != null){
-            User user = application.getUser();
-            setUser(
-                user.getPerson_ID(),
-                user.getUsername(),
-                user.getName(),
-                user.getSurname(),
-                user.getPnr(),
-                user.getEmail()
-            );
-        }
-        return application;
     }
 
-    public void saveNewAvailabilites(List<AvailabilityDTO> availabilities){
+    public void saveNewAvailabilites(List<Availability> newAvailabilities, Integer person_id){
+        Availability extractedAvailability;
+        Integer noOfAvailabilities = newAvailabilities.size();
+        while(noOfAvailabilities > 0) {
+            Availability availabilityToBeSaved = new Availability();
+            extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
+            if (availabilityRepository.existsByPersonId(person_id)) {
+                System.out.println("TRVE");
+                Integer existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailability_id());
+                availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
+            } else {
+                //availability.setAvailability_id... Generera nytt id, görs det i databasen automatiskt?
+            }
+            availabilityToBeSaved.setPerson_id(person_id);
+            availabilityToBeSaved.setAvailability_id(extractedAvailability.getAvailability_id());
+            availabilityToBeSaved.setFrom_date(Timestamp.valueOf(extractedAvailability.getFrom_date().toString()));
+            availabilityToBeSaved.setTo_date(Timestamp.valueOf(extractedAvailability.getTo_date().toString()));
+            availabilityRepository.save(availabilityToBeSaved);
+            System.out.println("ASDKÖ"+availabilityRepository.existsById(person_id));
+            System.out.println("JASDKLASJDÖLKAJDÖLSADJÖ");
+            noOfAvailabilities--;
+        }
+    }
+
+    public void saveNewCompetence(List<Competence> newCompetences, Integer person_id){
+        Competence extractedCompetence;
+        Integer noOfCompetences = newCompetences.size();
+        while(noOfCompetences > 0) {
+            Competence competenceToBeSaved = new Competence();
+            extractedCompetence = newCompetences.get(noOfCompetences - 1);
+            if (competenceRepository.existsByPersonId(person_id)) {
+                System.out.println(competenceRepository.existsByPersonId(person_id));
+
+
+
+                /*
+                OBS! Dessa är bara temporära! Så fort competenceRepository.getCompetenceProfileId(person_id, extractedCompetence.getCompetence_id())
+                funkar så ska vi byta till den. Det är något fel med queryn eller nåt.
+                Competence testComp = competenceRepository.getReferenceById(5000);
+                Integer existingCompetenceProfileId = testComp.getCompetence_profile_id();
+                 */
+                //Integer existingCompetenceProfileId = competenceRepository.getCompetenceProfileId(person_id, extractedCompetence.getCompetence_id());
+                Competence testComp = competenceRepository.getReferenceById(5000);
+                Integer existingCompetenceProfileId = testComp.getCompetence_profile_id();
+                competenceToBeSaved.setCompetence_profile_id(existingCompetenceProfileId);
+            } else {
+                //competence.setCompetence_profile_id()... Generera nytt id, görs det i databasen automatiskt?
+            }
+            competenceToBeSaved.setPerson_id(person_id);
+            competenceToBeSaved.setCompetence_id(extractedCompetence.getCompetence_id());
+            competenceToBeSaved.setYears_of_experience(extractedCompetence.getYears_of_experience());
+            competenceRepository.save(competenceToBeSaved);
+            noOfCompetences--;
+        }
+    }
+
+    public void setStatus(Integer person_id, String status){
         //Modify for ability to update later
-        List<AvailabilityDTO> availabilityDTOs = new ArrayList<>();
-        for(AvailabilityDTO availability : availabilities){
-            availabilityDTOs.add(availability);
-        }
-        availabilityRepository.save(availabilityDTOs);
+        applicationStatusRepository.save(getStatus(person_id));
     }
-
-    //Parametrar skulle kunna ändras till objekt förstås.
-    public void saveNewCompetence(Integer personID, Integer competence_profile_id, Integer competence_id, Double years_of_experience){
-        //Modify for ability to update later
-        Competence competence = new Competence();
-        competence.setCompetence_profile_id(competence_profile_id);
-        competence.setCompetence_id(competence_id);
-        competence.setYears_of_experience(years_of_experience);
-        competenceRepository.save(competence);
-    }
-
-    //Parametrar skulle kunna ändras till objekt förstås.
-    public void setUser(Integer personID, String username, String name, String surname, String pnr, String email){
-        //Modify for ability to update later
-        User user = new User();
-        user.setUsername(username);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPnr(pnr);
-        user.setEmail(email);
-        userRepository.save(user);
-    }
-
-    public void setStatus(Integer personID, String status){
-        //Modify for ability to update later
-        ApplicationDTO application = new ApplicationDTO();
-        application.setStatus(status);
-    }
-
- */
 
 }
