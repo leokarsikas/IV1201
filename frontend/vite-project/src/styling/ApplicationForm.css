@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center; 
     align-items: center;     
-    height: 100vh;    
+    height: auto;    
     width: 100%;      
   }
 
@@ -40,12 +40,14 @@
     display: flex;
     align-items: center;
     gap: 50px;
+  
 }
 
 .period-form {
     display: flex;
     align-items: center;
     gap: 50px;
+  
 }
 
 .period-form h1{
@@ -80,6 +82,15 @@
 .btn-add-new-competence{
     background-color: transparent;
     color:#28a745;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+.btn-remove{
+    background-color: transparent;
+    color:#d21717;
     border: none;
     font-size: 18px;
     font-weight: 500;

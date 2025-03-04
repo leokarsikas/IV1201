@@ -2,9 +2,9 @@ import ApplicationForm from "../components/ApplicationForm"; // Adjust the path 
 
 export default function ApplicationPage() {
   return (
-    <div>
+    
       <ApplicationForm />
-    </div>
+    
   );
 }
 

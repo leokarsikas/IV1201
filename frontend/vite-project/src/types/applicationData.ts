@@ -1,6 +1,10 @@
-export interface ApplicationData{
-    proffesion: ["Biljettförsäljare", "Lotteriförsäljare", "Berg och dalbansoperatör"];
-    years_of_experience: number | null;
-    availabilityFrom: Date | null;
-    availabilityTo: Date | null;
+export interface ApplicationData {
+    competenceProfile: {
+        profession: string;
+        years_of_experience: number;
+    }[];
+    availabilityProfile: {
+        availabilityFrom: Date | null;
+        availabilityTo: Date | null;
+    }[];
 }

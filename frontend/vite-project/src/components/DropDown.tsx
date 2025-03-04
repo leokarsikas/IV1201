@@ -1,4 +1,4 @@
-import "./DropDown.css"
+import "./DropDown.css";
 
 interface DropdownProps {
   label?: string;
@@ -7,17 +7,22 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ label = "Välj roll", options, onSelect }) => {
- 
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (onSelect) {
+      onSelect(event.target.value);
+    }
+  };
 
   return (
     <div className="custom-select">
-      <select>
-        <option>{label}</option>
-        <option value={options[0]}>{options[0]} </option>
-        <option value={options[1]}> {options[1]}</option>
-        <option value={options[2]}> {options[2]}</option>
+      <select onChange={handleChange}>
+        <option value="">{label}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
-      
     </div>
   );
 };

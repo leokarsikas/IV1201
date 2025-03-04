@@ -2,45 +2,61 @@ import React from "react";
 import Input from "./input";
 import RoleDropdown from "./DropDown";
 import { ApplicationData } from "../types/applicationData";
-import { Plus, Trash } from "lucide-react";
 
 interface CompetenceProfileProps {
   applicationData: ApplicationData;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  updateApplication: (
+    profileType: "competenceProfile",
+    index: number,
+    field: keyof ApplicationData["competenceProfile"][0],
+    updatedValue: any
+  ) => void;
   removeCompetence: (index: number) => void;
   index: number;
 }
 
 export default function CompetenceProfile({
   applicationData,
-  handleInputChange,
+  updateApplication,
   removeCompetence,
   index,
 }: CompetenceProfileProps) {
+  const competenceOptions = ["Biljettförsäljare", "Lotteriförsäljare", "Berg och dalbansoperatör"];
+
+  const competence = applicationData.competenceProfile[index] || {
+    profession: "",
+    years_of_experience: 0,
+  };
+
   return (
     <div className="competence-form">
       <div>
-        <RoleDropdown options={applicationData.proffesion} />
+        <RoleDropdown
+          options={competenceOptions}
+          onSelect={(selectedRole) =>
+            updateApplication("competenceProfile", index, "profession", selectedRole)
+          }
+        />
         <p>Välj den roll som du vill ansöka med</p>
       </div>
 
       <div>
         <Input
           type="number"
-          name="experience"
+          name="years_of_experience"
           step="0.1"
           width="256px"
           placeholder="År av erfarenhet"
-          value={0}
-          onChange={handleInputChange}
+          value={competence.years_of_experience}
+          onChange={(e) =>
+            updateApplication("competenceProfile", index, "years_of_experience", e.target.value)
+          }
         />
-        <p>Hur många års erfarenhet har du inom denna roll?</p>
+        <p>År av erfarenhet inom denna roll</p>
       </div>
-      {index > 0 && ( // Show the button for index 1 and above
-        <button type="button" onClick={() => removeCompetence(index)} style={{backgroundColor:'red', border:'none', padding: '5px', borderRadius:'8px', cursor:'pointer'}}>
-          <Trash size={20} />
-        </button>
-      )}
+      <button onClick={() => removeCompetence(index)} className="btn-remove">
+        Ta bort
+      </button>
     </div>
   );
 }
