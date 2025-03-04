@@ -38,10 +38,9 @@ public class ApplicationService {
 
 
     public ApplicationDTO getUserApplication(Integer person_id){
-        System.out.println("1");
+
         ApplicationDTO application = new ApplicationDTO();
-        application.setUserNames(getUserFirstAndLastName(person_id));
-        application.setStatus(getStatus(person_id));
+
         return application;
     }
 
@@ -54,31 +53,18 @@ public class ApplicationService {
         return userNameDTO;
     }
 
-    private ApplicationStatus getStatus(Integer personID){
+    /*private ApplicationStatus getStatus(Integer personID){
         return applicationStatusRepository.findByPersonId(personID);
-    }
+    }*/
 
     //Returns all applications in the database
-    public List<ApplicationDTO> getAllExistingApplications(){
-        List<Integer> ids = userRepository.findAllIdsByRoleIdTwo();
-        for (Integer id : ids) {
-            System.out.println(id);
-        }
-        List<ApplicationDTO> applications = new ArrayList<>();
-        for(Integer id : ids) {
-            System.out.println(id);
-            if (getStatus(id) != null) //Not sure about the type conversion.
-                applications.add(getUserApplication(id)); //Not sure about the type conversion.
-        }
-        return applications;
+    public List<ApplicationDTO> getAllApplications() {
+        return applicationStatusRepository.findAllApplications();
     }
-
     //Returns one applications from the database for testing
     public ApplicationDTO getOneApplication(Integer person_id){
         ApplicationDTO application;
-        application = getUserApplication(person_id);
-        System.out.println(application.getUserNames());
-        System.out.println(application.getStatus());
+
         return getUserApplication(person_id);
     }
 

@@ -48,17 +48,24 @@ public class AuthController {
     }
 
     @GetMapping("/authTest")
-    public ResponseEntity<String> authTest(@CookieValue(value = "token", required = false) String token) {
+    public ResponseEntity<?> authTest(@CookieValue(value = "token", required = false) String token) {
         if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No token found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No token found"));
         }
-        System.out.println(token);
+
         try {
-            Optional<User> user;
-            String username = jwtService.extractUsername(token); // Extract user info from token
-            return new ResponseEntity<>(username, HttpStatus.OK);
+            String username = jwtService.extractUsername(token); // Extract username
+            int role = jwtService.extractRole(token); // Extract role ID
+
+
+            Map<String, Object> responseBody = Map.of(
+                    "username", username,
+                    "role", role
+            );
+
+            return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
         }
     }
 
