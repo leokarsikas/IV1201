@@ -15,4 +15,7 @@ public interface ApplicationStatusRepository extends JpaRepository<ApplicationSt
     @Query("SELECT new backend.application.DTO.ApplicationDTO(a.status, p.person_ID, p.name, p.surname) " +
             "FROM User p INNER JOIN ApplicationStatus a ON p.person_ID = a.person_id")
     List<ApplicationDTO> findAllApplications();
+
+    @Query("SELECT a FROM ApplicationStatus a WHERE a.person_id = :person_id")
+    ApplicationStatus findByPersonId(@Param("person_id") Integer person_id);
 }

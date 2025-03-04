@@ -33,11 +33,11 @@ public class ApplicationService {
         this.applicationStatusRepository = applicationStatusRepository;
     }
 
-
-    public ApplicationDTO getUserApplication(Integer person_id){
-
-        ApplicationDTO application = new ApplicationDTO();
-
+    public RegAppDTO getUserApplication(Integer person_id){
+        System.out.println("1");
+        RegAppDTO application = new RegAppDTO();
+        application.setUserNames(getUserFirstAndLastName(person_id));
+        application.setStatus(getStatus(person_id));
         return application;
     }
 
@@ -50,17 +50,15 @@ public class ApplicationService {
         return userNameDTO;
     }
 
-    /*private ApplicationStatus getStatus(Integer personID){
+    private ApplicationStatus getStatus(Integer personID){
         return applicationStatusRepository.findByPersonId(personID);
-    }*/
+    }
 
     //Returns all applications in the database
     public List<ApplicationDTO> getAllApplications() {
         return applicationStatusRepository.findAllApplications();
     }
-    public ApplicationDTO getOneApplication(Integer person_id){
-        ApplicationDTO application;
-        application = getUserApplication(person_id);
+    public RegAppDTO getOneApplication(Integer person_id){
         return getUserApplication(person_id);
     }
 

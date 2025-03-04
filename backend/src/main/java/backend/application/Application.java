@@ -1,6 +1,7 @@
 package backend.application;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.DTO.RegAppDTO;
 import backend.application.model.Availability;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
@@ -90,7 +91,9 @@ public class Application {
                 System.out.println(application);
             }
              */
-            /*ApplicationDTO application = applicationService.getOneApplication(11);
+
+            /*
+            RegAppDTO application = applicationService.getOneApplication(11);
             System.out.println(application);
             System.out.println(application.getUserNames().getName());
             System.out.println(application.getUserNames().getSurname());
@@ -112,7 +115,9 @@ public class Application {
             application.setAvailability(availabilities);
             application.setCompetence(competences);
             application.setPerson_id(11);
-            applicationService.saveUserApplication(application);*/
+            applicationService.saveUserApplication(application);
+            
+             */
         };
     }
 }
