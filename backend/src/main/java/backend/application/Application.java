@@ -1,6 +1,8 @@
 package backend.application;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.model.Availability;
+import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import backend.application.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication(scanBasePackages = "backend")
 public class Application {
@@ -87,6 +95,24 @@ public class Application {
             System.out.println(application.getUserNames().getName());
             System.out.println(application.getUserNames().getSurname());
             System.out.println(application.getStatus().getStatus());
+
+
+            Availability availability1 = new Availability();
+            availability1.setFrom_date(Timestamp.valueOf("2025-12-12 12:00:00"));
+            availability1.setTo_date(Timestamp.valueOf("2025-12-16 12:00:00"));
+            List<Availability> availabilities = new ArrayList<>();
+            availabilities.add(availability1);
+
+            Competence competence1 = new Competence();
+            competence1.setCompetence_id(1);
+            competence1.setYears_of_experience(3);
+            List<Competence> competences = new ArrayList<>();
+            competences.add(competence1);
+
+            application.setAvailability(availabilities);
+            application.setCompetence(competences);
+            application.setPerson_id(11);
+            applicationService.saveUserApplication(application);
         };
     }
 }
