@@ -82,11 +82,7 @@ public class Application {
                 System.out.println(application);
             }
              */
-            ApplicationDTO application = applicationService.getOneApplication(11);
-            System.out.println(application);
-            System.out.println(application.getUserNames().getName());
-            System.out.println(application.getUserNames().getSurname());
-            System.out.println(application.getStatus().getStatus());
+
         };
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from 'react-router-dom';
 import Input from "../components/input";
 import Button from "../components/button";
@@ -12,11 +12,15 @@ export default function LoginPage(){
 
   const navigate = useNavigate();
 
-  function goToApplication(){
+  function goToLandingPage(){
     navigate('/')
   }
 
-    const {  login,  isLoading  } = useAuth();
+  function goToRecruiterPage(){
+    navigate('/recruiter')
+  }
+
+    const {  login,  isLoading, role } = useAuth();
    
   
     const [userData, setUserData] = useState<UserLoginData>({
@@ -34,15 +38,24 @@ export default function LoginPage(){
       };
 
 
-      async function onSubmit (event: React.FormEvent){
-          event.preventDefault();
-          try {
-            await login(userData);
-            goToApplication();
-          } catch (error) {
-            console.error("Login failed:", error);
-          }
+      async function onSubmit(event: React.FormEvent) {
+        event.preventDefault();
+        try {
+          await login(userData);
+          // Do NOT redirect here, wait for role update
+        } catch (error) {
+          console.error("Login failed:", error);
         }
+      }
+    
+      // Redirect when role is set
+      useEffect(() => {
+        if (role === 2) {
+          goToLandingPage();
+        } else if (role === 1) {
+          goToRecruiterPage();
+        }
+      }, [role, navigate]); // Runs when role changes
       
 
   return (
