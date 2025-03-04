@@ -44,6 +44,7 @@ export default function LoginPage(){
           await login(userData);
           // Do NOT redirect here, wait for role update
         } catch (error) {
+          navigate("/error")
           console.error("Login failed:", error);
         }
       }

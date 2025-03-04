@@ -69,8 +69,7 @@ export const registerUser = async (user: UserData) => {
 
   if (!response.ok) {
     const errorBody = await response.json();
-    const errorMessage =
-      errorBody?.message || response.status || "Unknown error";
+    const errorMessage = errorBody?.message || response.status || "Unknown error";
     throw new Error(errorMessage);
   }
 
