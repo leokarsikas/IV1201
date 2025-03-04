@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>backend</groupId>
-	<artifactId>application</artifactId>
+	<artifactId>competence</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>application</name>
+	<name>competence</name>
 	<description>Application base for IV1201</description>
 	<url/>
 	<licenses>

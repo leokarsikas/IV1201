@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar';
 import "../styling/Hero.css"
-import heroImage from '../assets/hero-best.png'; // Adjust path to the image
+import heroImage from '../assets/hero-test.png'; // Adjust path to the image
 import Button from '../components/button';
 //import { useAuth } from "../hooks/useAuthLogin";
 

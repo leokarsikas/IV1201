@@ -1,13 +1,7 @@
 package backend.application.model;
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Date;
+import lombok.*;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +15,7 @@ public class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer availability_id;
     private Integer person_id;
-    private Date from_date;
-    private Date to_date;
+    private LocalDate from_date;
+    private LocalDate to_date;
+
 }

@@ -7,7 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import backend.application.service.UserService;
+import backend.application.model.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 @SpringBootApplication(scanBasePackages = "backend")
 public class Application {
@@ -61,15 +65,28 @@ public class Application {
             User savedUser = userService.createUser(user);
             System.out.println("User added: " + savedUser);*/
 
-            /*Integer userIdToDelete = 1011; // Replace with the ID of the user you want to delete
-            boolean isDeleted = userService.deleteUserById(userIdToDelete);
+            /*for (Integer userIdToDelete = 1012; userIdToDelete <= 1028; userIdToDelete++) {
+                boolean isDeleted = userService.deleteUserById(userIdToDelete);
 
-            // Print result
-            if (isDeleted) {
-                System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
-            } else {
-                System.out.println("User with ID " + userIdToDelete + " was not found.");
+                // Print result
+                if (isDeleted) {
+                    System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
+                } else {
+                    System.out.println("User with ID " + userIdToDelete + " was not found.");
+                }
             }*/
+            /*for(int i = 2; i < 11; i++) {
+                Optional<User> user = userService.getUserById(Long.valueOf(i));
+                System.out.println("Username " + user.get().getUsername());
+                System.out.println("Password " + user.get().getPassword());
+                String newPassword = passwordEncoder.encode(user.get().getPassword());
+                System.out.println("Encrypted password is: " + newPassword);
+                userService.updatePassword(i, newPassword);
+                Optional<User> updatedUser = userService.getUserById(Long.valueOf(i));
+                System.out.println("Username " + updatedUser.get().getUsername());
+                System.out.println("Password " + updatedUser.get().getPassword());
+            }*/
+
         };
 
     }

@@ -8,13 +8,13 @@ function App() {
 
   function goToApplication(){
     navigate('/users')
-    console.log('go to application')
+    console.log('go to competence')
   }
 
   return (
       <div>
        <div className="center-div"> Welcome to the recruting system </div>
-        <button onClick={goToApplication}>Start your application</button>
+        <button onClick={goToApplication}>Start your competence</button>
       </div>
     
   )
