@@ -1,17 +1,24 @@
 package backend.application;
 
+import backend.application.DTO.ApplicationDTO;
+import backend.application.service.ApplicationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import backend.application.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication(scanBasePackages = "backend")
 public class Application {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final ApplicationService applicationService;
 
-    public Application(UserService userService) {
+    public Application(UserService userService, PasswordEncoder passwordEncoder, ApplicationService applicationService) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.applicationService = applicationService;
     }
 
     public static void main(String[] args) {
@@ -63,6 +70,23 @@ public class Application {
             } else {
                 System.out.println("User with ID " + userIdToDelete + " was not found.");
             }*/
+        };
+
+    }
+    @Bean
+    public CommandLineRunner cmnd(UserService userService, PasswordEncoder passwordEncoder) {
+        return args -> {
+            /*
+            List<ApplicationDTO> applications = applicationService.getAllExistingApplications();
+            for (ApplicationDTO application : applications) {
+                System.out.println(application);
+            }
+             */
+            ApplicationDTO application = applicationService.getOneApplication(11);
+            System.out.println(application);
+            System.out.println(application.getUserNames().getName());
+            System.out.println(application.getUserNames().getSurname());
+            System.out.println(application.getStatus().getStatus());
         };
     }
 }
