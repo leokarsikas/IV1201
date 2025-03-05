@@ -5,10 +5,13 @@ import AvailabiltyProfile from "./AvailabilityProfile";
 import CompetenceProfile from "./CompetenceProfile";
 import { useApplicationForm } from "../hooks/useApplicationForm";
 import "../styling/ApplicationForm.css";
+import { useAuth } from "../hooks/useAuthLogin";
 
 export default function ApplicationForm() {
   const  { submitApplication, loading, error } = useApplicationForm();
+  const {userName} = useAuth();
   const [applicationData, setApplicationData] = useState<ApplicationData>({
+    userName: userName,
     competenceProfile: [
       {
         profession: "",
@@ -89,7 +92,7 @@ export default function ApplicationForm() {
   return (
     <div style={{height: "100%"}} className="page-container">
       <a href="/" className="company-name">Leos Jobbland</a>
-      <div className="form-container">
+      <div >
         <h2>Ansökningsformulär</h2>
         <p>Fyll i din kompetensprofil och när du är tillgänglig nedan</p>
 

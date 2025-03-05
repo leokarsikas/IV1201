@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchApplications } from "../services/recruiterService";
 import { useAuth } from "./useAuthLogin"; // Import Auth context if role-based access is needed
+import { useNavigate } from "react-router-dom";
 
 export const useFetchApplications = () => {
   const [applications, setApplications] = useState<any[]>([]);
@@ -8,6 +9,7 @@ export const useFetchApplications = () => {
   const [error, setError] = useState<string | null>(null);
   
   const { role } = useAuth(); // Get role from AuthContext
+  const navigate = useNavigate(); // Add navigate from useNavigate
 
   useEffect(() => {
     // Optional: Ensure only admins (role === 1) can fetch applications
@@ -22,6 +24,7 @@ export const useFetchApplications = () => {
         const data = await fetchApplications();
         setApplications(data);
       } catch (err: any) {
+        navigate("/error");
         setError(err.message);
       } finally {
         setIsLoading(false);

@@ -5,6 +5,8 @@ import backend.application.DTO.RegAppDTO;
 import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
+import backend.application.service.AuthService;
+import backend.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +18,25 @@ import java.util.List;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final UserService userService;
 
-    public ApplicationController(ApplicationService applicationService) {
+    public ApplicationController(ApplicationService applicationService, AuthService authService, UserService userService) {
         this.applicationService = applicationService;
+        this.userService = userService;
     }
 
     @PostMapping("/send-application")
     public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO) {
-        System.out.println(appDTO.availabilityProfile.getFirst().availabilityFrom);
-        System.out.println(appDTO.competenceProfile.getFirst().profession);
-        return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
+        try{
+            System.out.println(appDTO.getAvailabilityProfile().getFirst().getAvailabilityTo());
+            System.out.println(appDTO.getCompetenceProfile().getFirst().getProfession());
+            System.out.println("APPUSERNAME"+appDTO.getUserName());
+            applicationService.saveUserApplication(appDTO,userService.getUserPersonId(appDTO.getUserName()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
+        }
+        catch (Exception ex){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
+        }
     }
 
     @GetMapping("admin/get-all-applications")
@@ -39,7 +50,7 @@ public class ApplicationController {
         RegAppDTO application = applicationService.getUserApplication(personID);
         return ResponseEntity.status(HttpStatus.CREATED).body(application);
     }
-
+/*
     @PostMapping("/user/create-application")
     public ResponseEntity<Object> createApplication(@RequestBody RegAppDTO application) {
         try{
@@ -50,4 +61,6 @@ public class ApplicationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
         }
     }
+
+ */
 }

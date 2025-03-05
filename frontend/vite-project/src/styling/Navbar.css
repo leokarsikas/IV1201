@@ -15,7 +15,6 @@
     font-size: 32px;
     font-weight: 500;
     text-decoration: none;
-    color: #f8f8f8;
     transition: color 0.3s ease;
   }
 
@@ -31,7 +30,6 @@
   
   .navbar-button-login {
     margin-right: 20px;
-    color: white;
     text-decoration: none;
     font-size: 20px;
     font-weight: 500;
@@ -41,7 +39,6 @@
 
   .navbar-button-username {
     margin-right: 20px;
-    color:#ffffff;
     text-decoration: none;
     font-size: 20px;
     font-weight: 500;
@@ -58,7 +55,6 @@
     border-radius: 99px;
     background-color: transparent;
     border: none;
-    color: #ffffff;
     text-decoration: none;
     font-size: 20px;
     font-weight: 500;
@@ -74,3 +70,31 @@
     text-decoration: underline;
     
   }
+
+
+  /* Default navbar for all pages except landing */
+.navbar-default {
+  background-color: transparent;
+  padding: 20px 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-default .navbar-logo,
+.navbar-default .navbar-button-login,
+.navbar-default .navbar-button-register,
+.navbar-default .navbar-button-username {
+  color: black;
+}
+
+/* Landing page navbar (transparent with white text) */
+.navbar-landing {
+  background-color: transparent;
+  padding: 20px 40px;
+}
+
+.navbar-landing .navbar-logo,
+.navbar-landing .navbar-button-login,
+.navbar-landing .navbar-button-register,
+.navbar-landing .navbar-button-username {
+  color: white;
+}
