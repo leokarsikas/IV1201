@@ -59,7 +59,7 @@ public class SecurityConfig {
             })
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             //.oauth2Login(withDefaults())
-            .httpBasic(withDefaults())
+            
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
