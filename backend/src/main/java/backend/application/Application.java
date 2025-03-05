@@ -1,17 +1,22 @@
 package backend.application;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.DTO.RegAppDTO;
+import backend.application.model.Availability;
+import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import backend.application.service.UserService;
-import backend.application.model.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication(scanBasePackages = "backend")
 public class Application {
@@ -65,28 +70,15 @@ public class Application {
             User savedUser = userService.createUser(user);
             System.out.println("User added: " + savedUser);*/
 
-            /*for (Integer userIdToDelete = 1012; userIdToDelete <= 1028; userIdToDelete++) {
-                boolean isDeleted = userService.deleteUserById(userIdToDelete);
+            /*Integer userIdToDelete = 1011; // Replace with the ID of the user you want to delete
+            boolean isDeleted = userService.deleteUserById(userIdToDelete);
 
-                // Print result
-                if (isDeleted) {
-                    System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
-                } else {
-                    System.out.println("User with ID " + userIdToDelete + " was not found.");
-                }
+            // Print result
+            if (isDeleted) {
+                System.out.println("User with ID " + userIdToDelete + " was deleted successfully.");
+            } else {
+                System.out.println("User with ID " + userIdToDelete + " was not found.");
             }*/
-            /*for(int i = 2; i < 11; i++) {
-                Optional<User> user = userService.getUserById(Long.valueOf(i));
-                System.out.println("Username " + user.get().getUsername());
-                System.out.println("Password " + user.get().getPassword());
-                String newPassword = passwordEncoder.encode(user.get().getPassword());
-                System.out.println("Encrypted password is: " + newPassword);
-                userService.updatePassword(i, newPassword);
-                Optional<User> updatedUser = userService.getUserById(Long.valueOf(i));
-                System.out.println("Username " + updatedUser.get().getUsername());
-                System.out.println("Password " + updatedUser.get().getPassword());
-            }*/
-
         };
 
     }
@@ -100,6 +92,32 @@ public class Application {
             }
              */
 
+            /*
+            RegAppDTO application = applicationService.getOneApplication(11);
+            System.out.println(application);
+            System.out.println(application.getUserNames().getName());
+            System.out.println(application.getUserNames().getSurname());
+            System.out.println(application.getStatus().getStatus());
+
+
+            Availability availability1 = new Availability();
+            availability1.setFrom_date(Timestamp.valueOf("2025-12-12 12:00:00"));
+            availability1.setTo_date(Timestamp.valueOf("2025-12-16 12:00:00"));
+            List<Availability> availabilities = new ArrayList<>();
+            availabilities.add(availability1);
+
+            Competence competence1 = new Competence();
+            competence1.setCompetence_id(1);
+            competence1.setYears_of_experience(3);
+            List<Competence> competences = new ArrayList<>();
+            competences.add(competence1);
+
+            application.setAvailability(availabilities);
+            application.setCompetence(competences);
+            application.setPerson_id(11);
+            applicationService.saveUserApplication(application);
+            
+             */
         };
     }
 }
