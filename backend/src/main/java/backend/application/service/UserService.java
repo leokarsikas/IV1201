@@ -3,6 +3,7 @@ package backend.application.service;
 import backend.application.model.User;
 import backend.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -84,5 +85,19 @@ public class UserService {
             }
         }
         return false; // User not found or update failed
+    }
+
+    public Integer getUserPersonId(String username) {
+        Optional<User> user;
+        if(username.contains("@")) {
+            user = userRepository.getUserByEmail(username);
+        }
+        else {
+            user = userRepository.getUserByUsername(username);
+        }        if(user.isEmpty()) {
+            throw new UsernameNotFoundException("User not found!");
+        }
+        return user.get().getPerson_ID();
+
     }
 }

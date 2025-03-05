@@ -1,7 +1,6 @@
 package backend.application;
 
-import backend.application.DTO.ApplicationDTO;
-import backend.application.DTO.RegAppDTO;
+import backend.application.DTO.*;
 import backend.application.model.Availability;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
@@ -92,32 +91,24 @@ public class Application {
             }
              */
 
-            /*
-            RegAppDTO application = applicationService.getOneApplication(11);
-            System.out.println(application);
-            System.out.println(application.getUserNames().getName());
-            System.out.println(application.getUserNames().getSurname());
-            System.out.println(application.getStatus().getStatus());
+            RegisterApplicationDTO application = new RegisterApplicationDTO();
 
-
-            Availability availability1 = new Availability();
-            availability1.setFrom_date(Timestamp.valueOf("2025-12-12 12:00:00"));
-            availability1.setTo_date(Timestamp.valueOf("2025-12-16 12:00:00"));
-            List<Availability> availabilities = new ArrayList<>();
+            AvailabilityDTO availability1 = new AvailabilityDTO();
+            availability1.setAvailabilityFrom(Timestamp.valueOf("2025-12-12 12:00:00"));
+            availability1.setAvailabilityTo(Timestamp.valueOf("2025-12-16 12:00:00"));
+            List<AvailabilityDTO> availabilities = new ArrayList<>();
             availabilities.add(availability1);
 
-            Competence competence1 = new Competence();
-            competence1.setCompetence_id(1);
-            competence1.setYears_of_experience(3);
-            List<Competence> competences = new ArrayList<>();
+            CompetenceDTO competence1 = new CompetenceDTO();
+            competence1.setProfession("1");
+            competence1.setYears_of_experience("3");
+            List<CompetenceDTO> competences = new ArrayList<>();
             competences.add(competence1);
 
-            application.setAvailability(availabilities);
-            application.setCompetence(competences);
-            application.setPerson_id(11);
-            applicationService.saveUserApplication(application);
-            
-             */
+            application.setAvailabilityProfile(availabilities);
+            application.setCompetenceProfile(competences);
+            applicationService.saveUserApplication(application, 800);
+
         };
     }
 }
