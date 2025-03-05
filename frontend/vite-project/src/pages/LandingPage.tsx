@@ -13,6 +13,9 @@ export default  function LandingPage() {
 
   const {role, userName} = useAuth();
   function goToApplication(){
+    if(!userName){
+      return alert("LOGGA IN FÖRFAN")
+    }
     navigate('/application')
   }
 
