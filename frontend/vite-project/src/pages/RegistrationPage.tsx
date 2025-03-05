@@ -5,9 +5,11 @@ import Button from "../components/button";
 import { useRegisterUser } from "../hooks/useRegistrationForm";
 import { UserData } from "../types/userRegistrationData";
 import "../styling/RegistrationForm.css";
+import {validateEmail, validateName, validatePassword, validatePersonnummer, validateUsername,} from "../utils/utils"
+
 
 export default function RegistrationPage() {
-  const { register, error } = useRegisterUser();
+  const { register, error, success } = useRegisterUser();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState<UserData>({
@@ -27,36 +29,6 @@ export default function RegistrationPage() {
     password: "",
     username: "",
   });
-
-  // Validation Functions
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password: string): boolean => {
-    // At least 8 characters, one uppercase, one lowercase, one number
-    const passwordRegex = /^.{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  const validatePersonnummer = (pnr: string): boolean => { 
-    const cleanedPnr = pnr.replace(/[\s-]/g, '');
-    
-    // Regex to match 10-12 digits
-    const pnrRegex = /^\d{10,12}$/;
-    
-    // First check if the format is correct (10-12 digits)
-    return pnrRegex.test(cleanedPnr);
-  };
-
-  const validateName = (name: string): boolean => {
-    return name.trim().length >= 2;
-  };
-
-  const validateUsername = (username: string): boolean => {
-    return username.trim().length >= 3;
-  };
 
   // Comprehensive input change handler with validation
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +113,7 @@ export default function RegistrationPage() {
     };
 
     setErrors(validationErrors);
-
+    
     // Check if there are any validation errors
     const hasErrors = Object.values(validationErrors).some(error => error !== '');
     
@@ -153,6 +125,14 @@ export default function RegistrationPage() {
       await register(userData);
     } catch (error) {
       console.error("Registration error:", error);
+    }
+    finally{
+      if(success){
+        navigate("/")
+      }
+      else{
+        alert("something went wrong")
+      }
     }
   };
 
