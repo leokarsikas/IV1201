@@ -24,4 +24,3 @@ export const useRegisterUser = () => {
   
     return { userData, loading, error, register, success };
   };
-

@@ -120,20 +120,16 @@ export default function RegistrationPage() {
     if (hasErrors) {
       return;
     }
-
-    try {
+      
       await register(userData);
-    } catch (error) {
-      console.error("Registration error:", error);
-    }
-    finally{
       if(success){
         navigate("/")
       }
       else{
-        alert("something went wrong")
+        navigate("/error")
       }
-    }
+    
+
   };
 
   return (

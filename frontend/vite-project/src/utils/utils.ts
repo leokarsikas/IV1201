@@ -31,4 +31,17 @@
     return username.trim().length >= 3;
   };
 
-  export {validateEmail, validateName, validatePassword, validatePersonnummer, validateUsername,}
+
+  const isEmailThere = (email: string) : boolean =>{
+    return email.trim().length < 1
+  }
+
+  const isPasswordThere = (password : string) : boolean => {
+    return password.length < 1
+  }
+
+  const isUsernameThere = (username : string) : boolean => {
+    return username.length < 1
+  }
+
+  export {validateEmail, validateName, validatePassword, validatePersonnummer, validateUsername, isEmailThere, isPasswordThere, isUsernameThere}

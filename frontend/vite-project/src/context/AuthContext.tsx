@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { loginUser, fetchUserData, logoutUser } from "../services/authService"; 
 import { UserLoginData } from "../types/userLoginData";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   userName: string | null;
@@ -9,6 +10,7 @@ interface AuthContextType {
   logout: () => void;
   isLoading: boolean;
   error: string | null;
+  success: boolean | null;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [role, setRole] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   // Fetch user data on app load
   useEffect(() => {
@@ -55,8 +58,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setRole(fetchedUser.role);         
       }
     } catch (error: any) {
-      console.error("Login failed", error);
+      console.error("Login failed in Context", error);
       setError(error?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+      setSuccess(true)
     }
   };
 
@@ -67,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userName, role, login, logout, isLoading, error }}>
+    <AuthContext.Provider value={{ userName, role, login, logout, isLoading, error, success}}>
       {children}
     </AuthContext.Provider>
   );

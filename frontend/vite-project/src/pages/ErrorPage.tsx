@@ -1,7 +1,10 @@
 import React from 'react';
 import '../styling/ErrorPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const ErrorPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="error-container">
       <div className="error-card">
@@ -28,7 +31,7 @@ const ErrorPage: React.FC = () => {
           We apologize for the inconvenience. Please try again later or contact support if the issue persists.
         </p>
         <button 
-          onClick={() => window.location.reload()}
+          onClick={() => navigate("/")}
           className="error-reload-button"
         >
           Reload Page
