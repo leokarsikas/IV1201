@@ -11,6 +11,7 @@ import backend.application.repository.CompetenceRepository;
 import backend.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class ApplicationService {
 
      */
 
-
+    @Transactional
     //Argumenten till de olika callsen skulle kunna ändras till objekt förstås.
     public void saveUserApplication(RegisterApplicationDTO application, Integer personId){
         try {
@@ -101,6 +102,7 @@ public class ApplicationService {
         }
     }
 
+    @Transactional
     public void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
         AvailabilityDTO extractedAvailability;
         Integer noOfAvailabilities = newAvailabilities.size();
@@ -135,6 +137,7 @@ public class ApplicationService {
         }
     }
 
+    @Transactional
     public void saveNewCompetence(List<CompetenceDTO> newCompetences, Integer person_id){
         CompetenceDTO extractedCompetence;
         Integer noOfCompetences = newCompetences.size();
@@ -159,7 +162,9 @@ public class ApplicationService {
         }
     }
 
-    /*public void setStatus(Integer person_id, String status){
+    /*
+    @Transactional
+    public void setStatus(Integer person_id, String status){
         //Modify for ability to update later
         applicationStatusRepository.save(getStatus(person_id));
     }*/

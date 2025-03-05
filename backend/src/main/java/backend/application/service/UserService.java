@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import backend.application.exception.EmailAlreadyRegisteredException;
 import backend.application.exception.UsernameAlreadyRegisteredException;
 import backend.application.exception.PersonNumberAlreadyRegisteredException;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -40,6 +41,7 @@ public class UserService {
     }
 
     // Create a new user
+    @Transactional
     public User createUser(User user) {
         System.out.println(user);
         if (userRepository.existsByPnr(user.getPnr())) {

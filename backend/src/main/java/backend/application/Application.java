@@ -91,6 +91,7 @@ public class Application {
             }
              */
 
+            /*
             RegisterApplicationDTO application = new RegisterApplicationDTO();
 
             AvailabilityDTO availability1 = new AvailabilityDTO();
@@ -108,6 +109,8 @@ public class Application {
             application.setAvailabilityProfile(availabilities);
             application.setCompetenceProfile(competences);
             applicationService.saveUserApplication(application, 800);
+            
+             */
 
         };
     }
