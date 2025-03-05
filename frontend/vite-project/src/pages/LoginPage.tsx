@@ -18,7 +18,7 @@ export default function LoginPage() {
     navigate("/recruiter");
   }
 
-  const { login, isLoading, role, error, success } = useAuth();
+  const { login, isLoading, role, error } = useAuth();
 
   const [errors, setErrors] = useState({
     email: "",
@@ -40,29 +40,32 @@ export default function LoginPage() {
     }));
   };
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
+async function onSubmit(event: React.FormEvent) {
+  event.preventDefault();
 
-    const validationErrors = {
-      email: isEmailThere(userData.email) ? 'You need to provide an email address' : '',
-      password: isPasswordThere(userData.password) ? 'You need to provide a password' : '',
-      username: isUsernameThere(userData.username) ? 'You need to provide a userName' : '',
-    };
+  const validationErrors = {
+    email: isEmailThere(userData.email) ? "You need to provide an email address" : "",
+    password: isPasswordThere(userData.password) ? "You need to provide a password" : "",
+    username: isUsernameThere(userData.username) ? "You need to provide a userName" : "",
+  };
 
-    setErrors(validationErrors);
-    const hasErrors = Object.values(validationErrors).some(error => error !== '');
-    if (hasErrors) {
-      return;
-    }
-      
-      await login(userData);
-      if (success) {
-        navigate("/");
-      } else { 
-        navigate("/error");
-      }
+  setErrors(validationErrors);
+
+  const hasErrors =
+    (validationErrors.email !== "" && validationErrors.username !== "") ||
+    validationErrors.password !== "";
+  if (hasErrors) {
+    return;
   }
 
+  // Capture the error directly (null or the string error)
+  const loginError = await login(userData);
+  if (!loginError) {
+    navigate("/");
+  } else {
+    console.error("Login failed:", loginError);
+  }
+}
   // Redirect when role is set
   useEffect(() => {
     if (role === 2) {
@@ -98,7 +101,7 @@ export default function LoginPage() {
             width="500px"
           />
           {errors.password && <p className="error-message">{errors.password}</p>}
-          <p> Error {error}</p>
+          {error && <p style={{justifySelf:'center', fontSize: 16, fontWeight: '500'}} className="error-message">{error}</p>}
           <div className="button-container">
             <Button
               className="custom-button"

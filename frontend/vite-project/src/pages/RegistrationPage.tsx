@@ -9,7 +9,7 @@ import {validateEmail, validateName, validatePassword, validatePersonnummer, val
 
 
 export default function RegistrationPage() {
-  const { register, error, success } = useRegisterUser();
+  const { register, error } = useRegisterUser();
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState<UserData>({
@@ -121,12 +121,13 @@ export default function RegistrationPage() {
       return;
     }
       
-      await register(userData);
-      if(success){
+     const registerResult = await register(userData);
+     console.log(registerResult)
+      if(!registerResult){
         navigate("/")
       }
       else{
-        navigate("/error")
+        console.error("Register failed:", registerResult);
       }
     
 
@@ -213,7 +214,7 @@ export default function RegistrationPage() {
             {errors.username && <p className="error-message">{errors.username}</p>}
           </div>
 
-          {error && <p className="server-error">{error}</p>}
+          {error && <p style={{justifySelf:'center', fontSize: 16, fontWeight: '500'}} className="error-message">{error}</p>}
 
           <div className="button-container">
             <Button
