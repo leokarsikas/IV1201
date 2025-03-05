@@ -35,14 +35,14 @@ public class ApplicationController {
 
     @GetMapping("user/get-application")
     public ResponseEntity<Object> getApplication(@RequestBody Integer personID) {
-        ApplicationDTO application = applicationService.getUserApplication(personID);
+        RegAppDTO application = applicationService.getUserApplication(personID);
         return ResponseEntity.status(HttpStatus.CREATED).body(application);
     }
 
     @PostMapping("/user/create-application")
-    public ResponseEntity<Object> createApplication(@RequestBody ApplicationDTO application) {
+    public ResponseEntity<Object> createApplication(@RequestBody RegAppDTO application) {
         try{
-            //applicationService.createApplication(application);
+            applicationService.saveUserApplication(application);
             return ResponseEntity.status(HttpStatus.CREATED).body(application);
         }
         catch (Exception ex){

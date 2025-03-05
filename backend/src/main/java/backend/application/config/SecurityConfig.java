@@ -52,7 +52,7 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/api/login-user").permitAll();
                 endpoints.requestMatchers("/api/register-user").permitAll();
                 endpoints.requestMatchers("/api/user/**").authenticated();
-                endpoints.requestMatchers("/api/admin/get-all-applications").permitAll();
+                endpoints.requestMatchers("/api/admin/get-all-applications").hasAuthority("ROLE_1");
                 endpoints.requestMatchers("/api/send-application").permitAll();
                 endpoints.anyRequest().authenticated();
                 //endpoints.anyRequest().permitAll();
