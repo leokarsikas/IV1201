@@ -53,6 +53,7 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/api/register-user").permitAll();
                 endpoints.requestMatchers("/api/user/**").authenticated();
                 endpoints.requestMatchers("/api/admin/get-all-applications").permitAll();
+                endpoints.requestMatchers("/api/send-application").permitAll();
                 endpoints.anyRequest().authenticated();
                 //endpoints.anyRequest().permitAll();
             })

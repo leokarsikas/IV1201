@@ -1,6 +1,7 @@
 package backend.application.controller;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,10 @@ public class ApplicationController {
     }
 
     @PostMapping("/send-application")
-    public ResponseEntity<Object> sendApplication(@RequestBody Competence competence) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(competence);
+    public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO) {
+        System.out.println(appDTO.availabilityProfile.getFirst().availabilityFrom);
+        System.out.println(appDTO.competenceProfile.getFirst().profession);
+        return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
     }
 
     @GetMapping("admin/get-all-applications")
