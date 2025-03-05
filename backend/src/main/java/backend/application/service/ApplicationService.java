@@ -93,8 +93,18 @@ public class ApplicationService {
             Availability availabilityToBeSaved = new Availability();
             extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
             if (availabilityRepository.existsByPersonId(person_id)) {
-                List<Availability> availabilitesOfPersonID = availabilityRepository.findByPersonId(person_id);
                 Integer existingAvailabilityId = null;
+                /*
+                List<Availability> availabilitesOfPersonID = availabilityRepository.findByPersonId(person_id);
+                Integer index = availabilitesOfPersonID.size();
+                while(index > 0){
+                    if(availabilitesOfPersonID.get(index-1).getFrom_date().equals(extractedAvailability.getAvailabilityFrom())
+                            && availabilitesOfPersonID.get(index-1).getTo_date().equals(extractedAvailability.getAvailabilityTo())){
+                        existingAvailabilityId = availabilitesOfPersonID.get(index - 1).getAvailability_id();
+                    }
+                    index--;
+                }
+                 */
                 existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
                 System.out.println("existingAvailabilityId: " + existingAvailabilityId);
                 availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
@@ -120,9 +130,18 @@ public class ApplicationService {
             Competence competenceToBeSaved = new Competence();
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
             if (competenceRepository.existsByPersonId(person_id)) {
+                Integer existingAvailabilityId = null;
+                /*
                 List<Competence> competencesOfPersonID = competenceRepository.findByPersonId(person_id);
                 Integer index = competencesOfPersonID.size();
-                Integer existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
+                while(index > 0){
+                    if(competencesOfPersonID.get(index-1).getCompetence_id().equals(convertProfession(extractedCompetence.getProfession()))){
+                        existingAvailabilityId = competencesOfPersonID.get(index - 1).getCompetence_id();
+                    }
+                    index--;
+                }
+                 */
+                existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
                 System.out.println("existingAvailabilityId: " + existingAvailabilityId);
                 competenceToBeSaved.setCompetence_profile_id(existingAvailabilityId);
             } else {
