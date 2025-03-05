@@ -58,6 +58,8 @@ public class SecurityConfig {
                 //endpoints.anyRequest().permitAll();
             })
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            //.oauth2Login(withDefaults())
+            
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }

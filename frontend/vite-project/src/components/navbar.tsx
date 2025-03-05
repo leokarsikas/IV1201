@@ -1,10 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import "../styling/Navbar.css";
 import { useAuth } from "../hooks/useAuthLogin";
 
 const Navbar = () => {
   const { userName, logout } = useAuth();
   const navigate = useNavigate(); 
+  const location = useLocation();
+
+  const isLandingPage = location.pathname === "/";
 
   const handleLogout = () => {
     logout(); 
@@ -12,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isLandingPage ? "navbar-landing" : "navbar-default"}`}>
       <nav className="navbar-container">
         <NavLink to="/" className="navbar-logo">
           Leos jobbland.
