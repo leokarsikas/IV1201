@@ -1,6 +1,7 @@
 package backend.application.controller;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.DTO.RegAppDTO;
 import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
