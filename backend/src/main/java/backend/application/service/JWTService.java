@@ -39,8 +39,8 @@ public class JWTService {
                     .add(claims)
                     .subject(name)
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    //3600000 = 1 timme
-                    .expiration(new Date(System.currentTimeMillis()+3600000))
+                    //36000000 = 10 timmar
+                    .expiration(new Date(System.currentTimeMillis()+36000000))
                     .and()
                     .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)))
                     .compact();
