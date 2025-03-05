@@ -109,7 +109,6 @@ public class ApplicationService {
             Availability availabilityToBeSaved = new Availability();
             extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
             if (availabilityRepository.existsByPersonId(person_id)) {
-                System.out.println("TRVE");
                 Integer existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailability_id());
                 availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
             } else {
@@ -120,8 +119,6 @@ public class ApplicationService {
             availabilityToBeSaved.setFrom_date(Timestamp.valueOf(extractedAvailability.getFrom_date().toString()));
             availabilityToBeSaved.setTo_date(Timestamp.valueOf(extractedAvailability.getTo_date().toString()));
             availabilityRepository.save(availabilityToBeSaved);
-            System.out.println("ASDKÖ"+availabilityRepository.existsById(person_id));
-            System.out.println("JASDKLASJDÖLKAJDÖLSADJÖ");
             noOfAvailabilities--;
         }
     }
@@ -134,9 +131,6 @@ public class ApplicationService {
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
             if (competenceRepository.existsByPersonId(person_id)) {
                 System.out.println(competenceRepository.existsByPersonId(person_id));
-
-
-
                 /*
                 OBS! Dessa är bara temporära! Så fort competenceRepository.getCompetenceProfileId(person_id, extractedCompetence.getCompetence_id())
                 funkar så ska vi byta till den. Det är något fel med queryn eller nåt.
