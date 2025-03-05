@@ -63,26 +63,6 @@ public class ApplicationService {
         return getUserApplication(person_id);
     }
 
-    /*
-
-    private List<Competence> getUserCompetence(Integer person_id){
-        System.out.println(competenceRepository.findByPersonId(person_id));
-        return competenceRepository.findByPersonId(person_id);
-    }
-
-    private List<Availability> getUserAvailability(Integer person_id){
-        return availabilityRepository.findByPersonId(person_id);
-    }
-
-    //Could be changed to four individual calls for each relevant resource,
-    //rather than getting unnecessary information
-    private UserDTO getUserDTO(Integer personID){
-        Optional<User> user = userRepository.findById(personID);
-        return user.isPresent() ? new UserDTO(user.get()) : null;
-    }
-
-     */
-
     @Transactional
     //Argumenten till de olika callsen skulle kunna ändras till objekt förstås.
     public void saveUserApplication(RegisterApplicationDTO application, Integer personId){
@@ -96,6 +76,8 @@ public class ApplicationService {
             if (application.getCompetenceProfile() != null) {
                 saveNewCompetence(application.getCompetenceProfile(),personId);
             }
+
+            System.out.println("User Application Saved");
         }
         catch (Exception e) {
             throw new RuntimeException("Error saving user application", e);
@@ -134,6 +116,7 @@ public class ApplicationService {
             availabilityToBeSaved.setTo_date(Timestamp.valueOf(extractedAvailability.getAvailabilityTo().toString()));
             availabilityRepository.save(availabilityToBeSaved);
             noOfAvailabilities--;
+            System.out.println("New availability added!");
         }
     }
 
@@ -141,6 +124,8 @@ public class ApplicationService {
     public void saveNewCompetence(List<CompetenceDTO> newCompetences, Integer person_id){
         CompetenceDTO extractedCompetence;
         Integer noOfCompetences = newCompetences.size();
+
+        System.out.println("Competences trying to add: "+noOfCompetences    );
         while(noOfCompetences > 0) {
             Competence competenceToBeSaved = new Competence();
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
@@ -155,11 +140,25 @@ public class ApplicationService {
             }
              */
             competenceToBeSaved.setPerson_id(person_id);
-            competenceToBeSaved.setCompetence_id(Integer.parseInt(extractedCompetence.getProfession()));
+            competenceToBeSaved.setCompetence_id(convertProfession(extractedCompetence.getProfession()));
             competenceToBeSaved.setYears_of_experience(Double.parseDouble(extractedCompetence.getYears_of_experience()));
             competenceRepository.save(competenceToBeSaved);
             noOfCompetences--;
+            System.out.println("New competence added!");
         }
+    }
+
+    private Integer convertProfession(String profession){
+        if(profession.equals("Biljettförsäljare")){
+            return 1;
+        }
+        if(profession.equals("Lotteriförsäljare")){
+            return 2;
+        }
+        if(profession.equals("Berg och dalbansoperatör")){
+            return 3;
+        }
+        return 0;
     }
 
     /*
