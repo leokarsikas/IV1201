@@ -1,6 +1,8 @@
 package backend.application.model;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class Availability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer availability_id;
     private Integer person_id;
-    private LocalDate from_date;
-    private LocalDate to_date;
+    private Timestamp from_date;
+    private Timestamp to_date;
 
 }
