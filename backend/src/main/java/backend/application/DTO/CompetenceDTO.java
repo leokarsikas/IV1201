@@ -1,6 +1,5 @@
 package backend.application.DTO;
 
-import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,7 @@ import lombok.Setter;
 @Getter  // Lombok generates getter methods
 @Setter  // Lombok generates setter methods
 
-
-public class AvailabilityDTO {
-    private Timestamp availabilityFrom;
-    private Timestamp availabilityTo;
+public class CompetenceDTO {
+    private String profession;
+    private String years_of_experience;
 }
