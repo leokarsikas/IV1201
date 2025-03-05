@@ -14,11 +14,6 @@ export default  function LandingPage() {
 
  
   const {role, userName} = useAuth();
-  useEffect(() => {
-    if (!userName) {
-      navigate("/");
-    }
-  }, [userName]);
   function goToApplication(){
     if(!userName){
       setShowWarning(true)
