@@ -5,7 +5,6 @@ import heroImage from '../assets/hero-test.png'; // Adjust path to the image
 import Button from '../components/button';
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuthLogin';
-//import { useAuth } from "../hooks/useAuthLogin";
 
 
 
