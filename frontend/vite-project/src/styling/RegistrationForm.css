@@ -45,5 +45,24 @@
     background-color: #1b6e2f;
 }
 
+.error-message {
+    color: red !important;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    /* Use !important to force the style */
+    font-weight: 400;
+    text-align: left;
+}
+  
+  /* Increase specificity */
+.form-container .error-message {
+    color: red !important;
+}
+  
+  /* Ensure no parent styles interfere */
+input + .error-message {
+    display: block;
+    width: 100%;
+}
 
   

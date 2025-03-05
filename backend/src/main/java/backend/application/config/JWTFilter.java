@@ -9,12 +9,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
@@ -29,36 +34,56 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
         String token = getTokenFromCookie(request);
         String username = null;
-        if(token != null) {
-            System.out.println("Frontend provided a token: "+token);
+
+        if (token != null) {
+            System.out.println("Frontend provided a token: " + token);
             username = jwtService.extractUsername(token);
             int role = jwtService.extractRole(token);
             System.out.println("This is the role: " + role);
-            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails user = authService.loadUserByUsername(username);
-                if(jwtService.validateToken(token)){
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
+                if (jwtService.validateToken(token)) {
+                    List<GrantedAuthority> authorities = new ArrayList<>();
+                    String roleName = "ROLE_" + role;
+                    System.out.println("Setting authority: " + roleName);
+                    authorities.add(new SimpleGrantedAuthority(roleName));
+
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(user, null, authorities);
                     auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-                else{
+                } else {
                     System.out.println("JWT token not correct or expired");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token invalid or expired. Please login again.");
+                    return;
                 }
-            }
-            else{
+            } else {
                 System.out.println("Username missing from token!");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token invalid. Please login again.");
+                return;
             }
-        }
-        else {
+        } else {
             System.out.println("Frontend provided no token.");
         }
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Security Context Authentication: " + authentication);
+
+        if (authentication != null) {
+            System.out.println("Authorities: " + authentication.getAuthorities());
+        } else {
+            System.out.println("No authentication set in Security Context.");
+        }
+
         filterChain.doFilter(request, response);
     }
+
 
     private String getBearerToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");

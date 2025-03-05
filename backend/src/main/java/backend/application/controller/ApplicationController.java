@@ -1,6 +1,8 @@
 package backend.application.controller;
 
 import backend.application.DTO.ApplicationDTO;
+import backend.application.DTO.RegAppDTO;
+import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.model.Competence;
 import backend.application.service.ApplicationService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,10 @@ public class ApplicationController {
     }
 
     @PostMapping("/send-application")
-    public ResponseEntity<Object> sendApplication(@RequestBody Competence competence) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(competence);
+    public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO) {
+        System.out.println(appDTO.availabilityProfile.getFirst().availabilityFrom);
+        System.out.println(appDTO.competenceProfile.getFirst().profession);
+        return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
     }
 
     @GetMapping("admin/get-all-applications")
@@ -32,14 +36,14 @@ public class ApplicationController {
 
     @GetMapping("user/get-application")
     public ResponseEntity<Object> getApplication(@RequestBody Integer personID) {
-        ApplicationDTO application = applicationService.getUserApplication(personID);
+        RegAppDTO application = applicationService.getUserApplication(personID);
         return ResponseEntity.status(HttpStatus.CREATED).body(application);
     }
 
     @PostMapping("/user/create-application")
-    public ResponseEntity<Object> createApplication(@RequestBody ApplicationDTO application) {
+    public ResponseEntity<Object> createApplication(@RequestBody RegAppDTO application) {
         try{
-            //applicationService.createApplication(application);
+            applicationService.saveUserApplication(application);
             return ResponseEntity.status(HttpStatus.CREATED).body(application);
         }
         catch (Exception ex){
