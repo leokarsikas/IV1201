@@ -12,11 +12,14 @@ export default function ApplicationForm() {
   const  { submitApplication, loading, error } = useApplicationForm();
   const navigate = useNavigate();
   const {userName} = useAuth();
+
+  // If no username is avaible throw out unauthorized user (non logged in users)
   useEffect(() => {
     if (!userName) {
       navigate("/");
     }
   }, [userName]);
+
   const [applicationData, setApplicationData] = useState<ApplicationData>({
     userName: userName,
     competenceProfile: [
