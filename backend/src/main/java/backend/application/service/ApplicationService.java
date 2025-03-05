@@ -88,15 +88,15 @@ public class ApplicationService {
     public void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
         AvailabilityDTO extractedAvailability;
         Integer noOfAvailabilities = newAvailabilities.size();
+        System.out.println("Timestamp: "+newAvailabilities.getFirst().getAvailabilityFrom());
         while(noOfAvailabilities > 0) {
             Availability availabilityToBeSaved = new Availability();
             extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
-            /*
-            This part is for updating entries and needs modifying
             if (availabilityRepository.existsByPersonId(person_id)) {
+                Integer existingAvailabilityId = null;
+                /*
                 List<Availability> availabilitesOfPersonID = availabilityRepository.findByPersonId(person_id);
                 Integer index = availabilitesOfPersonID.size();
-                Integer existingAvailabilityId = null;
                 while(index > 0){
                     if(availabilitesOfPersonID.get(index-1).getFrom_date().equals(extractedAvailability.getAvailabilityFrom())
                             && availabilitesOfPersonID.get(index-1).getTo_date().equals(extractedAvailability.getAvailabilityTo())){
@@ -104,13 +104,13 @@ public class ApplicationService {
                     }
                     index--;
                 }
-                //Integer existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
+                 */
+                existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
                 System.out.println("existingAvailabilityId: " + existingAvailabilityId);
                 availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
             } else {
                 availabilityToBeSaved.setAvailability_id(null);
             }
-             */
             availabilityToBeSaved.setPerson_id(person_id);
             availabilityToBeSaved.setFrom_date(Timestamp.valueOf(extractedAvailability.getAvailabilityFrom().toString()));
             availabilityToBeSaved.setTo_date(Timestamp.valueOf(extractedAvailability.getAvailabilityTo().toString()));
@@ -129,16 +129,24 @@ public class ApplicationService {
         while(noOfCompetences > 0) {
             Competence competenceToBeSaved = new Competence();
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
-            /*
-            This part is for updating entries and needs modifying
             if (competenceRepository.existsByPersonId(person_id)) {
-                System.out.println(competenceRepository.existsByPersonId(person_id));
-                Integer existingCompetenceProfileId = competenceRepository.getCompetenceProfileId(person_id, Integer.parseInt(extractedCompetence.getProfession()));
-                competenceToBeSaved.setCompetence_profile_id(existingCompetenceProfileId);
+                Integer existingAvailabilityId = null;
+                /*
+                List<Competence> competencesOfPersonID = competenceRepository.findByPersonId(person_id);
+                Integer index = competencesOfPersonID.size();
+                while(index > 0){
+                    if(competencesOfPersonID.get(index-1).getCompetence_id().equals(convertProfession(extractedCompetence.getProfession()))){
+                        existingAvailabilityId = competencesOfPersonID.get(index - 1).getCompetence_id();
+                    }
+                    index--;
+                }
+                 */
+                existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
+                System.out.println("existingAvailabilityId: " + existingAvailabilityId);
+                competenceToBeSaved.setCompetence_profile_id(existingAvailabilityId);
             } else {
-                competenceToBeSaved.setCompetence_id(null);
+                competenceToBeSaved.setCompetence_profile_id(null);
             }
-             */
             competenceToBeSaved.setPerson_id(person_id);
             competenceToBeSaved.setCompetence_id(convertProfession(extractedCompetence.getProfession()));
             competenceToBeSaved.setYears_of_experience(Double.parseDouble(extractedCompetence.getYears_of_experience()));
