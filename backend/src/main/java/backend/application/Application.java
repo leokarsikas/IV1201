@@ -109,7 +109,7 @@ public class Application {
             application.setAvailabilityProfile(availabilities);
             application.setCompetenceProfile(competences);
             applicationService.saveUserApplication(application, 800);
-            
+
              */
 
         };
