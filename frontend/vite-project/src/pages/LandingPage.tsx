@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import "../styling/Hero.css"
 import heroImage from '../assets/hero-test.png'; // Adjust path to the image
 import Button from '../components/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuthLogin';
 
 
@@ -12,7 +12,13 @@ export default  function LandingPage() {
   const navigate = useNavigate();
   const [showWarning, setShowWarning] = useState(false)
 
+ 
   const {role, userName} = useAuth();
+  useEffect(() => {
+    if (!userName) {
+      navigate("/");
+    }
+  }, [userName]);
   function goToApplication(){
     if(!userName){
       setShowWarning(true)

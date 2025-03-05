@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Button from "./button";
 import { ApplicationData } from "../types/applicationData";
 import AvailabiltyProfile from "./AvailabilityProfile";
@@ -9,7 +10,13 @@ import { useAuth } from "../hooks/useAuthLogin";
 
 export default function ApplicationForm() {
   const  { submitApplication, loading, error } = useApplicationForm();
+  const navigate = useNavigate();
   const {userName} = useAuth();
+  useEffect(() => {
+    if (!userName) {
+      navigate("/");
+    }
+  }, [userName]);
   const [applicationData, setApplicationData] = useState<ApplicationData>({
     userName: userName,
     competenceProfile: [
