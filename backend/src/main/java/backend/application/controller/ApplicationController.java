@@ -30,7 +30,8 @@ public class ApplicationController {
         try{
             System.out.println(appDTO.getAvailabilityProfile().getFirst().getAvailabilityTo());
             System.out.println(appDTO.getCompetenceProfile().getFirst().getProfession());
-            applicationService.saveUserApplication(appDTO,userService.getUserPersonId(appDTO.getUsername()));
+            System.out.println("APPUSERNAME"+appDTO.getUserName());
+            applicationService.saveUserApplication(appDTO,userService.getUserPersonId(appDTO.getUserName()));
             return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
         }
         catch (Exception ex){

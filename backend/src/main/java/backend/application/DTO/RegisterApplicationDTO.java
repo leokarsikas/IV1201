@@ -15,5 +15,5 @@ import lombok.Setter;
 public class RegisterApplicationDTO {
     private List<CompetenceDTO> competenceProfile;
     private List<AvailabilityDTO> availabilityProfile;
-    private String username;
+    private String userName;
 }
