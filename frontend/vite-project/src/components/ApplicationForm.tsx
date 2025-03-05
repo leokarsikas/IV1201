@@ -5,10 +5,13 @@ import AvailabiltyProfile from "./AvailabilityProfile";
 import CompetenceProfile from "./CompetenceProfile";
 import { useApplicationForm } from "../hooks/useApplicationForm";
 import "../styling/ApplicationForm.css";
+import { useAuth } from "../hooks/useAuthLogin";
 
 export default function ApplicationForm() {
   const  { submitApplication, loading, error } = useApplicationForm();
+  const {userName} = useAuth();
   const [applicationData, setApplicationData] = useState<ApplicationData>({
+    userName: userName,
     competenceProfile: [
       {
         profession: "",
