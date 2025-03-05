@@ -33,7 +33,7 @@ export default function LoginPage() {
   // Validate password strength
   const validatePassword = (password: string): boolean => {
     // At least 8 characters, one uppercase, one lowercase, one number
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const passwordRegex = /^.{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -57,7 +57,7 @@ export default function LoginPage() {
       isValid = false;
     } else if (!validatePassword(userData.password)) {
       newErrors.password =
-        "Password must be at least 8 characters, include uppercase, lowercase, and number";
+        "Password must be at least 8 characters";
       isValid = false;
     }
 

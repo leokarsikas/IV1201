@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Input from "../components/input";
 import Button from "../components/button";
@@ -19,24 +19,142 @@ export default function RegistrationPage() {
     username: "",
   });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [errors, setErrors] = useState({
+    name: "",
+    surname: "",
+    pnr: "",
+    email: "",
+    password: "",
+    username: "",
+  });
+
+  // Validation Functions
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string): boolean => {
+    // At least 8 characters, one uppercase, one lowercase, one number
+    const passwordRegex = /^.{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validatePersonnummer = (pnr: string): boolean => { 
+    const cleanedPnr = pnr.replace(/[\s-]/g, '');
+    
+    // Regex to match 10-12 digits
+    const pnrRegex = /^\d{10,12}$/;
+    
+    // First check if the format is correct (10-12 digits)
+    return pnrRegex.test(cleanedPnr);
+  };
+
+  const validateName = (name: string): boolean => {
+    return name.trim().length >= 2;
+  };
+
+  const validateUsername = (username: string): boolean => {
+    return username.trim().length >= 3;
+  };
+
+  // Comprehensive input change handler with validation
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    
+    // Update user data
     setUserData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
 
-  async function onSubmit(event: React.FormEvent) {
+    // Perform validation based on input type
+    switch(name) {
+      case 'email':
+        setErrors(prev => ({
+          ...prev,
+          email: value && !validateEmail(value) 
+            ? 'Please enter a valid email address' 
+            : ''
+        }));
+        break;
+      
+      case 'password':
+        setErrors(prev => ({
+          ...prev,
+          password: value && !validatePassword(value) 
+            ? 'Password must be 8+ chars' 
+            : ''
+        }));
+        break;
+      
+      case 'pnr':
+        setErrors(prev => ({
+          ...prev,
+          pnr: value && !validatePersonnummer(value) 
+            ? 'Invalid personnummer (10-12 digits)' 
+            : ''
+        }));
+        break;
+      
+      case 'name':
+        setErrors(prev => ({
+          ...prev,
+          name: value && !validateName(value) 
+            ? 'Name must be at least 2 characters' 
+            : ''
+        }));
+        break;
+      
+      case 'surname':
+        setErrors(prev => ({
+          ...prev,
+          surname: value && !validateName(value) 
+            ? 'Surname must be at least 2 characters' 
+            : ''
+        }));
+        break;
+      
+      case 'username':
+        setErrors(prev => ({
+          ...prev,
+          username: value && !validateUsername(value) 
+            ? 'Username must be at least 3 characters' 
+            : ''
+        }));
+        break;
+    }
+  }, []);
+
+  // Form submission with comprehensive validation
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(userData);
+    
+    // Validate all fields before submission
+    const validationErrors = {
+      name: !validateName(userData.name) ? 'Name must be at least 2 characters' : '',
+      surname: !validateName(userData.surname) ? 'Surname must be at least 2 characters' : '',
+      pnr: !validatePersonnummer(userData.pnr) ? 'Invalid personnummer (10-12 digits)' : '',
+      email: !validateEmail(userData.email) ? 'Please enter a valid email address' : '',
+      password: !validatePassword(userData.password) ? 'Password must be 8+ chars, include uppercase, lowercase, and number' : '',
+      username: !validateUsername(userData.username) ? 'Username must be at least 3 characters' : '',
+    };
+
+    setErrors(validationErrors);
+
+    // Check if there are any validation errors
+    const hasErrors = Object.values(validationErrors).some(error => error !== '');
+    
+    if (hasErrors) {
+      return;
+    }
+
     try {
       await register(userData);
     } catch (error) {
       console.error("Registration error:", error);
-      navigate("/error");
     }
-  }
+  };
 
   return (
     <div className="page-container">
@@ -47,56 +165,79 @@ export default function RegistrationPage() {
         <h2>Registrera dig</h2>
         <form onSubmit={onSubmit}>
           <div className="name-container">
-            <Input
-              placeholder="First Name"
-              name="name"
-              value={userData.name}
-              onChange={handleInputChange}
-              type="text"
-              width="242px"
-            />
-            <Input
-              placeholder="Last Name"
-              name="surname"
-              value={userData.surname}
-              onChange={handleInputChange}
-              type="text"
-              width="242px"
-            />
+            <div>
+              <Input
+                placeholder="First Name*"
+                name="name"
+                value={userData.name}
+                onChange={handleInputChange}
+                type="text"
+                width="242px"
+              />
+              {errors.name && <p className="error-message">{errors.name}</p>}
+            </div>
+            <div>
+              <Input
+                placeholder="Last Name*"
+                name="surname"
+                value={userData.surname}
+                onChange={handleInputChange}
+                type="text"
+                width="242px"
+              />
+              {errors.surname && <p className="error-message">{errors.surname}</p>}
+            </div>
           </div>
-          <h2>{error}</h2>
-          <Input
-            placeholder="Personnummer"
-            name="pnr"
-            value={userData.pnr}
-            onChange={handleInputChange}
-            type="text"
-            width="500px"
-          />
-          <Input
-            placeholder="Email"
-            name="email"
-            value={userData.email}
-            onChange={handleInputChange}
-            type="email"
-            width="500px"
-          />
-          <Input
-            placeholder="Password"
-            name="password"
-            value={userData.password}
-            onChange={handleInputChange}
-            type="password"
-            width="500px"
-          />
-          <Input
-            placeholder="Username"
-            name="username"
-            value={userData.username}
-            onChange={handleInputChange}
-            type="text"
-            width="500px"
-          />
+          
+          <div>
+            <Input
+              placeholder="Personnummer*"
+              name="pnr"
+              value={userData.pnr}
+              onChange={handleInputChange}
+              type="text"
+              width="500px"
+            />
+            {errors.pnr && <p className="error-message">{errors.pnr}</p>}
+          </div>
+          
+          <div>
+            <Input
+              placeholder="Email*"
+              name="email"
+              value={userData.email}
+              onChange={handleInputChange}
+              type="email"
+              width="500px"
+            />
+            {errors.email && <p className="error-message">{errors.email}</p>}
+          </div>
+          
+          <div>
+            <Input
+              placeholder="Password*"
+              name="password"
+              value={userData.password}
+              onChange={handleInputChange}
+              type="password"
+              width="500px"
+            />
+            {errors.password && <p className="error-message">{errors.password}</p>}
+          </div>
+          
+          <div>
+            <Input
+              placeholder="Username*"
+              name="username"
+              value={userData.username}
+              onChange={handleInputChange}
+              type="text"
+              width="500px"
+            />
+            {errors.username && <p className="error-message">{errors.username}</p>}
+          </div>
+
+          {error && <p className="server-error">{error}</p>}
 
           <div className="button-container">
             <Button

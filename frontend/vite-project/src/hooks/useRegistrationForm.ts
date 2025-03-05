@@ -16,7 +16,7 @@ export const useRegisterUser = () => {
         const registeredUserData = await registerUser(userData); // Register the UserData
         setUserData(registeredUserData);
       } catch (err: any) {
-        navigate("/error");
+        //navigate("/error");
         setError(err.message || "An error occurred while registering the UserData.");
       } finally {
         setLoading(false);
