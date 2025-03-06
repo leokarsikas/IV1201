@@ -16,7 +16,7 @@ import {
 } from "../utils/utils";
 
 export default function ApplicationForm() {
-  const { submitApplication, loading, error } = useApplicationForm();
+  const { submitApplication, loading, error, success } = useApplicationForm();
   const navigate = useNavigate();
   const { userName } = useAuth();
 
@@ -219,10 +219,12 @@ export default function ApplicationForm() {
           >
             Lägg till ny period
           </button>
+          {error && <p  style={{justifySelf:'center'}}className="error-message">{error}</p>}
+          {success && <p style={{justifySelf:'center', color:'green', fontWeight:'bold'}}>Din ansökan har skickats!</p>}
           <div className="button-container">
             <Button
               className="custom-button"
-              text={"Skicka ansökan"}
+              text={loading ? "Skickar ansökan..." : "Skicka ansökan"}
               type="submit"
               padding="15px 100px"
               borderRadius="99px"

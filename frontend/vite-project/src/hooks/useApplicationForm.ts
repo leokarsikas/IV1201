@@ -6,23 +6,25 @@ import { useNavigate } from "react-router-dom";
 export const useApplicationForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false)
   const navigate = useNavigate();
 
   const submitApplication = async (application: ApplicationData): Promise<void> => {
     /** Reset */
     setLoading(true);
     setError(null); 
+    setSuccess(false)
 
     try {
-      await sendApplication(application);
-      alert("Ansökan har skickats!");
+      const result = await sendApplication(application);
+      setSuccess(result)
     } catch (err: any) {
-      navigate("/error");
+    
       setError(err.message || "Ett fel inträffade vid ansökan.");
     } finally {
       setLoading(false);
     }
   };
 
-  return { submitApplication, loading, error };
+  return { submitApplication, loading, error, success };
 };

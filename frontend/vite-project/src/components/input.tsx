@@ -25,7 +25,7 @@ const Input: React.FC<InputProps> = ({
   className = '',
   onChange,
   placeholder = '', 
-  borderRadius = '8px', 
+  borderRadius = '99px', 
   padding = '10px',
   width = "",
   color = "black",
