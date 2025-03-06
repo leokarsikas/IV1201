@@ -11,20 +11,28 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *  A class for representing an instance of a user.
+ *  An entity mapping to the database table person.
+ *  Implements the UserDetails interface.
+ *
+ *  This class uses Lombok annotations to automatically generate getter, setter,
+ *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter  // Lombok generates getter methods
 @Setter  // Lombok generates setter methods
-
 @Entity
 @Table(name = "person")
 public class User implements UserDetails {
-
-
+    /**
+     * Unique id of each status and primary key for the table.
+     * Auto-generated (incremented) if not provided when saving to database.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer person_ID;
@@ -54,40 +62,14 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
+    /**
+     * Returns roles of users. A mandatory part of UserDetails
+     * and not in use for the moment.
+     * @return A list of the role of the user.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(getRole_id().toString()));
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
-
-    @Override
-    public String toString() {
-        return "User {" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", pnr='" + pnr + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                '}';
-    }
 }
