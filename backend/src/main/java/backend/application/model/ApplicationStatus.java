@@ -9,6 +9,9 @@ import lombok.Setter;
 /**
  *  A class for representing the status of applications.
  *  An entity mapping to the database table application_status.
+ *
+ *  This class uses Lombok annotations to automatically generate getter, setter,
+ *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
  */
 @AllArgsConstructor
 @NoArgsConstructor

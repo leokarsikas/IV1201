@@ -6,6 +6,9 @@ import lombok.*;
 /**
  *  A class for representing an instance of a competency of a user.
  *  An entity mapping to the database table competence_profile.
+ *
+ *  This class uses Lombok annotations to automatically generate getter, setter,
+ *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
  */
 @AllArgsConstructor
 @NoArgsConstructor

@@ -7,6 +7,9 @@ import java.sql.Timestamp;
 /**
  *  A class for representing an instance of an availability of a user.
  *  An entity mapping to the database table availabilities.
+ *
+ *  This class uses Lombok annotations to automatically generate getter, setter,
+ *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
  */
 @AllArgsConstructor
 @NoArgsConstructor

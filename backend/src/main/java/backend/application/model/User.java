@@ -12,6 +12,9 @@ import java.util.List;
  *  A class for representing an instance of a user.
  *  An entity mapping to the database table person.
  *  Implements the UserDetails interface.
+ *
+ *  This class uses Lombok annotations to automatically generate getter, setter,
+ *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
  */
 @AllArgsConstructor
 @NoArgsConstructor
