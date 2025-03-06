@@ -9,14 +9,11 @@ import backend.application.repository.ApplicationStatusRepository;
 import backend.application.repository.AvailabilityRepository;
 import backend.application.repository.CompetenceRepository;
 import backend.application.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ApplicationService {
@@ -35,7 +32,6 @@ public class ApplicationService {
     }
 
     public RegAppDTO getUserApplication(Integer person_id){
-        System.out.println("1");
         RegAppDTO application = new RegAppDTO();
         application.setUserNames(getUserFirstAndLastName(person_id));
         application.setStatus(getStatus(person_id));
@@ -64,7 +60,6 @@ public class ApplicationService {
     }
 
     @Transactional
-    //Argumenten till de olika callsen skulle kunna ändras till objekt förstås.
     public void saveUserApplication(RegisterApplicationDTO application, Integer personId){
         try {
             if (application == null) {
@@ -76,7 +71,7 @@ public class ApplicationService {
             if (application.getCompetenceProfile() != null) {
                 saveNewCompetence(application.getCompetenceProfile(),personId);
             }
-
+            setStatusToUnhandled(personId);
             System.out.println("User Application Saved");
         }
         catch (Exception e) {
@@ -84,8 +79,7 @@ public class ApplicationService {
         }
     }
 
-    @Transactional
-    public void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
+    private void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
         AvailabilityDTO extractedAvailability;
         Integer noOfAvailabilities = newAvailabilities.size();
         System.out.println("Timestamp: "+newAvailabilities.getFirst().getAvailabilityFrom());
@@ -93,19 +87,7 @@ public class ApplicationService {
             Availability availabilityToBeSaved = new Availability();
             extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
             if (availabilityRepository.existsByPersonId(person_id)) {
-                Integer existingAvailabilityId = null;
-                /*
-                List<Availability> availabilitesOfPersonID = availabilityRepository.findByPersonId(person_id);
-                Integer index = availabilitesOfPersonID.size();
-                while(index > 0){
-                    if(availabilitesOfPersonID.get(index-1).getFrom_date().equals(extractedAvailability.getAvailabilityFrom())
-                            && availabilitesOfPersonID.get(index-1).getTo_date().equals(extractedAvailability.getAvailabilityTo())){
-                        existingAvailabilityId = availabilitesOfPersonID.get(index - 1).getAvailability_id();
-                    }
-                    index--;
-                }
-                 */
-                existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
+                Integer existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
                 System.out.println("existingAvailabilityId: " + existingAvailabilityId);
                 availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
             } else {
@@ -120,8 +102,7 @@ public class ApplicationService {
         }
     }
 
-    @Transactional
-    public void saveNewCompetence(List<CompetenceDTO> newCompetences, Integer person_id){
+    private void saveNewCompetence(List<CompetenceDTO> newCompetences, Integer person_id){
         CompetenceDTO extractedCompetence;
         Integer noOfCompetences = newCompetences.size();
 
@@ -130,18 +111,7 @@ public class ApplicationService {
             Competence competenceToBeSaved = new Competence();
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
             if (competenceRepository.existsByPersonId(person_id)) {
-                Integer existingAvailabilityId = null;
-                /*
-                List<Competence> competencesOfPersonID = competenceRepository.findByPersonId(person_id);
-                Integer index = competencesOfPersonID.size();
-                while(index > 0){
-                    if(competencesOfPersonID.get(index-1).getCompetence_id().equals(convertProfession(extractedCompetence.getProfession()))){
-                        existingAvailabilityId = competencesOfPersonID.get(index - 1).getCompetence_id();
-                    }
-                    index--;
-                }
-                 */
-                existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
+                Integer existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
                 System.out.println("existingAvailabilityId: " + existingAvailabilityId);
                 competenceToBeSaved.setCompetence_profile_id(existingAvailabilityId);
             } else {
@@ -169,11 +139,13 @@ public class ApplicationService {
         return 0;
     }
 
-    /*
-    @Transactional
-    public void setStatus(Integer person_id, String status){
-        //Modify for ability to update later
-        applicationStatusRepository.save(getStatus(person_id));
-    }*/
+    private void setStatusToUnhandled(Integer person_id){
+        if (!applicationStatusRepository.existsByPersonId(person_id)) {
+            ApplicationStatus newUnhandledApplication = new ApplicationStatus();
+            newUnhandledApplication.setPerson_id(person_id);
+            newUnhandledApplication.setStatus(1);
+            applicationStatusRepository.save(newUnhandledApplication);
+        }
+    }
 
 }

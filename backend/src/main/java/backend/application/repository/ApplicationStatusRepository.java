@@ -18,4 +18,7 @@ public interface ApplicationStatusRepository extends JpaRepository<ApplicationSt
 
     @Query("SELECT a FROM ApplicationStatus a WHERE a.person_id = :person_id")
     ApplicationStatus findByPersonId(@Param("person_id") Integer person_id);
+
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN TRUE ELSE FALSE END FROM ApplicationStatus a WHERE a.person_id = :person_id")
+    boolean existsByPersonId(@Param("person_id") Integer person_id);
 }

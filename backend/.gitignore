@@ -33,3 +33,6 @@ build/
 .vscode/
 
 src/main/resources
+
+### SecretConfig ###
+backend/src/main/java/backend/application/config/SecretConfig.java
