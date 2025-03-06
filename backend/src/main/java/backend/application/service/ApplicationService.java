@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Service class for handling user applications.
+ */
 @Service
 public class ApplicationService {
 
@@ -23,14 +26,26 @@ public class ApplicationService {
     private final UserRepository userRepository;
     private final ApplicationStatusRepository applicationStatusRepository;
 
-
+    /**
+     * Constructor for ApplicationService.
+     *
+     * @param availabilityRepository Repository for availability data.
+     * @param competenceRepository Repository for competence data.
+     * @param userRepository Repository for user data.
+     * @param applicationStatusRepository Repository for application status data.
+     */
     public ApplicationService(AvailabilityRepository availabilityRepository, CompetenceRepository competenceRepository, UserRepository userRepository, ApplicationStatusRepository applicationStatusRepository) {
         this.availabilityRepository = availabilityRepository;
         this.competenceRepository = competenceRepository;
         this.userRepository = userRepository;
         this.applicationStatusRepository = applicationStatusRepository;
     }
-
+    /**
+     * Retrieves the application of a user.
+     *
+     * @param person_id The ID of the user.
+     * @return The registered application details.
+     */
     public RegAppDTO getUserApplication(Integer person_id){
         RegAppDTO application = new RegAppDTO();
         application.setUserNames(getUserFirstAndLastName(person_id));
@@ -38,7 +53,12 @@ public class ApplicationService {
         return application;
     }
 
-    //Returns the first and last name of a user
+    /**
+     * Retrieves the first and last name of a user.
+     *
+     * @param person_id The ID of the user.
+     * @return DTO containing username details.
+     */
     private UserNameDTO getUserFirstAndLastName(Integer person_id){
         User user = userRepository.findById(person_id.longValue()).orElse(null);
         UserNameDTO userNameDTO = new UserNameDTO(user);
@@ -47,18 +67,43 @@ public class ApplicationService {
         return userNameDTO;
     }
 
+    /**
+     * Retrieves the application status of a user.
+     *
+     * @param personID The ID of the user.
+     * @return The application status.
+     */
     private ApplicationStatus getStatus(Integer personID){
         return applicationStatusRepository.findByPersonId(personID);
     }
 
-    //Returns all applications in the database
+    /**
+     * Retrieves all applications from the database.
+     *
+     * @return A list of application DTOs.
+     */
     public List<ApplicationDTO> getAllApplications() {
         return applicationStatusRepository.findAllApplications();
     }
+    /**
+     * Retrieves a single application by user ID.
+     *
+     * @param person_id The ID of the user.
+     * @return The registered application details.
+     */
+
     public RegAppDTO getOneApplication(Integer person_id){
         return getUserApplication(person_id);
     }
 
+    /**
+     * Saves a user application.
+     *
+     * @Transactional makes sure that either all or none of the writes to the db are committed.
+     *
+     * @param application The application details to be saved.
+     * @param personId The ID of the user.
+     */
     @Transactional
     public void saveUserApplication(RegisterApplicationDTO application, Integer personId){
         try {
@@ -79,6 +124,12 @@ public class ApplicationService {
         }
     }
 
+    /**
+     * Sends availability periods to db with given person id.
+     *
+     * @param newAvailabilities List of availabilities that are to be saved in the db.
+     * @param person_id The ID of the user.
+     */
     private void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
         AvailabilityDTO extractedAvailability;
         Integer noOfAvailabilities = newAvailabilities.size();
@@ -102,6 +153,12 @@ public class ApplicationService {
         }
     }
 
+    /**
+     * Sends competence info to db with given person id.
+     *
+     * @param newCompetences List of new competence details.
+     * @param person_id The ID of the user.
+     */
     private void saveNewCompetence(List<CompetenceDTO> newCompetences, Integer person_id){
         CompetenceDTO extractedCompetence;
         Integer noOfCompetences = newCompetences.size();

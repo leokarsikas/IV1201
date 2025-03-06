@@ -3,7 +3,7 @@ package backend.application.controller;
 import backend.application.model.User;
 import backend.application.service.AuthService;
 import backend.application.service.JWTService;
-import jakarta.servlet.http.Cookie;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -17,10 +17,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Optional;
 
+/**
+ * Controller class responsible for handling authentication-related HTTP requests.
+ * This includes logging in, logging out, and testing authentication.
+ *
+ * <p>The controller interacts with the {@link AuthService} for handling user login and the
+ * {@link JWTService} for managing JSON Web Tokens (JWTs).</p>
+ */
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 @RequestMapping("/api")
 public class AuthController {
 
@@ -29,11 +34,27 @@ public class AuthController {
     private final AuthService authService;
     private final JWTService jwtService;
 
+
+    /**
+     * Constructs a new {@code AuthController} with the specified {@link AuthService} and {@link JWTService}.
+     *
+     * @param authService the service layer to handle user authentication
+     */
     public AuthController(AuthService authService) {
         this.authService = authService;
         this.jwtService = new JWTService();
     }
 
+    /**
+     * Endpoint for logging in a user.
+     * <p>This method processes a login request by verifying the user's credentials and generating a JWT token
+     * if the authentication is successful. The JWT token is returned as a response and stored in a cookie.</p>
+     *
+     * @param credentials the user credentials (username/email and password)
+     * @param response the HTTP response to send the JWT token in the cookie
+     * @param request the HTTP request to log the user's IP address
+     * @return a {@link ResponseEntity} with the JWT token if successful, or an error message if login fails
+     */
     @PostMapping("/login-user")
     public ResponseEntity<?> login(@RequestBody User credentials, HttpServletResponse response, HttpServletRequest request) {
         try {
@@ -74,6 +95,16 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Endpoint for testing the authentication of a user.
+     * <p>This method checks if a valid JWT token is present in the request cookies, extracts the username and role
+     * from the token, and returns them in the response. If the token is invalid or missing, an unauthorized response
+     * is returned.</p>
+     *
+     * @param token the JWT token passed in the request cookies
+     * @return a {@link ResponseEntity} with user information (username and role) if the token is valid,
+     *         or an error message if the token is invalid or missing
+     */
     @GetMapping("/authTest")
     public ResponseEntity<?> authTest(@CookieValue(value = "token", required = false) String token) {
         if (token == null) {
@@ -96,6 +127,16 @@ public class AuthController {
         }
     }
 
+    /**
+     * Endpoint for logging out a user.
+     * <p>This method logs out the user by invalidating the JWT token, removing the token from the response cookies,
+     * and logging the logout action with the user's IP address. It sends a response indicating the successful logout.</p>
+     *
+     * @param response the HTTP response to set the logout cookie (with expired token)
+     * @param token the JWT token passed in the request cookies, used to extract the username
+     * @param request the HTTP request to log the user's IP address for the logout action
+     * @return a {@link ResponseEntity} indicating the success of the logout operation
+     */
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response, @CookieValue(value = "token", required = false) String token, HttpServletRequest request) {
         ResponseCookie logoutCookie = ResponseCookie.from("token", "")

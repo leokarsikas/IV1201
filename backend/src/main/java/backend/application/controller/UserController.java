@@ -5,10 +5,9 @@ import backend.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import backend.application.model.User;
-import java.util.List;
+
 
 // Exceptions
 
@@ -17,25 +16,36 @@ import backend.application.exception.PersonNumberAlreadyRegisteredException;
 import backend.application.exception.UsernameAlreadyRegisteredException;
 import backend.application.exception.ErrorResponse;
 
-
+/**
+ * Controller class responsible for handling HTTP requests related to user management, including
+ * fetching user data, registering new users, and deleting users.
+ *
+ * <p>This class is part of the backend API and handles endpoints for managing users.
+ * It communicates with the service layer for user-related operations.</p>
+ */
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
-
+    /**
+     * Constructs a new {@code UserController} with the specified {@link UserService} to handle user-related operations.
+     *
+     * @param userService the service layer to handle user operations
+     */
     public UserController(UserService userService) {
 
         this.userService = userService;
     }
-
-    @GetMapping("/get-all-users")
-    public List<User> fetchAllPersons() {
-
-        return userService.getAllUsers(); // Calls the integration layer to get data
-    }
-
+    /**
+     * Endpoint for registering a new user.
+     * <p>This method processes a new user registration request, checks for various exceptions like
+     * duplicate person numbers, emails, or usernames, and returns an appropriate response.</p>
+     *
+     * @param user the user object containing the information to be registered
+     * @return a {@link ResponseEntity} containing the status and either the newly created user or error details
+     */
     @PostMapping("/register-user")
     public ResponseEntity<Object> registerUser(@RequestBody User user) {
         try {
@@ -58,7 +68,13 @@ public class UserController {
 
 
 
-    // DELETE endpoint to delete a user by ID
+    /**
+     * Endpoint for deleting a user by their ID.
+     * <p>This method allows deleting a user from the system based on their user ID.</p>
+     *
+     * @param id the ID of the user to be deleted
+     * @return a {@link ResponseEntity} with a message indicating success or failure
+     */
     @DeleteMapping("/delete-user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
         boolean isDeleted = userService.deleteUserById(id);
