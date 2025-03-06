@@ -1,6 +1,13 @@
 .custom-select {
     margin-top: 8px;
     margin-bottom: 8px;
+    border-radius: 99px;
+    padding: 10px;
+    width: 256px;
+    color: black;
+    background-color: #fff;
+    font-size: 0.875rem;
+
   }
   
   .custom-select select {

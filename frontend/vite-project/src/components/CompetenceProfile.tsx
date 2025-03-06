@@ -21,7 +21,11 @@ export default function CompetenceProfile({
   removeCompetence,
   index,
 }: CompetenceProfileProps) {
-  const competenceOptions = ["Biljettförsäljare", "Lotteriförsäljare", "Berg och dalbansoperatör"];
+  const competenceOptions = [
+    "Biljettförsäljare",
+    "Lotteriförsäljare",
+    "Berg och dalbansoperatör",
+  ];
 
   const competence = applicationData.competenceProfile[index] || {
     profession: "",
@@ -33,8 +37,14 @@ export default function CompetenceProfile({
       <div>
         <RoleDropdown
           options={competenceOptions}
+          value={competence.profession} // Pass the current profession value
           onSelect={(selectedRole) =>
-            updateApplication("competenceProfile", index, "profession", selectedRole)
+            updateApplication(
+              "competenceProfile",
+              index,
+              "profession",
+              selectedRole
+            )
           }
         />
         <p>Välj den roll som du vill ansöka med</p>
@@ -49,7 +59,12 @@ export default function CompetenceProfile({
           placeholder="År av erfarenhet"
           value={competence.years_of_experience}
           onChange={(e) =>
-            updateApplication("competenceProfile", index, "years_of_experience", e.target.value)
+            updateApplication(
+              "competenceProfile",
+              index,
+              "years_of_experience",
+              e.target.value
+            )
           }
         />
         <p>År av erfarenhet inom denna roll</p>
