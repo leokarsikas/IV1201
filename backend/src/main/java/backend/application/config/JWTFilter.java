@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,18 +20,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Filter that checks the existence and validity of a token sent
+ *  in a cookie from a client. Authenticates a user if successful.
+ *  Extends the OncePerRequestFilter abstract class.
+ */
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JWTService jwtService;
     private AuthService authService;
 
+    /**
+     * Constructor for the JWTFilter. Initialises an instance of
+     * Authservice and JWTService.
+     * @param authService Service for authenticating with user credentials.
+     * @param jwtService Service for creating, manipulating and authenticating with JWTs.
+     */
     public JWTFilter(AuthService authService, JWTService jwtService) {
         this.authService = authService;
         this.jwtService = jwtService;
     }
 
+    /**
+     * Filter responsible for authenticating by JWTs.
+     * Upon successful authentication it gets the corresponding user
+     * @param request received HTTPS request
+     * @param response HTTPS response to piggyback on
+     * @param filterChain filterchain for sending and receiving request/response
+     * @throws ServletException thrown if a servlet error happens.
+     * @throws IOException thrown if an I/O error happens.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -83,16 +101,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-
-    private String getBearerToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-           return header.split(" ")[1];
-        }
-        return null;
-    }
-
 
     private String getTokenFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
