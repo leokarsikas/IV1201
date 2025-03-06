@@ -26,11 +26,29 @@ export default function LoginPage() {
     username: "",
   });
 
-  const [userData, setUserData] = useState<UserLoginData>({
-    email: "",
-    password: "",
-    username: "",
+
+  // Initialize userData from localStorage if available
+  const [userData, setUserData] = useState<UserLoginData>(() => {
+    const savedData = localStorage.getItem('userLoginData');
+    if (savedData) {
+      try {
+        return JSON.parse(savedData);
+      } catch (error) {
+        console.error('Failed to parse saved user login data:', error);
+        localStorage.removeItem('userLoginData');
+      }
+    }
+    return {
+      email: "",
+      password: "",
+      username: "",
+    };
   });
+
+  // Persist userData on every change
+  useEffect(() => {
+    localStorage.setItem('userLoginData', JSON.stringify(userData));
+  }, [userData]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
