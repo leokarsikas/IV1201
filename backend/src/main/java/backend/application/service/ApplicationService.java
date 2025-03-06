@@ -140,11 +140,12 @@ public class ApplicationService {
     }
 
     private void setStatusToUnhandled(Integer person_id){
-        ApplicationStatus newUnhandledApplication = new ApplicationStatus();
-        newUnhandledApplication.setPerson_id(person_id);
-        newUnhandledApplication.setStatus(1);
-        newUnhandledApplication.setApplication_status_id(null);
-        applicationStatusRepository.save(newUnhandledApplication);
+        if (!applicationStatusRepository.existsByPersonId(person_id)) {
+            ApplicationStatus newUnhandledApplication = new ApplicationStatus();
+            newUnhandledApplication.setPerson_id(person_id);
+            newUnhandledApplication.setStatus(1);
+            applicationStatusRepository.save(newUnhandledApplication);
+        }
     }
 
 }
