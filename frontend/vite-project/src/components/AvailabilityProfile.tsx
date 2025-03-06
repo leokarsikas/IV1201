@@ -23,41 +23,61 @@ export default function AvailabilityProfile({
   const availability = applicationData.availabilityProfile[index] || {};
 
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFromDate = e.target.value;
-    const currentToDate = availability.availabilityTo ?? "";
+    const newFromDateStr = e.target.value;
+    const newFromDate = new Date(newFromDateStr);
+    const currentToDate = availability.availabilityTo
+      ? new Date(availability.availabilityTo)
+      : null;
 
-    // Convert to Date objects 
-    if (currentToDate && new Date(newFromDate) > new Date(currentToDate)) {
+    if (currentToDate && newFromDate > currentToDate) {
       alert("Startdatum kan inte vara senare än slutdatum!");
       return;
     }
 
-    updateApplication("availabilityProfile", index, "availabilityFrom", newFromDate);
+    updateApplication(
+      "availabilityProfile",
+      index,
+      "availabilityFrom",
+      newFromDate
+    );
   };
 
   const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newToDate = e.target.value;
-    const currentFromDate = availability.availabilityFrom ?? "";
+    const newToDateStr = e.target.value;
+    const newToDate = new Date(newToDateStr);
+    const currentFromDate = availability.availabilityFrom
+      ? new Date(availability.availabilityFrom)
+      : null;
 
-    // Convert to Date 
+    // Convert to Date
     if (currentFromDate && new Date(newToDate) < new Date(currentFromDate)) {
       alert("Slutdatum kan inte vara tidigare än startdatum!");
       return;
     }
 
-    updateApplication("availabilityProfile", index, "availabilityTo", newToDate);
+    updateApplication(
+      "availabilityProfile",
+      index,
+      "availabilityTo",
+      newToDate
+    );
   };
-
 
   return (
     <div className="period-form">
       <div>
         <Input
           type="date"
-          placeholder=""
           name="availabilityFrom"
           width="256px"
-          value={availability.availabilityFrom ?? ""}
+          placeholder=""
+          value={
+            availability.availabilityFrom
+              ? new Date(availability.availabilityFrom)
+                  .toISOString()
+                  .split("T")[0]
+              : ""
+          }
           onChange={handleFromDateChange}
         />
         <p>Från och med den</p>
@@ -68,7 +88,13 @@ export default function AvailabilityProfile({
           placeholder=""
           name="availabilityTo"
           width="256px"
-          value={availability.availabilityTo ?? ""}
+          value={
+            availability.availabilityTo
+              ? new Date(availability.availabilityTo)
+                  .toISOString()
+                  .split("T")[0]
+              : ""
+          }
           onChange={handleToDateChange}
         />
         <p>Till och med den</p>
