@@ -205,4 +205,9 @@ public class ApplicationService {
         }
     }
 
+    @Transactional
+    public void updateStatus(Integer person_id, String status){
+
+    }
+
 }
