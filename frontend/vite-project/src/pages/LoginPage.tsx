@@ -86,7 +86,7 @@ async function onSubmit(event: React.FormEvent) {
         <h2>Logga in</h2>
         <form onSubmit={onSubmit}>
           <Input
-            placeholder="Email"
+            placeholder="Email or username"
             name="email"
             value={userData.email}
             onChange={handleInputChange}

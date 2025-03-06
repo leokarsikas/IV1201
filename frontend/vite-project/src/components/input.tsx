@@ -13,6 +13,8 @@ interface InputProps {
   color?: string;
   step?: string;
   className?: string;
+  min?: string | number;
+  borderColor: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,10 +25,12 @@ const Input: React.FC<InputProps> = ({
   className = '',
   onChange,
   placeholder = '', 
-  borderRadius = '99px', 
+  borderRadius = '8px', 
   padding = '10px',
   width = "",
   color = "black",
+  min,
+  borderColor,
 }) => {
   return (
     <div className={className != '' ?`${className}` : "input-group"}>
@@ -37,8 +41,10 @@ const Input: React.FC<InputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        min = {min}
         style={{
           borderRadius,
+          borderColor,
           padding,
           width,
           color

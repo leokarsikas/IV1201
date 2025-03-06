@@ -87,9 +87,26 @@
     cursor: pointer;
     margin-bottom: 5%;
 }
+.btn-add-new-competence:disabled{
+    background-color: transparent;
+    color:#6c6c6c;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5%;
+}
 .btn-remove{
     background-color: transparent;
     color:#d21717;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 5%;
+}
+.btn-remove:disabled{
+    background-color: transparent;
+    color:#6c6c6c;
     border: none;
     font-size: 18px;
     font-weight: 500;

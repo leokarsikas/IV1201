@@ -1,5 +1,5 @@
-import React from "react";
-import Input from "./input";
+import React, { useState, useEffect } from "react";
+import CustomDateInput from "./InputDate";
 import { ApplicationData } from "../types/applicationData";
 
 interface AvailabilityProfileProps {
@@ -12,6 +12,7 @@ interface AvailabilityProfileProps {
   ) => void;
   removeAvailability: (index: number) => void;
   index: number;
+  error: {availableFromError: string | null, availableToError: string | null};
 }
 
 export default function AvailabilityProfile({
@@ -19,16 +20,18 @@ export default function AvailabilityProfile({
   updateApplication,
   removeAvailability,
   index,
+  error,
 }: AvailabilityProfileProps) {
   const availability = applicationData.availabilityProfile[index] || {};
+  const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
 
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFromDate = e.target.value;
-    const currentToDate = availability.availabilityTo ?? "";
 
-    // Convert to Date objects 
-    if (currentToDate && new Date(newFromDate) > new Date(currentToDate)) {
-      alert("Startdatum kan inte vara senare än slutdatum!");
+    // Ensure fromDate is not earlier than the current date
+    if (new Date(newFromDate) < new Date(currentDate)) {
+      updateApplication("availabilityProfile", index, "availabilityFrom", currentDate);
+      updateApplication("availabilityProfile", index, "availabilityTo", currentDate);
       return;
     }
 
@@ -37,39 +40,34 @@ export default function AvailabilityProfile({
 
   const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newToDate = e.target.value;
-    const currentFromDate = availability.availabilityFrom ?? "";
 
-    // Convert to Date 
-    if (currentFromDate && new Date(newToDate) < new Date(currentFromDate)) {
-      alert("Slutdatum kan inte vara tidigare än startdatum!");
-      return;
-    }
-
+    // Update availabilityTo if all conditions are met
     updateApplication("availabilityProfile", index, "availabilityTo", newToDate);
   };
-
 
   return (
     <div className="period-form">
       <div>
-        <Input
-          type="date"
+        <CustomDateInput
           placeholder=""
           name="availabilityFrom"
-          width="256px"
+          borderColor={!!error.availableFromError ? "red" : ""}
           value={availability.availabilityFrom ?? ""}
           onChange={handleFromDateChange}
+          min={currentDate} // Prevent selection of dates before today
         />
         <p>Från och med den</p>
       </div>
       <div>
-        <Input
-          type="date"
+        <CustomDateInput
           placeholder=""
+          borderColor={!!error.availableToError ? "red" : ""}
           name="availabilityTo"
-          width="256px"
           value={availability.availabilityTo ?? ""}
           onChange={handleToDateChange}
+          min={availability.availabilityFrom instanceof Date
+            ? availability.availabilityFrom.toISOString().split("T")[0]
+            : currentDate} // Prevent selecting dates before availabilityFrom
         />
         <p>Till och med den</p>
       </div>
