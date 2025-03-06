@@ -20,22 +20,66 @@ export default function ApplicationForm() {
     }
   }, [userName]);
 
-  const [applicationData, setApplicationData] = useState<ApplicationData>({
-    userName: userName,
-    competenceProfile: [
-      {
-        profession: "",
-        years_of_experience: 0,
-      },
-    ],
-    availabilityProfile: [
-      {
-        availabilityFrom: null,
-        availabilityTo: null,
-      },
-    ],
+  const [applicationData, setApplicationData] = useState<ApplicationData>(() => {
+    const savedData = localStorage.getItem('applicationData');
+    console.log("Retrieved data:", savedData);
+    
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        
+        // Process competence profile to ensure years_of_experience is a number
+        const processedCompetenceProfile = parsedData.competenceProfile.map((item: any) => ({
+          profession: item.profession || "",
+          years_of_experience: typeof item.years_of_experience === 'string' 
+            ? parseFloat(item.years_of_experience) || 0 
+            : item.years_of_experience || 0,
+        }));
+        
+        // Process availability profile to ensure dates are Date objects
+        const processedAvailabilityProfile = parsedData.availabilityProfile.map((item: any) => ({
+          availabilityFrom: item.availabilityFrom ? new Date(item.availabilityFrom) : null,
+          availabilityTo: item.availabilityTo ? new Date(item.availabilityTo) : null,
+        }));
+        
+        return {
+          userName: userName,
+          competenceProfile: processedCompetenceProfile,
+          availabilityProfile: processedAvailabilityProfile,
+        };
+      } catch (error) {
+        console.error('Failed to parse saved application data:', error);
+        localStorage.removeItem('applicationData');
+      }
+    }
+    
+    // Default initial state
+    return {
+      userName: userName,
+      competenceProfile: [
+        {
+          profession: "",
+          years_of_experience: 0,
+        },
+      ],
+      availabilityProfile: [
+        {
+          availabilityFrom: null,
+          availabilityTo: null,
+        },
+      ],
+    };
   });
-
+    // Save application data whenever it changes
+    useEffect(() => {
+      // Only save if userName exists (user is logged in)
+      if (userName) {
+        
+        localStorage.setItem('applicationData', JSON.stringify(applicationData));
+        
+      }
+    }, [applicationData, userName]);
+    
   const addNewCompetence = () => {
     setApplicationData((prevData) => ({
       ...prevData,

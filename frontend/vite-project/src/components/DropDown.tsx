@@ -1,30 +1,33 @@
-import "./DropDown.css";
 
-interface DropdownProps {
-  label?: string;
+
+import React, { useState, useEffect } from "react";
+import "./DropDown.css"
+interface RoleDropdownProps {
   options: string[];
-  onSelect?: (selected: string) => void;
+  onSelect: (selectedRole: string) => void;
+  value?: string; // Add this prop to accept the current value from parent
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ label = "Välj roll", options, onSelect }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (onSelect) {
-      onSelect(event.target.value);
-    }
+export default function RoleDropdown({ options, onSelect, value = "" }: RoleDropdownProps) {
+  // Use the passed value prop to control the dropdown state
+  // This ensures the dropdown shows the correct value after page reload
+  
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onSelect(e.target.value);
   };
 
   return (
-    <div className="custom-select">
-      <select onChange={handleChange}>
-        <option value="">{label}</option>
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
+    <select 
+      value={value} // Use the value directly from props instead of local state
+      onChange={handleChange}
+      className="custom-select"
+    >
+      <option value="" disabled>Välj roll</option>
+      {options.map((role) => (
+        <option key={role} value={role}>
+          {role}
+        </option>
+      ))}
+    </select>
   );
-};
-
-export default Dropdown;
+}

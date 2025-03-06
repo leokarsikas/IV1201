@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useEffect,useState, useCallback } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Input from "../components/input";
 import Button from "../components/button";
@@ -30,73 +30,103 @@ export default function RegistrationPage() {
     username: "",
   });
 
+  
+
   // Comprehensive input change handler with validation
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    
-    // Update user data
-    setUserData((prevData) => ({
+  // First, let's modify your existing handleInputChange function to save to localStorage
+const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = event.target;
+  
+  // Update user data
+  setUserData((prevData) => {
+    const newData = {
       ...prevData,
       [name]: value,
-    }));
+    };
+    
+    // Save to localStorage after updating state
+    localStorage.setItem('userData', JSON.stringify(newData));
+    
+    return newData;
+  });
 
-    // Perform validation based on input type
-    switch(name) {
-      case 'email':
-        setErrors(prev => ({
-          ...prev,
-          email: value && !validateEmail(value) 
-            ? 'Please enter a valid email address' 
-            : ''
-        }));
-        break;
-      
-      case 'password':
-        setErrors(prev => ({
-          ...prev,
-          password: value && !validatePassword(value) 
-            ? 'Password must be 8+ chars' 
-            : ''
-        }));
-        break;
-      
-      case 'pnr':
-        setErrors(prev => ({
-          ...prev,
-          pnr: value && !validatePersonnummer(value) 
-            ? 'Invalid personnummer (10-12 digits)' 
-            : ''
-        }));
-        break;
-      
-      case 'name':
-        setErrors(prev => ({
-          ...prev,
-          name: value && !validateName(value) 
-            ? 'Name must be at least 2 characters' 
-            : ''
-        }));
-        break;
-      
-      case 'surname':
-        setErrors(prev => ({
-          ...prev,
-          surname: value && !validateName(value) 
-            ? 'Surname must be at least 2 characters' 
-            : ''
-        }));
-        break;
-      
-      case 'username':
-        setErrors(prev => ({
-          ...prev,
-          username: value && !validateUsername(value) 
-            ? 'Username must be at least 3 characters' 
-            : ''
-        }));
-        break;
-    }
-  }, []);
+  // Perform validation based on input type
+  switch(name) {
+    case 'email':
+      setErrors(prev => ({
+        ...prev,
+        email: value && !validateEmail(value) 
+          ? 'Please enter a valid email address' 
+          : ''
+      }));
+      break;
+    
+    case 'password':
+      setErrors(prev => ({
+        ...prev,
+        password: value && !validatePassword(value) 
+          ? 'Password must be 8+ chars' 
+          : ''
+      }));
+      break;
+    
+    case 'pnr':
+      setErrors(prev => ({
+        ...prev,
+        pnr: value && !validatePersonnummer(value) 
+          ? 'Invalid personnummer (10-12 digits)' 
+          : ''
+      }));
+      break;
+    
+    case 'name':
+      setErrors(prev => ({
+        ...prev,
+        name: value && !validateName(value) 
+          ? 'Name must be at least 2 characters' 
+          : ''
+      }));
+      break;
+    
+    case 'surname':
+      setErrors(prev => ({
+        ...prev,
+        surname: value && !validateName(value) 
+          ? 'Surname must be at least 2 characters' 
+          : ''
+      }));
+      break;
+    
+    case 'username':
+      setErrors(prev => ({
+        ...prev,
+        username: value && !validateUsername(value) 
+          ? 'Username must be at least 3 characters' 
+          : ''
+      }));
+      break;
+  }
+}, []);
+
+// Add this function to load the saved data when the component mounts
+const loadUserData = useCallback(() => {
+const savedData = localStorage.getItem('userData');
+if (savedData) {
+  try {
+    const parsedData = JSON.parse(savedData);
+    setUserData(parsedData);
+  } catch (error) {
+    console.error('Failed to parse saved user data:', error);
+  }
+}
+}, []);
+
+// Use this in your useEffect to load data on component mount
+useEffect(() => {
+loadUserData();
+}, [loadUserData]);
+
+
 
   // Form submission with comprehensive validation
   const onSubmit = async (event: React.FormEvent) => {
