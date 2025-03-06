@@ -1,5 +1,6 @@
 package backend.application.service;
 
+import backend.application.DTO.LogInCredentialsDTO;
 import backend.application.model.User;
 import backend.application.repository.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,12 +35,12 @@ public class AuthService implements UserDetailsService {
     /**
      * Authenticates a user by checking the entered credentials against the database.
      *
-     * @param credentials The user credentials containing email/username and password.
+     * @param credentials The user credentials containing email or username and password.
      * @return The authenticated User object.
      * @throws UsernameNotFoundException If the user is not found.
      * @throws BadCredentialsException If the password is incorrect.
      */
-    public User loginUser(User credentials) throws UsernameNotFoundException {
+    public User loginUser(LogInCredentialsDTO credentials) throws UsernameNotFoundException {
         Optional<User> user;
         if(credentials.getEmail().contains("@")) {
             user = userRepository.getUserByEmail(credentials.getEmail());

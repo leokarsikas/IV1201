@@ -3,10 +3,15 @@ package backend.application.exception;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.validation.FieldError;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * GlobalExceptionHandler is a centralized exception handler for managing application-wide exceptions.
@@ -50,5 +55,17 @@ public class GlobalExceptionHandler {
 
         String errorMessage = "An unexpected error occurred.";
         return new ResponseEntity<>(new ErrorResponse("General Error", errorMessage), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
+
+        logger.error("Validation failed: {}", errors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("Validation Error", errors.toString()));
     }
 }

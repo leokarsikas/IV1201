@@ -1,5 +1,6 @@
 package backend.application.controller;
 
+import backend.application.DTO.LogInCredentialsDTO;
 import backend.application.model.User;
 import backend.application.service.AuthService;
 import backend.application.service.JWTService;
@@ -56,7 +57,7 @@ public class AuthController {
      * @return a {@link ResponseEntity} with the JWT token if successful, or an error message if login fails
      */
     @PostMapping("/login-user")
-    public ResponseEntity<?> login(@RequestBody User credentials, HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<?> login(@RequestBody LogInCredentialsDTO credentials, HttpServletResponse response, HttpServletRequest request) {
         try {
             User user = authService.loginUser(credentials);
             if (user != null) {

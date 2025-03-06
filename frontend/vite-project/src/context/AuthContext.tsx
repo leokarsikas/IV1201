@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true)
     try {
       await loginUser(userData);
+      console.log(userData)
       const fetchedUser = await fetchUserData(); 
       if (fetchedUser) {
         setUserName(fetchedUser.username); 

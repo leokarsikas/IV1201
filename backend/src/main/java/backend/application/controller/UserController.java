@@ -2,9 +2,11 @@ package backend.application.controller;
 
 
 import backend.application.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import backend.application.model.User;
 
@@ -15,6 +17,8 @@ import backend.application.exception.EmailAlreadyRegisteredException;
 import backend.application.exception.PersonNumberAlreadyRegisteredException;
 import backend.application.exception.UsernameAlreadyRegisteredException;
 import backend.application.exception.ErrorResponse;
+
+import java.util.List;
 
 /**
  * Controller class responsible for handling HTTP requests related to user management, including
@@ -47,7 +51,16 @@ public class UserController {
      * @return a {@link ResponseEntity} containing the status and either the newly created user or error details
      */
     @PostMapping("/register-user")
-    public ResponseEntity<Object> registerUser(@RequestBody User user) {
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody User user, BindingResult result) {
+
+        if (result.hasErrors()) {
+            // Extract validation errors and return a response
+            List<String> errors = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .toList();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Validation Failed", errors.toString()));
+        }
         try {
             User newUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
