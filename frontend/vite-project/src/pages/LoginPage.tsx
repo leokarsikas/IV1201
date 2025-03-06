@@ -75,6 +75,8 @@ async function onSubmit(event: React.FormEvent) {
     }
   }, [role, navigate]); // Runs when role changes
 
+  
+
   return (
     <div className="page-container">
       <NavLink to="/" className="company-name">
