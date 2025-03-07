@@ -16,36 +16,54 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+/**
+ * Service class for creating, manipulating and authenticating with JWTs.
+ * Also handles cookie creation and claim extraction.
+ */
 @Service
 public class JWTService {
 
     private static String secret = "OzKWdfFbK1hiOHyADb0nv0Mji+oVRRcMAg0Wt3rbKPs=";
     private SecretKey key;
 
+    /**
+     * Constructor for the JWTService.
+     * Creates keys for the tokens based on the secret.
+     */
     public JWTService() {
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public static String createToken(String name, int role_id) {
+    /**
+     * Creates a new JWT for the user in question. Containing username, role_id
+     * the time of issuing and the time of expiration.
+     * @param username Username of the user in question, to be included in the token.
+     * @param role_id Role id of the user in question, to be included in the token.
+     * @return A new token for the user.
+     */
+    public static String createToken(String username, int role_id) {
         Map<String, Object> claims = new HashMap<>();
-        System.out.println("Secret: "+secret);
-        System.out.println("Name: "+name);
-        System.out.println("Role ID: "+role_id);
         claims.put("role_id", role_id);
         return
                 Jwts
                     .builder()
                     .claims()
                     .add(claims)
-                    .subject(name)
+                    .subject(username)
                     .issuedAt(new Date(System.currentTimeMillis()))
-                    //3600000 = 1 timme
-                    .expiration(new Date(System.currentTimeMillis()+3600000))
+                    //36000000 = 10 timmar
+                    .expiration(new Date(System.currentTimeMillis()+36000000))
                     .and()
                     .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)))
                     .compact();
     }
 
+    /**
+     * Creates a new ResponseCookie with the provided token inside.
+     * @param token JWT to be stored in the cookie.
+     * @return A new ResponseCookie with the provided token inside.
+     */
     public static ResponseCookie createResponseCookie(String token) {
         return ResponseCookie.from("token", token)
                 .httpOnly(true)
@@ -56,17 +74,12 @@ public class JWTService {
                 .build();
     }
 
-    /* Old cookie implementation (saved in case of emergency usage) */
-    public static Cookie createCookie(String token){
-        Cookie cookie = new Cookie("token", token);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/refresh-token");
-        //10h
-        cookie.setMaxAge(36000);
-        cookie.setSecure(true);
-        return cookie;
-    }
-
+    /**
+     * Checks if the provided token is valid. Verifies that it can be built with the
+     * secret key and that it is not expired.
+     * @param token The users token to be validated.
+     * @return Boolean true if the validation is successful, otherwise false.
+     */
     public boolean validateToken(String token) {
         //Create more exceptions later?
         try {
@@ -83,14 +96,22 @@ public class JWTService {
         }
     }
 
-    //All below is boilerplate.
-
+    /**
+     * Extracts the subject from the token, which should always be the username.
+     * @param token Token from which the username should be extracted.
+     * @return The extracted username.
+     */
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractRole(String token){
-        return extractClaim(token, claims -> claims.get("role_id",String.class));
+    /**
+     * Extracts the role_id from the token.
+     * @param token Token from which the role_id should be extracted.
+     * @return The extracted role_id.
+     */
+    public Integer extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role_id", Integer.class));
     }
 
     private <Object> Object extractClaim(String token, Function<Claims, Object> claimsResolver) {

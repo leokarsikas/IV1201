@@ -17,17 +17,28 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.Customizer.*;
-
+/**
+ * Configuration for authentication, authorisation, CORS and password encoding.
+ * Sets authentication priority order and creates authentication providers.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Constructor of password encoders for encoding passwords.
+     * @return a BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Sets what is allowed by CORS. Allows any method, any header
+     * and only requests from http://localhost:5173.
+     * @return configuration source for authorized CORS connections.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -42,28 +53,43 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Sets configuration details for which endpoints are allowed to be accessed
+     * by whom. Restricts certain endpoints based on the authentication and authorisation of the user.
+     * Determines the order of applying filters as well as a stateless session management.
+     * @param http security object to give configuration.
+     * @param jwtFilter jwt filter to authenticate with first.
+     * @return the finished securityfilterchain configuration
+     * @throws Exception if any error occurs
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTFilter jwtFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
-                .authorizeHttpRequests(endpoints -> {
-                    endpoints.requestMatchers("/").permitAll();
-                    endpoints.requestMatchers("/login").permitAll();
-                    endpoints.requestMatchers("/register").permitAll();
-                    endpoints.requestMatchers("/api/login-user").permitAll();
-                    endpoints.requestMatchers("/api/register-user").permitAll();
-                    endpoints.requestMatchers("/api/user/**").authenticated();
-                    endpoints.requestMatchers("/api/admin/**").hasRole("1");
-                    endpoints.anyRequest().authenticated();
-                    //endpoints.anyRequest().permitAll();
-                })
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                //.oauth2Login(withDefaults())
-                //.httpBasic(withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the custom CORS configuration
+            .authorizeHttpRequests(endpoints -> {
+                endpoints.requestMatchers("/").permitAll();
+                endpoints.requestMatchers("/login").permitAll();
+                endpoints.requestMatchers("/register").permitAll();
+                endpoints.requestMatchers("/api/").permitAll();
+                endpoints.requestMatchers("/api/login-user").permitAll();
+                endpoints.requestMatchers("/api/register-user").permitAll();
+                endpoints.requestMatchers("/api/user/**").authenticated();
+                endpoints.requestMatchers("/api/admin/get-all-applications").hasAuthority("ROLE_1");
+                endpoints.requestMatchers("/api/send-application").permitAll();
+                endpoints.anyRequest().authenticated();
+            })
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
+    /**
+     * Creates a new DAO authentication provider for password encoding
+     * and user credential authentication.
+     * @param authService service that authenticates and retrieves users
+     * @return a new authentication provider set with the password encoder
+     * and authService provided.
+     */
     @Bean
     public AuthenticationProvider authenticationProvider(AuthService authService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
