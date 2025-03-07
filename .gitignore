@@ -36,7 +36,7 @@ Thumbs.db
 *.ear
 
 # ENV #
-
+node_modules
 
 backend/src/main/resources/competence.properties
 /backend/src/main/resources
