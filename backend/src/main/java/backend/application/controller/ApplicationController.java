@@ -65,6 +65,8 @@ public class ApplicationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
         }
         catch (Exception ex){
+            logger.error("Application submission failed for user: {} from IP: {} - Reason: {}",
+                    appDTO.getUserName(), ipAddress, ex.getMessage(), ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
         }
     }
