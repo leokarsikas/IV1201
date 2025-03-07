@@ -20,7 +20,7 @@ export const loginUser = async (userData: UserLoginData) => {
     return data;
   } catch (error) {
     console.error("Login failed", error);
-    throw error;
+    throw new Error("Something went wrong... Try again later");
   }
 };
 
@@ -36,8 +36,8 @@ export const fetchUserData = async () => {
       throw new Error("Failed to fetch User data");
     }
 
-    const data = await response.text();
-    console.log(data);
+    const data = await response.json();
+    console.log("User Data:", data);
     return data;
   } catch (error) {
     console.error(error);
@@ -54,25 +54,28 @@ export const logoutUser = async () => {
     if (!response.ok) {
       throw new Error("Failed to logout user, try again");
     }
-
   } catch (error) {
     console.error(error);
   }
 };
 
 export const registerUser = async (user: UserData) => {
-  const response = await fetch(`${API_URL}/register-user`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user),
-  });
+  try {
+    const response = await fetch(`${API_URL}/register-user`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
 
-  if (!response.ok) {
-    const errorBody = await response.json();
-    const errorMessage =
-      errorBody?.message || response.status || "Unknown error";
-    throw new Error(errorMessage);
+    if (!response.ok) {
+      const errorBody = await response.json();
+      const errorMessage =
+        errorBody?.message || response.status || "Unknown error";
+      throw new Error(errorMessage);
+    }
+    return response.json(); // Return the token and user info
+  } catch (error) {
+    console.error("Login failed", error);
+    throw new Error("Something went wrong... Try again later");
   }
-
-  return response.json(); // Return the token and user info
 };

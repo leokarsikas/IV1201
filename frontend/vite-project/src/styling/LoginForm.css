@@ -1,0 +1,38 @@
+/* LoginForm.css */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .form-container {
+    width: 100%;
+    max-width: 550px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .error-message {
+    color: red !important;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    /* Use !important to force the style */
+    font-weight: 400;
+    text-align: left;
+  }
+  
+  /* Increase specificity */
+  .form-container .error-message {
+    color: red !important;
+  }
+  
+  /* Ensure no parent styles interfere */
+  input + .error-message {
+    display: block;
+    width: 100%;
+  }

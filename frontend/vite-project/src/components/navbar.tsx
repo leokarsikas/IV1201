@@ -1,24 +1,33 @@
-import { NavLink } from 'react-router-dom'
-import '../styling/Navbar.css' 
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import "../styling/Navbar.css";
 import { useAuth } from "../hooks/useAuthLogin";
 
 const Navbar = () => {
-  const { user,  logout } = useAuth();
-  console.log("test for frontend-deploy branch redeploy");
+  const { userName, logout } = useAuth();
+  const navigate = useNavigate(); 
+  const location = useLocation();
+
+  const isLandingPage = location.pathname === "/";
+
+  const handleLogout = () => {
+    logout(); 
+    navigate("/"); 
+  };
+
   return (
-    <header className="navbar">
+    <header className={`navbar ${isLandingPage ? "navbar-landing" : "navbar-default"}`}>
       <nav className="navbar-container">
         <NavLink to="/" className="navbar-logo">
           Leos jobbland.
         </NavLink>
 
         <div className="navbar-links">
-          {user ? (
+          {userName ? (
             <>
               <NavLink to="/profile" className="navbar-button-username">
-                {user} 
+                {userName}
               </NavLink>
-              <button onClick={logout} className="navbar-button-register">
+              <button onClick={handleLogout} className="navbar-button-register">
                 Logga ut
               </button>
             </>
@@ -38,5 +47,4 @@ const Navbar = () => {
   );
 };
 
-
-export default Navbar
+export default Navbar;
