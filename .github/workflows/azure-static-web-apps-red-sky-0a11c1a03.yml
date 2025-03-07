@@ -17,6 +17,11 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - name: Fix rollup issue
+        run: |
+          cd frontend/vite-project
+          rm -rf package-lock.json node_modules
+          npm install    
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
       - name: Install dependencies
