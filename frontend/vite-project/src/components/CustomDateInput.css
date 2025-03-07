@@ -1,0 +1,22 @@
+.date-input-container {
+    margin-top: 4px;
+  }
+
+
+  .custom-date-input {
+    display: block;
+    width: 256px;
+    padding: 15px 20px;
+    border: 1px solid #d1d5db; /* Equivalent to border-gray-300 */
+    border-radius: 99px;
+    font-size: 14px;
+    color: #333;
+    background-color: white;
+  }
+    
+  .custom-date-input:focus {
+    outline: none;
+    border-color: #4f46e5; 
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); 
+  }
+  

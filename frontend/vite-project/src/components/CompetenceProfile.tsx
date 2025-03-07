@@ -13,6 +13,7 @@ interface CompetenceProfileProps {
   ) => void;
   removeCompetence: (index: number) => void;
   index: number;
+  error: {yearsError: string | null, roleError: string | null}
 }
 
 export default function CompetenceProfile({
@@ -20,6 +21,7 @@ export default function CompetenceProfile({
   updateApplication,
   removeCompetence,
   index,
+  error,
 }: CompetenceProfileProps) {
   const competenceOptions = [
     "Biljettförsäljare",
@@ -36,6 +38,8 @@ export default function CompetenceProfile({
     <div className="competence-form">
       <div>
         <RoleDropdown
+          borderColor = {!!error.roleError ? "red" : ""}
+          color = {!!error.roleError ? "red" : ""}
           options={competenceOptions}
           value={competence.profession} // Pass the current profession value
           onSelect={(selectedRole) =>
@@ -52,11 +56,14 @@ export default function CompetenceProfile({
 
       <div>
         <Input
+          borderColor = {!!error.yearsError ? "red" : ""}
           type="number"
           name="years_of_experience"
           step="0.1"
           width="256px"
           placeholder="År av erfarenhet"
+          min = {0}
+          color={!!error.yearsError ? "red" : "black"}
           value={competence.years_of_experience}
           onChange={(e) =>
             updateApplication(
