@@ -13,13 +13,9 @@ const validatePassword = (password: string): boolean => {
 };
 
 const validatePersonnummer = (pnr: string): boolean => {
-  const cleanedPnr = pnr.replace(/[\s-]/g, "");
-
-  // Regex to match 10-12 digits
-  const pnrRegex = /^\d{10,12}$/;
-
-  // First check if the format is correct (10-12 digits)
-  return pnrRegex.test(cleanedPnr);
+  // Regex to match exactly 8 digits, a hyphen, then 4 digits
+  const pnrRegex = /^\d{8}-\d{4}$/;
+  return pnrRegex.test(pnr);
 };
 
 const validateName = (name: string): boolean => {
@@ -60,8 +56,8 @@ const validateYearsOfExperience = (years: number): boolean => {
   return  years === 0;
 };
 
-const validateFromDate = (dateFrom: (Date | null)[], dateTo: (Date | null)[]): string => {
-  if(dateFrom.some(i => i === null) || dateTo.some(i => i === null)){
+const validateFromDate = (dateFrom: (Date | string)[], dateTo: (Date | string)[]): string => {
+  if(dateFrom.some(i => i === "") || dateTo.some(i => i === "")){
     return "Du måste fylla i ett datum"
   }
   for (let i = 0; i < dateFrom.length; i++) {
@@ -73,9 +69,9 @@ const validateFromDate = (dateFrom: (Date | null)[], dateTo: (Date | null)[]): s
 };
 
 
-const validateToDate = (dateFrom : (Date | null)[], dateTo: (Date | null) []) : string => {
+const validateToDate = (dateFrom : (Date | string)[], dateTo: (Date | string) []) : string => {
 
-  if(dateFrom.some(i => i === null) || dateTo.some(i => i === null)){
+  if(dateFrom.some(i => i === "") || dateTo.some(i => i === "")){
     return "Du måste fylla i ett datum"
   }
   for (let i = 0; i < dateFrom.length; i++) {

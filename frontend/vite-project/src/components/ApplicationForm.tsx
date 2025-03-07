@@ -1,4 +1,4 @@
-import { useState, useEffect, Profiler } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./button";
 import { ApplicationData } from "../types/applicationData";
@@ -109,7 +109,7 @@ export default function ApplicationForm() {
       ...prevData,
       availabilityProfile: [
         ...prevData.availabilityProfile,
-        { availabilityFrom: null, availabilityTo: null },
+        { availabilityFrom: "", availabilityTo: "" },
       ],
     }));
   };
@@ -163,7 +163,7 @@ export default function ApplicationForm() {
     );
 
     const validationAvailabilityErrors =
-      applicationData.availabilityProfile.map((profile, index) => ({
+      applicationData.availabilityProfile.map((profile) => ({
         availableFromError: validateFromDate(
           [profile.availabilityFrom],
           [profile.availabilityTo]
