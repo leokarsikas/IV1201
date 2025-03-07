@@ -43,17 +43,18 @@ const isUsernameThere = (username: string): boolean => {
 };
 
 // New Set removes duplicates from an array. If the array argument have the same length as the new set: return true, else return false
-const validateRole = (roles: string[]): string => {
-  if(roles.some(role => role === "")){
+const validateRole = (role: string, allRoles: string[]): string => {
+  if (role === "") {
     return "Välj en roll";
   }
-   if(new Set(roles).size !== roles.length){
-    return "Du får inte ha två av samma roll";
-   }
 
-   return '';
+  const roleOccurrences = allRoles.filter((r) => r === role).length;
+  if (roleOccurrences > 1) {
+    return "Du får inte ha två, eller fler av samma roll";
+  }
+
+  return "";
 };
-
 // Should be larger than 0
 const validateYearsOfExperience = (years: number): boolean => {
   return  years === 0;

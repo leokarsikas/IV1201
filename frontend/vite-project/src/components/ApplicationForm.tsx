@@ -107,12 +107,14 @@ export default function ApplicationForm() {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const allRoles = applicationData.competenceProfile.map((p) => p.profession);
+
     const validationCompetenceErrors = applicationData.competenceProfile.map(
       (profile) => ({
         yearsError: validateYearsOfExperience(profile.years_of_experience)
             ? "År av erfarenhet måste vara större än 0"
             : "",
-        roleError: validateRole([profile.profession]),
+        roleError: validateRole(profile.profession, allRoles),
       })
     );
 
