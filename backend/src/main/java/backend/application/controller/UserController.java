@@ -2,6 +2,7 @@ package backend.application.controller;
 
 
 import backend.application.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,29 +56,37 @@ public class UserController {
      * @return a {@link ResponseEntity} containing the status and either the newly created user or error details
      */
     @PostMapping("/register-user")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody User user, BindingResult result) {
-
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody User user, BindingResult result, HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
         if (result.hasErrors()) {
             // Extract validation errors and return a response
             List<String> errors = result.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .toList();
+
+            logger.info("Registration failed from IP: {} - Validation errors: {}", ipAddress, errors);
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Validation Failed", errors.toString()));
         }
         try {
             User newUser = userService.createUser(user);
+            logger.info("User '{}' registered new user successfully from IP: {}", newUser.getUsername(), ipAddress);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
         } catch (PersonNumberAlreadyRegisteredException e) {
+            logger.info("Registration failed for username: {} from IP: {} - Reason: {}", user.getUsername(), ipAddress, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (EmailAlreadyRegisteredException e) {
+            logger.warn("Registration failed for email: {} from IP: {} - Reason: {}", user.getEmail(), ipAddress, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (UsernameAlreadyRegisteredException e) {
+            logger.warn("Registration failed for username: {} from IP: {} - Reason: {}", user.getUsername(), ipAddress, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (Exception e) {
+            logger.error("Unexpected error during registration from IP: {} - Reason: {}", ipAddress, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Internal Server Error", "Something went wrong."));
         }
