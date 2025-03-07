@@ -3,6 +3,8 @@ package backend.application.controller;
 
 import backend.application.service.UserService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -30,6 +32,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final UserService userService;
 
