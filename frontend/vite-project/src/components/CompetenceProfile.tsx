@@ -1,4 +1,3 @@
-import React from "react";
 import Input from "./input";
 import RoleDropdown from "./DropDown";
 import { ApplicationData } from "../types/applicationData";

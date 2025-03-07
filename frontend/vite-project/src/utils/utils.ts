@@ -60,7 +60,7 @@ const validateYearsOfExperience = (years: number): boolean => {
   return  years === 0;
 };
 
-const validateFromDate = (dateFrom: (Date | null)[], dateTo: (Date | null)[]): string => {
+const validateFromDate = (dateFrom: (Date | string | number)[], dateTo: (Date | string)[]): string => {
   if(dateFrom.some(i => i === null) || dateTo.some(i => i === null)){
     return "Du måste fylla i ett datum"
   }
@@ -73,7 +73,7 @@ const validateFromDate = (dateFrom: (Date | null)[], dateTo: (Date | null)[]): s
 };
 
 
-const validateToDate = (dateFrom : (Date | null)[], dateTo: (Date | null) []) : string => {
+const validateToDate = (dateFrom : (Date | string)[], dateTo: (Date | string) []) : string => {
 
   if(dateFrom.some(i => i === null) || dateTo.some(i => i === null)){
     return "Du måste fylla i ett datum"

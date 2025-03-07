@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CustomDateInput from "./InputDate";
 import { ApplicationData } from "../types/applicationData";
 
@@ -51,9 +51,9 @@ export default function AvailabilityProfile({
   const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newToDateStr = e.target.value;
     const newToDate = new Date(newToDateStr);
-   /* const currentFromDate = availability.availabilityFrom
-      ? new Date(availability.availabilityFrom)
-      : null;*/
+   // const currentFromDate = availability.availabilityFrom
+   //   ? new Date(availability.availabilityFrom)
+   //   : null;
 
    
    

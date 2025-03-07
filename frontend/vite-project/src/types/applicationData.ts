@@ -5,7 +5,7 @@ export interface ApplicationData {
         years_of_experience: number;
     }[];
     availabilityProfile: {
-        availabilityFrom: Date | null;
-        availabilityTo: Date | null;
+        availabilityFrom: Date | string;
+        availabilityTo: Date | string;
     }[];
 }

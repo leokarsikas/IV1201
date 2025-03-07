@@ -4,7 +4,6 @@ import LoginPage from './pages/LoginPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
 import RecruiterPage from './pages/RecruiterPage.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
-import Navbar from './components/navbar.tsx';
 import ApplicationPage from './pages/ApplicationPage.tsx';
 
 function Root() {

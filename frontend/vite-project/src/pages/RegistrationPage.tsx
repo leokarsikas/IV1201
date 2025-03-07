@@ -175,6 +175,7 @@ loadUserData();
             <div>
               <Input
                 placeholder="First Name*"
+                borderColor="black"
                 name="name"
                 value={userData.name}
                 onChange={handleInputChange}
@@ -186,6 +187,7 @@ loadUserData();
             <div>
               <Input
                 placeholder="Last Name*"
+                borderColor="black"
                 name="surname"
                 value={userData.surname}
                 onChange={handleInputChange}
@@ -199,6 +201,7 @@ loadUserData();
           <div>
             <Input
               placeholder="Personnummer*"
+              borderColor="black"
               name="pnr"
               value={userData.pnr}
               onChange={handleInputChange}
@@ -211,6 +214,7 @@ loadUserData();
           <div>
             <Input
               placeholder="Email*"
+              borderColor="black"
               name="email"
               value={userData.email}
               onChange={handleInputChange}
@@ -223,6 +227,7 @@ loadUserData();
           <div>
             <Input
               placeholder="Password*"
+              borderColor="black"
               name="password"
               value={userData.password}
               onChange={handleInputChange}
@@ -235,6 +240,7 @@ loadUserData();
           <div>
             <Input
               placeholder="Username*"
+              borderColor="black"
               name="username"
               value={userData.username}
               onChange={handleInputChange}

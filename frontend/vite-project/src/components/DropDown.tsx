@@ -8,7 +8,7 @@ interface DropdownProps {
   color?: string;
   options: string[];
   onSelect: (selectedRole: string) => void;
-  value?: string; // Add this prop to accept the current value from parent
+  value?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -17,6 +17,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   borderColor,
   color,
   onSelect,
+  value = "",
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (onSelect) {
@@ -26,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="custom-select">
-      <select style={{ borderColor: borderColor, color: color }} onChange={handleChange}>
+      <select value={value} style={{ borderColor: borderColor, color: color }} onChange={handleChange}>
         <option value="">{label}</option>
         {options.map((option, index) => (
           <option key={index} value={option}>
