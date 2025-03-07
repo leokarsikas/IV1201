@@ -7,6 +7,9 @@ import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.service.ApplicationService;
 import backend.application.service.AuthService;
 import backend.application.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ApplicationController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final ApplicationService applicationService;
     private final UserService userService;
@@ -49,12 +54,14 @@ public class ApplicationController {
      * @return a {@link ResponseEntity} indicating the status of the application submission
      */
     @PostMapping("/send-application")
-    public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO) {
+    public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO, HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
         try{
             System.out.println(appDTO.getAvailabilityProfile().getFirst().getAvailabilityTo());
             System.out.println(appDTO.getCompetenceProfile().getFirst().getProfession());
             System.out.println("APPUSERNAME"+appDTO.getUserName());
             applicationService.saveUserApplication(appDTO,userService.getUserPersonId(appDTO.getUserName()));
+            logger.info("User '{}' successfully sent in an application from IP: {}", appDTO.getUserName(), ipAddress);
             return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);
         }
         catch (Exception ex){

@@ -78,11 +78,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (EmailAlreadyRegisteredException e) {
-            logger.warn("Registration failed for email: {} from IP: {} - Reason: {}", user.getEmail(), ipAddress, e.getMessage());
+            logger.info("Registration failed for email: {} from IP: {} - Reason: {}", user.getEmail(), ipAddress, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (UsernameAlreadyRegisteredException e) {
-            logger.warn("Registration failed for username: {} from IP: {} - Reason: {}", user.getUsername(), ipAddress, e.getMessage());
+            logger.info("Registration failed for username: {} from IP: {} - Reason: {}", user.getUsername(), ipAddress, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Registration Failed", e.getMessage()));
         } catch (Exception e) {
