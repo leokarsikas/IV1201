@@ -35,6 +35,10 @@ public class JWTService {
         key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
+    public JWTService(SecretKey key) {
+        this.key = key;
+    }
+
     /**
      * Creates a new JWT for the user in question. Containing username, role_id
      * the time of issuing and the time of expiration.
