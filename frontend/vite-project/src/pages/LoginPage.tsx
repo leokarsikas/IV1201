@@ -105,6 +105,7 @@ async function onSubmit(event: React.FormEvent) {
         <form onSubmit={onSubmit}>
           <Input
             placeholder="Email or username"
+            borderColor="#ccc"
             name="email"
             value={userData.email}
             onChange={handleInputChange}
@@ -114,6 +115,7 @@ async function onSubmit(event: React.FormEvent) {
           {errors.email && <p className="error-message">{errors.email}</p>}
           <Input
             placeholder="Password"
+            borderColor="#ccc"
             name="password"
             value={userData.password}
             onChange={handleInputChange}

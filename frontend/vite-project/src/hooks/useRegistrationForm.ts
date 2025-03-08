@@ -6,14 +6,16 @@ export const useRegisterUser = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false)
 
   const register = async (userData: UserData): Promise<void> => {
     setLoading(true);
     setError(null); // Reset previous errors
-
+    setSuccess(false);
     try {
       const registeredUserData = await registerUser(userData); // Register the user
       setUserData(registeredUserData);
+      setSuccess(true);
     } catch (err: any) {
       const errorMessage = err.message || "An error occurred while registering.";
       setError(errorMessage);
@@ -22,5 +24,5 @@ export const useRegisterUser = () => {
     }
   };
 
-  return { userData, loading, error, register };
+  return { userData, loading, error, success, register };
 };
