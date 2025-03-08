@@ -2,6 +2,8 @@ import React from 'react';
 import '../styling/ErrorPage.css';
 import { useNavigate } from 'react-router-dom';
 
+/* The code `const ErrorPage: React.FC = () => { const navigate = useNavigate();` is defining a
+functional component named `ErrorPage` using TypeScript with React. */
 const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
 

@@ -9,11 +9,18 @@ import { useAuth } from '../hooks/useAuthLogin';
 
 
 export default  function LandingPage() {
+/* navigate() accesses the navigation object, to move between endpoints . */
   const navigate = useNavigate();
   const [showWarning, setShowWarning] = useState(false)
 
  
   const {role, userName} = useAuth();
+ /**
+  * The function `goToApplication` checks if a `userName` is provided, shows a warning if not, and
+  * navigates to the '/application' route if the `userName` is present.
+  * @returns If the `userName` is not set, the function will return and set the warning to be shown.
+  * Otherwise, it will navigate to the '/application' route.
+  */
   function goToApplication(){
     if(!userName){
       setShowWarning(true)
@@ -23,6 +30,9 @@ export default  function LandingPage() {
     navigate('/application')
   }
 
+  /**
+   * The function `goToApplicationAsAdmin` navigates to the '/recruiter' page.
+   */
   function goToApplicationAsAdmin(){
     navigate('/recruiter')
   }

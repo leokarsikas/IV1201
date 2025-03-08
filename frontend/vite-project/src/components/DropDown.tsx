@@ -18,6 +18,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   color,
   onSelect,
 }) => {
+ /**
+  * the event object  is triggered when the
+  * value of a `<select>` element is changed in a React component. The `event` object contains
+  * information about the event,
+  */
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (onSelect) {
       onSelect(event.target.value);

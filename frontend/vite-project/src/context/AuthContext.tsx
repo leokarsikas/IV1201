@@ -70,11 +70,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
+
+/**
+ * The `logout` function clears user data, logs out the user, and clears the local storage in a
+ * TypeScript React application.
+ */
   const logout = () => {
-    setUserName(null);
+    setUserName(null); 
     setRole(null);
-    logoutUser();
-    localStorage.clear();
+    logoutUser(); 
+    localStorage.clear(); 
   };
 
   return (

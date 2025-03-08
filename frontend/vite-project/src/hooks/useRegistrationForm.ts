@@ -11,11 +11,11 @@ export const useRegisterUser = () => {
   const register = async (userData: UserData): Promise<void> => {
     setLoading(true);
     setError(null); // Reset previous errors
-    setSuccess(false);
+    setSuccess(false); // Reset previous success
     try {
       const registeredUserData = await registerUser(userData); // Register the user
       setUserData(registeredUserData);
-      setSuccess(true);
+      setSuccess(true); //  for the frontend to render a success message
     } catch (err: any) {
       const errorMessage = err.message || "An error occurred while registering.";
       setError(errorMessage);

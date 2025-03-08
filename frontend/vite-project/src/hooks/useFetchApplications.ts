@@ -12,13 +12,17 @@ export const useFetchApplications = () => {
   const navigate = useNavigate(); // Add navigate from useNavigate
 
   useEffect(() => {
-    // Optional: Ensure only admins (role === 1) can fetch applications
+    /* Ensure only admins (role === 1) can fetch applications */
     if (role !== 1) {
       setError("Unauthorized access");
       setIsLoading(false);
       return;
     }
 
+    /**
+     * The function `getApplications` fetches application data asynchronously, sets the data, handles
+     * errors, and updates loading state accordingly.
+     */
     const getApplications = async () => {
       try {
         const data = await fetchApplications();

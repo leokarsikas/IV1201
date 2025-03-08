@@ -10,6 +10,9 @@ import { isPasswordThere, isEmailThere, isUsernameThere } from "../utils/utils";
 export default function LoginPage() {
   const navigate = useNavigate();
 
+  /**
+   * The above functions navigate to the landing page and the recruiter page respectively.
+   */
   function goToLandingPage() {
     navigate("/");
   }
@@ -18,8 +21,13 @@ export default function LoginPage() {
     navigate("/recruiter");
   }
 
+
+/*function is using object destructuring to
+extract specific properties from the return value of the `useAuth()` custom hook. 
+that handles the fetch */
   const { login, isLoading, role, error } = useAuth();
 
+  /* initializing a state variable named `errors` using the `useState` hook in React.  */
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -29,13 +37,13 @@ export default function LoginPage() {
 
   // Initialize userData from localStorage if available
   const [userData, setUserData] = useState<UserLoginData>(() => {
-    const savedData = localStorage.getItem('userLoginData');
+    const savedData = localStorage.getItem('userLoginData'); //on refresh gets item from localstorage
     if (savedData) {
       try {
         return JSON.parse(savedData);
       } catch (error) {
         console.error('Failed to parse saved user login data:', error);
-        localStorage.removeItem('userLoginData');
+        localStorage.removeItem('userLoginData'); //removes item from local storage
       }
     }
     return {
@@ -50,6 +58,15 @@ export default function LoginPage() {
     localStorage.setItem('userLoginData', JSON.stringify(userData));
   }, [userData]);
 
+ 
+ 
+  /**
+   * The function `handleInputChange` updates the `userData` state with the new value based on the
+   * input field name.
+   * @param event - The `event` parameter in the `handleInputChange` function is of type
+   * `React.ChangeEvent<HTMLInputElement>`. This means it is an event object that is triggered when the
+   * value of an input element changes in a React component.
+   */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserData((prevData) => ({
@@ -58,9 +75,13 @@ export default function LoginPage() {
     }));
   };
 
+/* The `async function onSubmit(event: React.FormEvent)` is a function that handles form submission in
+the login page. Here's a breakdown of what it does: */
 async function onSubmit(event: React.FormEvent) {
   event.preventDefault();
 
+  /* The `const validationErrors` block is checking for validation errors in the form fields before
+  submitting the form. Here's a breakdown of what it does: */
   const validationErrors = {
     email: isEmailThere(userData.email) ? "You need to provide an email address" : "",
     password: isPasswordThere(userData.password) ? "You need to provide a password" : "",
@@ -69,6 +90,8 @@ async function onSubmit(event: React.FormEvent) {
 
   setErrors(validationErrors);
 
+  /* The code block you provided is checking for validation errors in the form fields before submitting
+  the form. Here's a breakdown of what it does: */
   const hasErrors =
     (validationErrors.email !== "" && validationErrors.username !== "") ||
     validationErrors.password !== "";
@@ -79,7 +102,7 @@ async function onSubmit(event: React.FormEvent) {
   // Capture the error directly (null or the string error)
   const loginError = await login(userData);
   if (!loginError) {
-    navigate("/");
+    navigate("/"); //after succefull login sends you to landing page
   } else {
     console.error("Login failed:", loginError);
   }
@@ -105,7 +128,7 @@ async function onSubmit(event: React.FormEvent) {
         <form onSubmit={onSubmit}>
           <Input
             placeholder="Email or username"
-            borderColor="#ccc"
+            borderColor="black"
             name="email"
             value={userData.email}
             onChange={handleInputChange}
@@ -115,7 +138,7 @@ async function onSubmit(event: React.FormEvent) {
           {errors.email && <p className="error-message">{errors.email}</p>}
           <Input
             placeholder="Password"
-            borderColor="#ccc"
+            borderColor="black"
             name="password"
             value={userData.password}
             onChange={handleInputChange}

@@ -17,6 +17,9 @@ export default function RegistrationPage() {
   const { register, error, success } = useRegisterUser();
   const navigate = useNavigate();
 
+/**
+ * The function `handleGoHome` navigates to the home page when called.
+ */
   function handleGoHome(){
     navigate('/');
   }
@@ -177,6 +180,9 @@ export default function RegistrationPage() {
       return;
     }
 
+   /* The code `const registerResult = await register(userData); console.log("register result",
+   registerResult);` is performing an asynchronous call to the `register` function with the
+   `userData` object as a parameter. */
     const registerResult = await register(userData);
     console.log("register result", registerResult);
   };

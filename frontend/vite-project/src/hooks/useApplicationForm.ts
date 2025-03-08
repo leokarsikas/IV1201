@@ -13,9 +13,11 @@ export const useApplicationForm = () => {
     setError(null); 
     setSuccess(false)
 
+   /* This block of code is handling the submission of an application form. Here's a breakdown of what
+   it does: */
     try {
       const result = await sendApplication(application);
-      setSuccess(result)
+      setSuccess(result) // sets success to true to render a succesfull message in the frontend 
     } catch (err: any) {
     
       setError(err.message || "Ett fel inträffade vid ansökan.");
