@@ -56,7 +56,7 @@ public class AuthService implements UserDetailsService {
             throw new BadCredentialsException("Wrong password!");
         }
 
-        System.out.println("Password verified");
+        /*System.out.println("Password verified");*/
         return user.get();
     }
 

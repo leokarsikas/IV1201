@@ -133,13 +133,13 @@ public class ApplicationService {
     private void saveNewAvailabilites(List<AvailabilityDTO> newAvailabilities, Integer person_id){
         AvailabilityDTO extractedAvailability;
         Integer noOfAvailabilities = newAvailabilities.size();
-        System.out.println("Timestamp: "+newAvailabilities.getFirst().getAvailabilityFrom());
+        /*System.out.println("Timestamp: "+newAvailabilities.getFirst().getAvailabilityFrom());*/
         while(noOfAvailabilities > 0) {
             Availability availabilityToBeSaved = new Availability();
             extractedAvailability = newAvailabilities.get(noOfAvailabilities - 1);
             if (availabilityRepository.existsByPersonId(person_id)) {
                 Integer existingAvailabilityId = availabilityRepository.getAvailabilityId(person_id, extractedAvailability.getAvailabilityFrom(), extractedAvailability.getAvailabilityTo());
-                System.out.println("existingAvailabilityId: " + existingAvailabilityId);
+                /*System.out.println("existingAvailabilityId: " + existingAvailabilityId);*/
                 availabilityToBeSaved.setAvailability_id(existingAvailabilityId);
             } else {
                 availabilityToBeSaved.setAvailability_id(null);
@@ -149,7 +149,7 @@ public class ApplicationService {
             availabilityToBeSaved.setTo_date(Timestamp.valueOf(extractedAvailability.getAvailabilityTo().toString()));
             availabilityRepository.save(availabilityToBeSaved);
             noOfAvailabilities--;
-            System.out.println("New availability added!");
+            /*System.out.println("New availability added!");*/
         }
     }
 
@@ -163,13 +163,13 @@ public class ApplicationService {
         CompetenceDTO extractedCompetence;
         Integer noOfCompetences = newCompetences.size();
 
-        System.out.println("Competences trying to add: "+noOfCompetences    );
+        /*System.out.println("Competences trying to add: "+noOfCompetences    );*/
         while(noOfCompetences > 0) {
             Competence competenceToBeSaved = new Competence();
             extractedCompetence = newCompetences.get(noOfCompetences - 1);
             if (competenceRepository.existsByPersonId(person_id)) {
                 Integer existingAvailabilityId = competenceRepository.getCompProfileId(person_id, convertProfession(extractedCompetence.getProfession()));
-                System.out.println("existingAvailabilityId: " + existingAvailabilityId);
+                /*System.out.println("existingAvailabilityId: " + existingAvailabilityId);*/
                 competenceToBeSaved.setCompetence_profile_id(existingAvailabilityId);
             } else {
                 competenceToBeSaved.setCompetence_profile_id(null);
@@ -179,7 +179,7 @@ public class ApplicationService {
             competenceToBeSaved.setYears_of_experience(Double.parseDouble(extractedCompetence.getYears_of_experience()));
             competenceRepository.save(competenceToBeSaved);
             noOfCompetences--;
-            System.out.println("New competence added!");
+            /*System.out.println("New competence added!");*/
         }
     }
 

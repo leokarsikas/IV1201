@@ -57,9 +57,9 @@ public class ApplicationController {
     public ResponseEntity<Object> sendApplication(@RequestBody RegisterApplicationDTO appDTO, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();
         try{
-            System.out.println(appDTO.getAvailabilityProfile().getFirst().getAvailabilityTo());
+            /*System.out.println(appDTO.getAvailabilityProfile().getFirst().getAvailabilityTo());
             System.out.println(appDTO.getCompetenceProfile().getFirst().getProfession());
-            System.out.println("APPUSERNAME"+appDTO.getUserName());
+            System.out.println("APPUSERNAME"+appDTO.getUserName());*/
             applicationService.saveUserApplication(appDTO,userService.getUserPersonId(appDTO.getUserName()));
             logger.info("User '{}' successfully sent in an application from IP: {}", appDTO.getUserName(), ipAddress);
             return ResponseEntity.status(HttpStatus.CREATED).body(appDTO);

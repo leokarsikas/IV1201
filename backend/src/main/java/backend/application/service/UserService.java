@@ -66,7 +66,7 @@ public class UserService {
      */
     @Transactional
     public User createUser(User user) {
-        System.out.println(user);
+        /*System.out.println(user);*/
         if (userRepository.existsByPnr(user.getPnr())) {
             throw new PersonNumberAlreadyRegisteredException("A user with this person number already exists.");
         }

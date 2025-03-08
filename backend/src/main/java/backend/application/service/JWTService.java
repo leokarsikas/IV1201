@@ -25,7 +25,7 @@ import java.util.function.Function;
 public class JWTService {
 
     private static String secret = "OzKWdfFbK1hiOHyADb0nv0Mji+oVRRcMAg0Wt3rbKPs=";
-    private SecretKey key;
+    public SecretKey key;
 
     /**
      * Constructor for the JWTService.
@@ -87,11 +87,11 @@ public class JWTService {
             return true;
         }
         catch (ExpiredJwtException ex){
-            System.out.println("Expired JWT token: "+ex.getClaims().getSubject());
+            /*System.out.println("Expired JWT token: "+ex.getClaims().getSubject());*/
             return false;
         }
         catch (Exception ex){
-            System.out.println("Invalid JWT token: "+ex.getMessage());
+            /*System.out.println("Invalid JWT token: "+ex.getMessage());*/
             return false;
         }
     }

@@ -52,23 +52,23 @@ public class JWTFilter extends OncePerRequestFilter {
      * @throws IOException thrown if an I/O error happens.
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = getTokenFromCookie(request);
         String username = null;
 
         if (token != null) {
-            System.out.println("Frontend provided a token: " + token);
+            /*System.out.println("Frontend provided a token: " + token);*/
             username = jwtService.extractUsername(token);
             int role = jwtService.extractRole(token);
-            System.out.println("This is the role: " + role);
+            /*System.out.println("This is the role: " + role);*/
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails user = authService.loadUserByUsername(username);
                 if (jwtService.validateToken(token)) {
                     List<GrantedAuthority> authorities = new ArrayList<>();
                     String roleName = "ROLE_" + role;
-                    System.out.println("Setting authority: " + roleName);
+                    /*System.out.println("Setting authority: " + roleName);*/
                     authorities.add(new SimpleGrantedAuthority(roleName));
 
                     UsernamePasswordAuthenticationToken auth =
@@ -76,27 +76,27 @@ public class JWTFilter extends OncePerRequestFilter {
                     auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 } else {
-                    System.out.println("JWT token not correct or expired");
+                    /*System.out.println("JWT token not correct or expired");*/
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token invalid or expired. Please login again.");
                     return;
                 }
             } else {
-                System.out.println("Username missing from token!");
+                /*System.out.println("Username missing from token!");*/
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token invalid. Please login again.");
                 return;
             }
         } else {
-            System.out.println("Frontend provided no token.");
+            /*System.out.println("Frontend provided no token.");*/
         }
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Security Context Authentication: " + authentication);
+        /*System.out.println("Security Context Authentication: " + authentication);*/
 
         if (authentication != null) {
-            System.out.println("Authorities: " + authentication.getAuthorities());
+            /*System.out.println("Authorities: " + authentication.getAuthorities());*/
         } else {
-            System.out.println("No authentication set in Security Context.");
+            /*System.out.println("No authentication set in Security Context.");*/
         }
 
         filterChain.doFilter(request, response);
