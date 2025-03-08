@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUserName(null);
     setRole(null);
     logoutUser();
+    localStorage.clear();
   };
 
   return (

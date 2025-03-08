@@ -74,7 +74,7 @@ const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement
       setErrors(prev => ({
         ...prev,
         pnr: value && !validatePersonnummer(value) 
-          ? 'Invalid personnummer (10-12 digits)' 
+          ? '' 
           : ''
       }));
       break;
@@ -136,7 +136,7 @@ loadUserData();
     const validationErrors = {
       name: !validateName(userData.name) ? 'Name must be at least 2 characters' : '',
       surname: !validateName(userData.surname) ? 'Surname must be at least 2 characters' : '',
-      pnr: !validatePersonnummer(userData.pnr) ? 'Invalid personnummer (10-12 digits)' : '',
+      pnr: !validatePersonnummer(userData.pnr) ? 'Fel personummer. Följ formatet [xxxxxxxx-xxxx]' : '',
       email: !validateEmail(userData.email) ? 'Please enter a valid email address' : '',
       password: !validatePassword(userData.password) ? 'Password must be 8+ chars, include uppercase, lowercase, and number' : '',
       username: !validateUsername(userData.username) ? 'Username must be at least 3 characters' : '',
@@ -153,13 +153,7 @@ loadUserData();
       
      const registerResult = await register(userData);
      console.log(registerResult)
-      if(!registerResult){
-        navigate("/")
-      }
-      else{
-        console.error("Register failed:", registerResult);
-      }
-    
+
 
   };
 
@@ -174,6 +168,7 @@ loadUserData();
           <div className="name-container">
             <div>
               <Input
+                borderColor = {errors.name ? "red" : ""}
                 placeholder="First Name*"
                 name="name"
                 value={userData.name}
@@ -185,6 +180,7 @@ loadUserData();
             </div>
             <div>
               <Input
+                borderColor = {errors.surname ? "red" : ""}
                 placeholder="Last Name*"
                 name="surname"
                 value={userData.surname}
@@ -198,6 +194,7 @@ loadUserData();
           
           <div>
             <Input
+              borderColor = {(error === "person number must follow the format YYYYMMDD-XXXX" || errors.pnr) ? "red" : ""}    
               placeholder="Personnummer*"
               name="pnr"
               value={userData.pnr}
@@ -210,6 +207,7 @@ loadUserData();
           
           <div>
             <Input
+              borderColor = {error === "A user with this email already exists." ? "red" : ""}
               placeholder="Email*"
               name="email"
               value={userData.email}
@@ -222,6 +220,7 @@ loadUserData();
           
           <div>
             <Input
+              borderColor = {error ? "red" : ""}
               placeholder="Password*"
               name="password"
               value={userData.password}
@@ -234,6 +233,7 @@ loadUserData();
           
           <div>
             <Input
+              borderColor = {error === "A user with this username already exists." ? "red" : ""}
               placeholder="Username*"
               name="username"
               value={userData.username}

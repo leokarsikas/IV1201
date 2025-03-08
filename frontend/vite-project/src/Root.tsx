@@ -1,12 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import RegistrationPage from './pages/RegistrationPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
 import RecruiterPage from './pages/RecruiterPage.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
-import Navbar from './components/navbar.tsx';
 import ApplicationPage from './pages/ApplicationPage.tsx';
 
+/* This code snippet defines a functional component named `Root` that sets up routing for a React
+application using React Router. Inside the `Root` component: */
 function Root() {
   return (
     <Router>

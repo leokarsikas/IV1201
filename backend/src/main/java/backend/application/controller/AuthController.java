@@ -89,7 +89,7 @@ public class AuthController {
             logger.warn("Login failed for username: {} from IP: {} - Reason: {}", credentials.getEmail(), ipAddress, e.getMessage());
 
             // Return Unauthorized response
-            return new ResponseEntity<>(Map.of("error", "Wrong password"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Map.of("error", "Wrong username or Password"), HttpStatus.UNAUTHORIZED);
         }
 
         // If no user or error, return Unauthorized response
