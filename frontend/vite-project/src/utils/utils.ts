@@ -13,13 +13,9 @@ const validatePassword = (password: string): boolean => {
 };
 
 const validatePersonnummer = (pnr: string): boolean => {
-  const cleanedPnr = pnr.replace(/[\s-]/g, "");
-
-  // Regex to match 10-12 digits
-  const pnrRegex = /^\d{10,12}$/;
-
-  // First check if the format is correct (10-12 digits)
-  return pnrRegex.test(cleanedPnr);
+  // Regex to match exactly 8 digits, a hyphen, then 4 digits
+  const pnrRegex = /^\d{8}-\d{4}$/;
+  return pnrRegex.test(pnr);
 };
 
 const validateName = (name: string): boolean => {

@@ -12,15 +12,24 @@ export const loginUser = async (userData: UserLoginData) => {
     });
 
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Wrong username or password");
+      }
+
       throw new Error("Failed to login");
     }
 
-    const data = await response.text(); // backend currently sends the token in the response body
-    console.log(data);
+    const data = await response.text();
     return data;
-  } catch (error) {
+  } catch (error : any) {
     console.error("Login failed", error);
-    throw new Error("Something went wrong... Try again later");
+
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("Could not connect to the server. Please check your internet connection or try again later.");
+    }
+
+    // Preserve original error message instead of overriding it
+    throw error 
   }
 };
 
@@ -73,9 +82,15 @@ export const registerUser = async (user: UserData) => {
         errorBody?.message || response.status || "Unknown error";
       throw new Error(errorMessage);
     }
+    
     return response.json(); // Return the token and user info
-  } catch (error) {
+  } catch (error : any) {
     console.error("Login failed", error);
-    throw new Error("Something went wrong... Try again later");
+
+    if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+      throw new Error("Could not connect to the server. Please check your internet connection or try again later.");
+    }
+
+    throw error; 
   }
 };

@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { loginUser, fetchUserData, logoutUser } from "../services/authService"; 
 import { UserLoginData } from "../types/userLoginData";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   userName: string | null;
@@ -69,10 +70,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
+
+/**
+ * The `logout` function clears user data, logs out the user, and clears the local storage in a
+ * TypeScript React application.
+ */
   const logout = () => {
-    setUserName(null);
+    setUserName(null); 
     setRole(null);
-    logoutUser();
+    logoutUser(); 
+    localStorage.clear(); 
   };
 
   return (

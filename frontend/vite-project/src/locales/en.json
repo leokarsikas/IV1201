@@ -1,0 +1,25 @@
+{
+    "welcome": "Welcome to our website!",
+    "dreamjob": "Your dream job is waiting for you",
+    "welcome-subtext": "👉 Apply now and take the chance to be part of our success story!",
+    "welcome-error": "To apply for our jobs, you must be registered",
+    "landing-recruiter-granskning": "Review and edit applications by clicking the button below",
+    "apply now": "Apply now", 
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "password": "password",
+    "email-or-username": "Email or username",
+    "email": "Email",
+    "register-page": "Register",
+    "username": "username",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "personnummer": "social security number",
+    "registeration-pass": "You are now registered!",
+    "register-button": "Register your account",
+    "go-home-button": "Home",
+    "error": {
+      "invalidCredentials": "Invalid username or password"
+    }
+  }

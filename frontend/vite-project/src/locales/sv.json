@@ -1,0 +1,26 @@
+{
+    "welcome": "Välkommen till vår webbplats!",
+    "dreamjob": "Drömjobbet väntar på dig",
+    "welcome-subtext": "👉 Sök nu och ta chansen att bli en del av vår framgångssaga!",
+    "welcome-error": "För att ansöka till våra tjänser måste du vara registrerad",
+    "landing-recruiter-granskning": "Granska och redigera ansökningar genom att trycka på knappen nedan",
+    "apply now": "Ansök nu", 
+    "login": "Logga in",
+    "register": "Registrera",
+    "logout": "Logga ut",
+    "password": "Lösenord",
+    "register-page": "Registrera dig",
+    "email-or-username": "E-post eller Användarnamn",
+    "email": "e-post",
+    "username": "Användarnamn*",
+    "first-name": "Förnamn*",
+    "last-name": "Efternamn*",
+    "personnummer": "Personnummer*",
+    "registration-pass": "Du är nu registrerad!",
+    "register-button": "Registrera dig!",
+    "go-home-button": "Startsida",
+    "error": {
+      "invalidCredentials": "Felaktigt användarnamn eller lösenord"
+    } 
+    
+  }

@@ -41,6 +41,12 @@
     width: 400px;
 }
 
+.custom-button-succesfull {
+    background-color: #3079c2;
+    transition: background-color 0.1s ease;
+    width: 400px;
+}
+
 .custom-button:hover{
     background-color: #1b6e2f;
 }

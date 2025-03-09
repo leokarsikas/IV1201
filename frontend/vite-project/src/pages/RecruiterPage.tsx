@@ -5,12 +5,15 @@ import ReactPaginate from "react-paginate";
 import "../styling/RecruiterPage.css";
 import { useAuth } from "../hooks/useAuthLogin";
 import { useFetchApplications } from "../hooks/useFetchApplications";
+import Dropdown from "../components/DropDown";
+import Button from "../components/button";
 import { ChevronRight } from "lucide-react";
 
 export default function RecruiterPage() {
   const {
     applications,
     isLoading: isFetchingApplications,
+    error,
   } = useFetchApplications();
   const { role, isLoading: isAuthLoading } = useAuth();
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ export default function RecruiterPage() {
   const currentItems = applications.slice(offset, offset + itemsPerPage);
 
   // Handle page change
-  const handlePageClick = ({ selected }: { selected: number }) => {
+  const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
