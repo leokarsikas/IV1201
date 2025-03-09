@@ -9,7 +9,7 @@ It can be found on the azure portal in the backend app-service.
 */
 
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'https://leosjobbland-backend-esf2dpg5atgpg5fy.swedencentral-01.azurewebsites.net/api';
 
 /*It then exports this constant using the `export` keyword, making it
 available for use in other modules or files that import it. This allows other parts of the codebase
