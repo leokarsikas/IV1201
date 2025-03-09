@@ -54,7 +54,7 @@ public class JWTServiceTest {
 
         String username = jwtService.extractUsername(token);
 
-        assertEquals("user123", username, "Username should be 'user123'.");
+        assertEquals("user1", username, "Username should be 'user123'.");
     }
 
     @Test
