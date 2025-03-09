@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+
 import java.util.Map;
 
 /**
@@ -88,6 +92,8 @@ public class AuthController {
             String ipAddress = request.getRemoteAddr();
             logger.warn("Login failed for username: {} from IP: {} - Reason: {}", credentials.getEmail(), ipAddress, e.getMessage());
 
+            System.out.println("Caught UsernameNotFoundException - Returning 'User not found' response");
+
             // Return Unauthorized response
             return new ResponseEntity<>(Map.of("error", "Wrong password"), HttpStatus.UNAUTHORIZED);
         }
@@ -108,6 +114,7 @@ public class AuthController {
      */
     @GetMapping("/authTest")
     public ResponseEntity<?> authTest(@CookieValue(value = "token", required = false) String token) {
+
         if (token == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No token found"));
         }
@@ -124,6 +131,7 @@ public class AuthController {
 
             return ResponseEntity.ok(responseBody);
         } catch (Exception e) {
+            System.out.println("Token invalid: " + token);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
         }
     }

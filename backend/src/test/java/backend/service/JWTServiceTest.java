@@ -1,16 +1,15 @@
 package backend.service;
 
 import backend.application.service.JWTService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+
 import javax.crypto.SecretKey;
-import static org.mockito.Mockito.*;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 public class JWTServiceTest {
