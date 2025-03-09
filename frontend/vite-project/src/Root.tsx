@@ -5,9 +5,9 @@ import RecruiterPage from './pages/RecruiterPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import ErrorPage from './pages/ErrorPage.tsx';
 import LandingPage from './pages/LandingPage.tsx';
-import RecruiterPage from './pages/RecruiterPage.tsx';
-import ErrorPage from './pages/ErrorPage.tsx';
-import ApplicationPage from './pages/ApplicationPage.tsx';
+
+
+
 
 /* This code snippet defines a functional component named `Root` that sets up routing for a React
 application using React Router. Inside the `Root` component: */

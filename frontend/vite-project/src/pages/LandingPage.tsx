@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 import "../styling/Hero.css"
 import heroImage from '../assets/hero-test.png'; // Adjust path to the image
 import Button from '../components/button';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useAuth } from '../hooks/useAuthLogin';
 import { useTranslation } from 'react-i18next';
 

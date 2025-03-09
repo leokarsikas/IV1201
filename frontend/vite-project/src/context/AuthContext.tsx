@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { loginUser, fetchUserData, logoutUser } from "../services/authService"; 
 import { UserLoginData } from "../types/userLoginData";
-import { useNavigate } from "react-router-dom";
+
 
 interface AuthContextType {
   userName: string | null;
