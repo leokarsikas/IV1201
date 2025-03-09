@@ -46,6 +46,9 @@ export default function RecruiterPage() {
     navigate("/application_user")
   };
 
+   /**
+   * Rendering the `Recruiter Page` 
+   */
   return (
     <div className="recruiterPage">
       <Navbar />

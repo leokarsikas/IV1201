@@ -11,6 +11,7 @@ const Navbar = () => {
     i18n: { changeLanguage },
   } = useTranslation();
   const navigate = useNavigate(); //used for navigation of endpoints
+  
   /* This hook returns the current location
   object representing the current URL. It provides information about the current URL path, search,
   hash, and state. */
@@ -45,9 +46,9 @@ const Navbar = () => {
         <div className="navbar-links">
           {userName ? (
             <>
-              <NavLink to="/profile" className="navbar-button-username">
+              <p className="navbar-button-username">
                 {userName}
-              </NavLink>
+              </p>
               <button onClick={handleLogout} className="navbar-button-register">
                 {t("logout")}
               </button>

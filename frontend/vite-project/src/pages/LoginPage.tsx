@@ -9,10 +9,13 @@ import { isPasswordThere, isEmailThere, isUsernameThere } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
-  const navigate = useNavigate(); // for navigation to other endpoints
-  const { t} = useTranslation(); //for translation to other languages 
+/* For navigation to other endpoints */
+  const navigate = useNavigate(); 
+/* Access the translation object from i18n.ts */
+  const { t} = useTranslation();  
   /**
-   * The above functions navigate to the landing page and the recruiter page respectively.
+   * The function `goToLandingPage` or `goToRecruiterPage` 
+   * navigates to the landing page and the recruiter page respectively.
    */
   function goToLandingPage() {
     navigate("/");
@@ -23,12 +26,13 @@ export default function LoginPage() {
   }
 
 
-/*function is using object destructuring to
-extract specific properties from the return value of the `useAuth()` custom hook. 
-that handles the fetch */
+/**  
+ * Extract: 
+ * `login`, `isLoading`, `role` and `error` properties from the return value of the `useAuth()` custom hook. 
+*/
   const { login, isLoading, role, error } = useAuth();
 
-  /* initializing a state variable named `errors` using the `useState` hook in React.  */
+  /* initializing a state variable named `errors` using the `useState` hook.  */
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -36,7 +40,7 @@ that handles the fetch */
   });
 
 
-  // Initialize userData from localStorage if available
+  /* Initialize userData from localStorage if available */
   const [userData, setUserData] = useState<UserLoginData>(() => {
     const savedData = localStorage.getItem('userLoginData'); //on refresh gets item from localstorage
     if (savedData) {
@@ -54,12 +58,11 @@ that handles the fetch */
     };
   });
 
-  // Persist userData on every change
+  /* Persist userData on every change */
   useEffect(() => {
     localStorage.setItem('userLoginData', JSON.stringify(userData));
   }, [userData]);
 
- 
  
   /**
    * The function `handleInputChange` updates the `userData` state with the new value based on the
@@ -100,11 +103,10 @@ async function onSubmit(event: React.FormEvent) {
     return;
   }
 
-  // Capture the error directly (null or the string error)
+  /* Capture the error directly (null or the string error) */
   const loginError = await login(userData);
   if (!loginError) {
-    navigate("/"); //after succefull login sends you to landing page
-  } else {
+    navigate("/"); // after succefull login sends you to landing page, that is, no error has occured
     console.error("Login failed:", loginError);
   }
 }
@@ -118,6 +120,9 @@ async function onSubmit(event: React.FormEvent) {
   }, [role, navigate]); // Runs when role changes
 
   
+   /**
+   * Rendering the `LoginPage` page 
+   */
 
   return (
     <div className="page-container">
