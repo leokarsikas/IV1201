@@ -20,7 +20,11 @@ export default function RecruiterPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
   
-  // Redirect unauthorized users
+  /** 
+   * Redirect unauthorized users
+   * For users that are not logged in and trying to access the endpoint
+   * */ 
+
   useEffect(() => {
     if (!isAuthLoading && role !== 1) {
       navigate("/");
