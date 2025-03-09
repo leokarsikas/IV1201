@@ -6,10 +6,11 @@ import { UserLoginData } from "../types/userLoginData";
 import "../styling/LoginForm.css";
 import { useAuth } from "../hooks/useAuthLogin";
 import { isPasswordThere, isEmailThere, isUsernameThere } from "../utils/utils";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-
+  const navigate = useNavigate(); // for navigation to other endpoints
+  const { t} = useTranslation(); //for translation to other languages 
   /**
    * The above functions navigate to the landing page and the recruiter page respectively.
    */
@@ -124,10 +125,10 @@ async function onSubmit(event: React.FormEvent) {
         Leos jobbland.
       </NavLink>
       <div className="form-container">
-        <h2>Logga in</h2>
+        <h2>{t("login")}</h2>
         <form onSubmit={onSubmit}>
           <Input
-            placeholder="Email or username"
+            placeholder={t("email-or-username")}
             borderColor="black"
             name="email"
             value={userData.email}
@@ -137,7 +138,7 @@ async function onSubmit(event: React.FormEvent) {
           />
           {errors.email && <p className="error-message">{errors.email}</p>}
           <Input
-            placeholder="Password"
+            placeholder={t("password")}
             borderColor="black"
             name="password"
             value={userData.password}

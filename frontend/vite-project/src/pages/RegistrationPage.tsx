@@ -12,11 +12,12 @@ import {
   validatePersonnummer,
   validateUsername,
 } from "../utils/utils";
+import { useTranslation } from "react-i18next";
 
 export default function RegistrationPage() {
   const { register, error, success } = useRegisterUser();
   const navigate = useNavigate();
-
+  const { t} = useTranslation(); //for translation to other languages 
 /**
  * The function `handleGoHome` navigates to the home page when called.
  */
@@ -193,13 +194,13 @@ export default function RegistrationPage() {
         Leos jobbland.
       </NavLink>
       <div className="form-container">
-        <h2>Registrera dig</h2>
+        <h2>{t("register-page")}</h2>
         <form onSubmit={onSubmit}>
           <div className="name-container">
             <div>
               <Input
                 borderColor={errors.name ? "red" : ""}
-                placeholder="First Name*"
+                placeholder={t("firstname")}
                 name="name"
                 value={userData.name}
                 onChange={handleInputChange}
@@ -211,7 +212,7 @@ export default function RegistrationPage() {
             <div>
               <Input
                 borderColor={errors.surname ? "red" : ""}
-                placeholder="Last Name*"
+                placeholder={t("lastname")}
                 name="surname"
                 value={userData.surname}
                 onChange={handleInputChange}
@@ -232,7 +233,7 @@ export default function RegistrationPage() {
                   ? "red"
                   : ""
               }
-              placeholder="Personnummer*"
+              placeholder={t("personnummer")}
               name="pnr"
               value={userData.pnr}
               onChange={handleInputChange}
@@ -247,7 +248,7 @@ export default function RegistrationPage() {
               borderColor={
                 error === "A user with this email already exists." ? "red" : ""
               }
-              placeholder="Email*"
+              placeholder={t("email")}
               name="email"
               value={userData.email}
               onChange={handleInputChange}
@@ -260,7 +261,7 @@ export default function RegistrationPage() {
           <div>
             <Input
               borderColor={""}
-              placeholder="Password*"
+              placeholder={t("password")}
               name="password"
               value={userData.password}
               onChange={handleInputChange}
@@ -279,7 +280,7 @@ export default function RegistrationPage() {
                   ? "red"
                   : ""
               }
-              placeholder="Username*"
+              placeholder={t("username")}
               name="username"
               value={userData.username}
               onChange={handleInputChange}
@@ -309,12 +310,12 @@ export default function RegistrationPage() {
                 fontWeight: "bold",
               }}
             >
-              Du är nu registrerad!
+              {t("registration-pass")}
             </p>
             <div className="button-container">
             <Button
               className="custom-button-succesfull"
-              text="Startsida"
+              text={t("go-home-button")}
               type="button"
               onClick={handleGoHome}
               padding="15px 100px"
@@ -328,7 +329,7 @@ export default function RegistrationPage() {
           <div className="button-container">
             <Button
               className="custom-button"
-              text="Registrera dig"
+              text={t("register-button")}
               type="submit"
               padding="15px 100px"
               borderRadius="99px"

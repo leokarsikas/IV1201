@@ -10,7 +10,7 @@ export const sendApplication = async (applicationData : ApplicationData) => {
     });
   
     if (!response.ok) {
-      throw new Error('Failed to send application');
+      throw new Error('Failed to send application'); 
     }
 
     return response.ok

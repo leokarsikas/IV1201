@@ -14,12 +14,13 @@ import {
   validateFromDate,
   validateToDate,
 } from "../utils/utils";
+import { useTranslation } from 'react-i18next';
 
 export default function ApplicationForm() {
   const { submitApplication, loading, error, success } = useApplicationForm();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //user for navigation through endpoints
   const { userName } = useAuth();
-
+  const { t} = useTranslation(); //used for translation; 
   const [competenceErrors, setCompetenceErrors] = useState<
     { roleError: string; yearsError: string }[]
   >([]);
