@@ -1,10 +1,7 @@
 package backend.application.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  *  A class for representing the status of applications.
@@ -13,6 +10,7 @@ import lombok.Setter;
  *  This class uses Lombok annotations to automatically generate getter, setter,
  *  no-args constructor, and all-args constructor methods, reducing boilerplate code.
  */
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter  // Lombok generates getter methods
