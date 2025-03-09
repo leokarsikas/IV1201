@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
 
 import java.util.Map;
 
@@ -92,10 +89,8 @@ public class AuthController {
             String ipAddress = request.getRemoteAddr();
             logger.warn("Login failed for username: {} from IP: {} - Reason: {}", credentials.getEmail(), ipAddress, e.getMessage());
 
-            System.out.println("Caught UsernameNotFoundException - Returning 'User not found' response");
-
             // Return Unauthorized response
-            return new ResponseEntity<>(Map.of("error", "Wrong password"), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(Map.of("error", "Wrong Username or Password"), HttpStatus.UNAUTHORIZED);
         }
 
         // If no user or error, return Unauthorized response

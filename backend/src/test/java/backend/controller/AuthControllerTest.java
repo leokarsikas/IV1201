@@ -136,7 +136,7 @@ public class AuthControllerTest {
 
         // Check that the response body contains the expected error message for wrong password
         assertTrue("Response does not contain the expected error message",
-                responseContent.contains("\"error\":\"Wrong password\""));
+                responseContent.contains("\"error\":\"Wrong Username or Password\""));
     }
 
     @Test
