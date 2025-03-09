@@ -21,9 +21,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 public class ApplicationControllerTest {
@@ -84,6 +83,35 @@ public class ApplicationControllerTest {
                         .content(new ObjectMapper().writeValueAsString(appDTO))) // Convert DTO to JSON
                 .andExpect(status().isCreated()) // Expect HTTP 201 Created
                 .andExpect(jsonPath("$.userName").value("TestUser")); // Validate response body
+    }
+
+    @Test
+    public void testGetAllApplications_WhenApplicationExists_ShouldReturnApplication() throws Exception {
+        // Given
+        RegAppDTO application = new RegAppDTO();
+        application.setName("Test Application");
+
+        when(applicationService.getUserApplication(1)).thenReturn(application);
+
+        // When & Then
+        mockMvc.perform(get("/api/admin/get-all-applications")
+                        .param("personID", "1") // Passing personID as a request param
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()) // Expecting HTTP 200 OK
+                .andExpect(jsonPath("$.name").value("Test Application")); // Checking returned data
+    }
+
+    @Test
+    public void testGetAllApplications_WhenApplicationDoesNotExist_ShouldReturnNotFound() throws Exception {
+        // Given
+        when(applicationService.getUserApplication(1)).thenReturn(null);
+
+        // When & Then
+        mockMvc.perform(get("/api/admin/get-all-applications")
+                        .param("personID", "1") // Passing personID as a request param
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound()) // Expecting HTTP 404 Not Found
+                .andExpect(content().string("Application not found")); // Checking error message
     }
 }
 

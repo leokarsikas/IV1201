@@ -1,5 +1,6 @@
 package backend.application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Email;
@@ -68,6 +69,7 @@ public class User implements UserDetails {
      * @return A list of the role of the user.
      */
     @Override
+    @JsonIgnore  // Ignore authorities field during JSON deserialization
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(getRole_id().toString()));
     }
