@@ -6,6 +6,7 @@ import backend.application.exception.PersonNumberAlreadyRegisteredException;
 import backend.application.exception.UsernameAlreadyRegisteredException;
 import backend.application.model.User;
 import backend.application.service.UserService;
+import backend.model.UserTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUserValid() throws Exception {
-        User user = new User();
+        User user = new UserTest();
         user.setUsername("testuser");
         user.setEmail("newuser@example.com");
         user.setPnr("12345678-1234");
@@ -68,7 +69,7 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUser_DuplicateEmail() throws Exception {
-        User user = new User();
+        User user = new UserTest();
 
         user.setUsername("testuser");
         user.setEmail("duplicate@example.com");
@@ -91,7 +92,7 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUser_DuplicateUsername() throws Exception {
-        User user = new User();
+        User user = new UserTest();
 
         user.setUsername("duplicatetestuser");
         user.setEmail("newuser@example.com");
@@ -114,7 +115,7 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUser_DuplicatePnr() throws Exception {
-        User user = new User();
+        User user = new UserTest();
 
         user.setUsername("testuser");
         user.setEmail("newuser@example.com");
@@ -137,7 +138,7 @@ public class UserControllerTest {
 
     @Test
     public void testRegisterUser_InternalServerError() throws Exception {
-        User user = new User();
+        User user = new UserTest();
 
         user.setUsername("testuser");
         user.setEmail("newuser@example.com");
