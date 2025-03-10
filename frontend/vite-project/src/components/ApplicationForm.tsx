@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./button";
 import { ApplicationData } from "../types/applicationData";
@@ -15,12 +15,21 @@ import {
   validateToDate,
 } from "../utils/utils";
 
+/**
+ * ApplicationForm Component
+ *
+ * This component renders a form for users to input their competencies and availability.
+ * Users must be logged in to access this form. The form includes validation for competency
+ * roles, years of experience, and availability dates.
+ *
+ * @component
+ */
 
 export default function ApplicationForm() {
   const { submitApplication, loading, error, success } = useApplicationForm();
   const navigate = useNavigate(); //user for navigation through endpoints
   const { userName } = useAuth();
-  
+
   const [competenceErrors, setCompetenceErrors] = useState<
     { roleError: string; yearsError: string }[]
   >([]);
@@ -28,73 +37,92 @@ export default function ApplicationForm() {
     { availableFromError: string; availableToError: string }[]
   >([]);
 
-  // If no username is avaible throw out unauthorized user (non logged in users)
+  /**
+   * Redirect unauthorized users (non-logged-in users) to the home page.
+   */
   useEffect(() => {
     if (!userName) {
       navigate("/");
     }
   }, [userName]);
 
-  const [applicationData, setApplicationData] = useState<ApplicationData>(() => {
-    const savedData = localStorage.getItem('applicationData');
-    console.log("Retrieved data:", savedData);
-    
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        
-        // Process competence profile to ensure years_of_experience is a number
-        const processedCompetenceProfile = parsedData.competenceProfile.map((item: any) => ({
-          profession: item.profession || "",
-          years_of_experience: typeof item.years_of_experience === 'string' 
-            ? parseFloat(item.years_of_experience) || 0 
-            : item.years_of_experience || 0,
-        }));
-        
-        // Process availability profile to ensure dates are Date objects
-        const processedAvailabilityProfile = parsedData.availabilityProfile.map((item: any) => ({
-          availabilityFrom: item.availabilityFrom ? new Date(item.availabilityFrom) : null,
-          availabilityTo: item.availabilityTo ? new Date(item.availabilityTo) : null,
-        }));
-        
-        return {
-          userName: userName,
-          competenceProfile: processedCompetenceProfile,
-          availabilityProfile: processedAvailabilityProfile,
-        };
-      } catch (error) {
-        console.error('Failed to parse saved application data:', error);
-        localStorage.removeItem('applicationData');
+  /**
+   * State for storing application data, including competence profile and availability profile.
+   * Data is retrieved from localStorage if available.
+   */
+  const [applicationData, setApplicationData] = useState<ApplicationData>(
+    () => {
+      const savedData = localStorage.getItem("applicationData");
+      console.log("Retrieved data:", savedData);
+
+      if (savedData) {
+        try {
+          const parsedData = JSON.parse(savedData);
+
+          // Process competence profile to ensure years_of_experience is a number
+          const processedCompetenceProfile = parsedData.competenceProfile.map(
+            (item: any) => ({
+              profession: item.profession || "",
+              years_of_experience:
+                typeof item.years_of_experience === "string"
+                  ? parseFloat(item.years_of_experience) || 0
+                  : item.years_of_experience || 0,
+            })
+          );
+
+          // Process availability profile to ensure dates are Date objects
+          const processedAvailabilityProfile =
+            parsedData.availabilityProfile.map((item: any) => ({
+              availabilityFrom: item.availabilityFrom
+                ? new Date(item.availabilityFrom)
+                : null,
+              availabilityTo: item.availabilityTo
+                ? new Date(item.availabilityTo)
+                : null,
+            }));
+
+          return {
+            userName: userName,
+            competenceProfile: processedCompetenceProfile,
+            availabilityProfile: processedAvailabilityProfile,
+          };
+        } catch (error) {
+          console.error("Failed to parse saved application data:", error);
+          localStorage.removeItem("applicationData");
+        }
       }
+
+      // Default initial state
+      return {
+        userName: userName,
+        competenceProfile: [
+          {
+            profession: "",
+            years_of_experience: 0,
+          },
+        ],
+        availabilityProfile: [
+          {
+            availabilityFrom: null,
+            availabilityTo: null,
+          },
+        ],
+      };
     }
-    
-    // Default initial state
-    return {
-      userName: userName,
-      competenceProfile: [
-        {
-          profession: "",
-          years_of_experience: 0,
-        },
-      ],
-      availabilityProfile: [
-        {
-          availabilityFrom: null,
-          availabilityTo: null,
-        },
-      ],
-    };
-  });
-    // Save application data whenever it changes
-    useEffect(() => {
-      // Only save if userName exists (user is logged in)
-      if (userName) {
-        
-        localStorage.setItem('applicationData', JSON.stringify(applicationData));
-        
-      }
-    }, [applicationData, userName]);
-    
+  );
+
+  /**
+   * Save application data to localStorage whenever it changes.
+   */
+  useEffect(() => {
+    if (userName) {
+      localStorage.setItem("applicationData", JSON.stringify(applicationData));
+    }
+  }, [applicationData, userName]);
+
+  /**
+   * Adds a new competence entry to the application data.
+   */
   const addNewCompetence = () => {
     setApplicationData((prevData) => ({
       ...prevData,
@@ -105,6 +133,9 @@ export default function ApplicationForm() {
     }));
   };
 
+  /**
+   * Adds a new availability entry to the application data.
+   */
   const addNewAvailability = () => {
     setApplicationData((prevData) => ({
       ...prevData,
@@ -115,6 +146,11 @@ export default function ApplicationForm() {
     }));
   };
 
+  /**
+   * Removes a competence entry from the application data.
+   *
+   * @param {number} index - The index of the competence entry to remove.
+   */
   const removeCompetence = (index: number) => {
     setApplicationData((prevData) => ({
       ...prevData,
@@ -124,6 +160,11 @@ export default function ApplicationForm() {
     }));
   };
 
+  /**
+   * Removes an availability entry from the application data.
+   *
+   * @param {number} index - The index of the availability entry to remove.
+   */
   const removeAvailability = (index: number) => {
     setApplicationData((prevData) => ({
       ...prevData,
@@ -133,6 +174,14 @@ export default function ApplicationForm() {
     }));
   };
 
+  /**
+   * Updates a field in the application data.
+   *
+   * @param {"competenceProfile" | "availabilityProfile"} profileType - The type of profile to update.
+   * @param {number} index - The index of the entry to update.
+   * @param {string} field - The field to update.
+   * @param {any} updatedValue - The new value for the field.
+   */
   const updateApplication = (
     profileType: "competenceProfile" | "availabilityProfile",
     index: number,
@@ -149,6 +198,11 @@ export default function ApplicationForm() {
     }));
   };
 
+  /**
+   * Handles the form submission, validating input before submitting.
+   *
+   * @param {React.FormEvent} event - The form submission event.
+   */
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -157,8 +211,8 @@ export default function ApplicationForm() {
     const validationCompetenceErrors = applicationData.competenceProfile.map(
       (profile) => ({
         yearsError: validateYearsOfExperience(profile.years_of_experience)
-            ? "År av erfarenhet måste vara större än 0"
-            : "",
+          ? "År av erfarenhet måste vara större än 0"
+          : "",
         roleError: validateRole(profile.profession, allRoles),
       })
     );
@@ -214,7 +268,7 @@ export default function ApplicationForm() {
               key={index}
               error={
                 competenceErrors[index] || { roleError: "", yearsError: "" }
-              } 
+              }
               index={index}
               applicationData={applicationData}
               updateApplication={updateApplication}
@@ -266,8 +320,22 @@ export default function ApplicationForm() {
           >
             Lägg till ny period
           </button>
-          {error && <p  style={{justifySelf:'center'}}className="error-message">{error}</p>}
-          {success && <p style={{justifySelf:'center', color:'green', fontWeight:'bold'}}>Din ansökan har skickats!</p>}
+          {error && (
+            <p style={{ justifySelf: "center" }} className="error-message">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p
+              style={{
+                justifySelf: "center",
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              Din ansökan har skickats!
+            </p>
+          )}
           <div className="button-container">
             <Button
               className="custom-button"

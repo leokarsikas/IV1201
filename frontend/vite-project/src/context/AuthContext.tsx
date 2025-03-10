@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (userData) {
           setUserName(userData.username);
           setRole(userData.role);
-          console.log("User fetched:", userData);
         } else {
           console.warn("No user data received");
           setUserName(null);

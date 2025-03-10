@@ -8,11 +8,18 @@ import { useAuth } from "../hooks/useAuthLogin";
 import { isPasswordThere, isEmailThere, isUsernameThere } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 
+/**
+ * LoginPage Component
+ *
+ * This module provides the login page where users can submit their credentials and gain access to their registered account.
+ * It handles authentication, validation and navigation.
+ */
+
 export default function LoginPage() {
-/* For navigation to other endpoints */
-  const navigate = useNavigate(); 
-/* Access the translation object from i18n.ts */
-  const { t} = useTranslation();  
+  /* For navigation to other endpoints */
+  const navigate = useNavigate();
+  /* Access the translation object from i18n.ts */
+  const { t } = useTranslation();
   /**
    * Navigates to the landing page.
    *
@@ -29,7 +36,6 @@ export default function LoginPage() {
   function goToRecruiterPage() {
     navigate("/recruiter");
   }
-
 
   /**
    * Extracts authentication-related properties using the `useAuth` hook.
@@ -48,16 +54,15 @@ export default function LoginPage() {
     username: "",
   });
 
-
   /* Initialize userData from localStorage if available */
   const [userData, setUserData] = useState<UserLoginData>(() => {
-    const savedData = localStorage.getItem('userLoginData'); //on refresh gets item from localstorage
+    const savedData = localStorage.getItem("userLoginData"); //on refresh gets item from localstorage
     if (savedData) {
       try {
         return JSON.parse(savedData);
       } catch (error) {
-        console.error('Failed to parse saved user login data:', error);
-        localStorage.removeItem('userLoginData'); //removes item from local storage
+        console.error("Failed to parse saved user login data:", error);
+        localStorage.removeItem("userLoginData"); //removes item from local storage
       }
     }
     return {
@@ -69,10 +74,9 @@ export default function LoginPage() {
 
   /* Persist userData on every change */
   useEffect(() => {
-    localStorage.setItem('userLoginData', JSON.stringify(userData));
+    localStorage.setItem("userLoginData", JSON.stringify(userData));
   }, [userData]);
 
- 
   /**
    * Handles input changes and updates the user data state.
    *
@@ -87,40 +91,53 @@ export default function LoginPage() {
     }));
   };
 
-    /**
+  /**
    * Handles form submission, validates input fields, and attempts to log in the user.
    * @function onSubmit
    * @param {React.FormEvent} event - The form submission event.
    */
-async function onSubmit(event: React.FormEvent) {
-  event.preventDefault();
+  async function onSubmit(event: React.FormEvent) {
+    event.preventDefault();
 
-  /* The `const validationErrors` block is checking for validation errors in the form fields before
-  submitting the form. Here's a breakdown of what it does: */
-  const validationErrors = {
-    email: isEmailThere(userData.email) ? "You need to provide an email address" : "",
-    password: isPasswordThere(userData.password) ? "You need to provide a password" : "",
-    username: isUsernameThere(userData.username) ? "You need to provide a userName" : "",
-  };
+    /* The `const validationErrors` block is checking for validation errors in the form fields before
+  submitting the form. */
+    const validationErrors = {
+      email: isEmailThere(userData.email)
+        ? "You need to provide an email address"
+        : "",
+      password: isPasswordThere(userData.password)
+        ? "You need to provide a password"
+        : "",
+      username: isUsernameThere(userData.username)
+        ? "You need to provide a userName"
+        : "",
+    };
 
-  setErrors(validationErrors);
+    /* Set the errors */
+    setErrors(validationErrors);
 
-  /* The code block you provided is checking for validation errors in the form fields before submitting
-  the form. Here's a breakdown of what it does: */
-  const hasErrors =
-    (validationErrors.email !== "" && validationErrors.username !== "") ||
-    validationErrors.password !== "";
-  if (hasErrors) {
-    return;
+  /** 
+  * 
+  * Checks for validation errors in the form fields before submitting 
+  * the form. 
+  * 
+  */
+    const hasErrors =
+      (validationErrors.email !== "" && validationErrors.username !== "") ||
+      validationErrors.password !== "";
+
+   /* abort the submission if hasErrors is true */   
+    if (hasErrors) {
+      return;
+    }
+
+    /* Capture the error directly (null or the string error) */
+    const loginError = await login(userData);
+    if (!loginError) {
+      navigate("/"); // after succefull login, sends you to landing page, that is, no error has occured
+      console.error("Login failed:", loginError);
+    }
   }
-
-  /* Capture the error directly (null or the string error) */
-  const loginError = await login(userData);
-  if (!loginError) {
-    navigate("/"); // after succefull login sends you to landing page, that is, no error has occured
-    console.error("Login failed:", loginError);
-  }
-}
 
   /**
    * Redirects the user based on their role after authentication.
@@ -137,9 +154,8 @@ async function onSubmit(event: React.FormEvent) {
     }
   }, [role, navigate]); // Runs when role changes
 
-  
-   /**
-   * Rendering the `LoginPage` page 
+  /**
+   * Rendering the `LoginPage` page
    */
 
   return (
@@ -169,8 +185,17 @@ async function onSubmit(event: React.FormEvent) {
             type="password"
             width="500px"
           />
-          {errors.password && <p className="error-message">{errors.password}</p>}
-          {error && <p style={{justifySelf:'center', fontSize: 16, fontWeight: '500'}} className="error-message">{error}</p>}
+          {errors.password && (
+            <p className="error-message">{errors.password}</p>
+          )}
+          {error && (
+            <p
+              style={{ justifySelf: "center", fontSize: 16, fontWeight: "500" }}
+              className="error-message"
+            >
+              {error}
+            </p>
+          )}
           <div className="button-container">
             <Button
               className="custom-button"

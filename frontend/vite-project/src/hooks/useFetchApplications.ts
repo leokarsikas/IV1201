@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchApplications } from "../services/recruiterService";
-import { useAuth } from "./useAuthLogin"; // Import Auth context if role-based access is needed
+import { useAuth } from "./useAuthLogin";
 import { useNavigate } from "react-router-dom";
 /**
  * Custom hook to fetch job applications.

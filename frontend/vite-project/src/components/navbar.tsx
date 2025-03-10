@@ -19,10 +19,8 @@ const Navbar = () => {
     t,
     i18n: { changeLanguage },
   } = useTranslation();
-  /**
-   * Navigation hook to enable programmatic navigation.
-   * @constant {Function} navigate - Function to navigate between routes.
-   */
+
+  /* For navigation to other endpoints */
   const navigate = useNavigate(); //used for navigation of endpoints
 
   const location = useLocation();
@@ -43,6 +41,10 @@ const Navbar = () => {
     logout();
     navigate("/");
   };
+
+  /**
+   * Rendering the navbar
+   */
 
   return (
     <header
