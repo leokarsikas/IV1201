@@ -14,13 +14,13 @@ import {
   validateFromDate,
   validateToDate,
 } from "../utils/utils";
-
+import { useTranslation } from "react-i18next";
 
 export default function ApplicationForm() {
   const { submitApplication, loading, error, success } = useApplicationForm();
   const navigate = useNavigate(); //user for navigation through endpoints
   const { userName } = useAuth();
-  
+  const { t} = useTranslation(); //for translation to other languages 
   const [competenceErrors, setCompetenceErrors] = useState<
     { roleError: string; yearsError: string }[]
   >([]);
@@ -206,8 +206,8 @@ export default function ApplicationForm() {
         Leos Jobbland
       </a>
       <div>
-        <h2>Ansökningsformulär</h2>
-        <p>Fyll i din kompetensprofil och när du är tillgänglig nedan</p>
+        <h2>{t("application-form")}</h2>
+        <p>{t("application-subtext")}</p>
         <form onSubmit={handleSubmit}>
           {applicationData.competenceProfile.map((_, index) => (
             <CompetenceProfile
@@ -233,10 +233,10 @@ export default function ApplicationForm() {
             onClick={addNewCompetence}
             disabled={applicationData.competenceProfile.length > 2}
           >
-            Lägg till ny kompetens
+            {t("add-competence")}
           </button>
 
-          <p>Ange mellan vilka datum du kommer kunna jobba</p>
+          <p>{t("application-availability-dates")}</p>
 
           {applicationData.availabilityProfile.map((_, index) => (
             <AvailabiltyProfile
@@ -264,14 +264,14 @@ export default function ApplicationForm() {
             type="button"
             onClick={addNewAvailability}
           >
-            Lägg till ny period
+            {t("add-period")}
           </button>
           {error && <p  style={{justifySelf:'center'}}className="error-message">{error}</p>}
-          {success && <p style={{justifySelf:'center', color:'green', fontWeight:'bold'}}>Din ansökan har skickats!</p>}
+          {success && <p style={{justifySelf:'center', color:'green', fontWeight:'bold'}}>{t("application-succesfull")}</p>}
           <div className="button-container">
             <Button
               className="custom-button"
-              text={loading ? "Skickar ansökan..." : "Skicka ansökan"}
+              text={loading ? t("sending-application") : t("send-application")}
               type="submit"
               padding="15px 100px"
               borderRadius="99px"

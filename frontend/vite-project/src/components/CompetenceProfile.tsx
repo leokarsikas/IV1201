@@ -1,7 +1,7 @@
 import Input from "./input";
 import RoleDropdown from "./DropDown";
 import { ApplicationData } from "../types/applicationData";
-
+import { useTranslation } from "react-i18next";
 interface CompetenceProfileProps {
   applicationData: ApplicationData;
   updateApplication: (
@@ -27,7 +27,7 @@ export default function CompetenceProfile({
     "Lotteriförsäljare",
     "Berg och dalbansoperatör",
   ];
-
+  const { t} = useTranslation(); //for translation to other languages 
   const competence = applicationData.competenceProfile[index] || {
     profession: "",
     years_of_experience: 0,
@@ -50,7 +50,7 @@ export default function CompetenceProfile({
             )
           }
         />
-        <p>Välj den roll som du vill ansöka med</p>
+        <p>{t("competence-choose-role")}</p>
       </div>
 
       <div>
@@ -60,7 +60,7 @@ export default function CompetenceProfile({
           name="years_of_experience"
           step="0.1"
           width="256px"
-          placeholder="År av erfarenhet"
+          placeholder={t("competence-years-input")}
           min = {0}
           color={!!error.yearsError ? "red" : "black"}
           value={competence.years_of_experience}
@@ -73,10 +73,10 @@ export default function CompetenceProfile({
             )
           }
         />
-        <p>År av erfarenhet inom denna roll</p>
+        <p>{t("competence-years")}</p>
       </div>
       <button onClick={() => removeCompetence(index)} className="btn-remove">
-        Ta bort
+      {t("remove")}
       </button>
     </div>
   );

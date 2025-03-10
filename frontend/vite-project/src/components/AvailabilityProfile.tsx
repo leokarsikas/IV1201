@@ -1,7 +1,7 @@
 import React from "react";
 import CustomDateInput from "./InputDate";
 import { ApplicationData } from "../types/applicationData";
-
+import { useTranslation } from "react-i18next";
 interface AvailabilityProfileProps {
   applicationData: ApplicationData;
   updateApplication: (
@@ -24,7 +24,7 @@ export default function AvailabilityProfile({
 }: AvailabilityProfileProps) {
   const availability = applicationData.availabilityProfile[index] || {};
   const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
-
+  const { t} = useTranslation(); //for translation to other languages
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFromDateStr = e.target.value;
     const newFromDate = new Date(newFromDateStr);
@@ -79,7 +79,7 @@ export default function AvailabilityProfile({
           onChange={handleFromDateChange}
           min={currentDate} // Prevent selection of dates before today
         />
-        <p>Från och med den</p>
+        <p>{t("availability-from")}</p>
       </div>
       <div>
         <CustomDateInput
@@ -98,10 +98,10 @@ export default function AvailabilityProfile({
             ? availability.availabilityFrom.toISOString().split("T")[0]
             : currentDate} // Prevent selecting dates before availabilityFrom
         />
-        <p>Till och med den</p>
+        <p>{t("availability-to")}</p>
       </div>
       <button onClick={() => removeAvailability(index)} className="btn-remove">
-        Ta bort
+      {t("remove")}
       </button>
     </div>
   );
