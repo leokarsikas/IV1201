@@ -69,11 +69,4 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("Validation Error", errors.toString()));
     }
 
-    @ExceptionHandler(ApplicationNotFoundException.class)
-    public ResponseEntity<Object> handleApplicationNotFoundException(ApplicationNotFoundException ex) {
-        logger.error("Application not found: {}", ex.getMessage());
-
-        // You can return a custom ErrorResponse object, or just a simple message.
-        return new ResponseEntity<>(new ErrorResponse("Not Found", ex.getMessage()), HttpStatus.NOT_FOUND);
-    }
 }

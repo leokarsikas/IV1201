@@ -4,7 +4,6 @@ import backend.application.DTO.ApplicationDTO;
 import backend.application.DTO.RegAppDTO;
 import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.controller.ApplicationController;
-import backend.application.exception.ApplicationNotFoundException;
 import backend.application.model.ApplicationStatus;
 import backend.application.service.ApplicationService;
 import backend.application.service.AuthService;
