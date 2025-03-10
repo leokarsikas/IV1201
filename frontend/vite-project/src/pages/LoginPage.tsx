@@ -14,22 +14,31 @@ export default function LoginPage() {
 /* Access the translation object from i18n.ts */
   const { t} = useTranslation();  
   /**
-   * The function `goToLandingPage` or `goToRecruiterPage` 
-   * navigates to the landing page and the recruiter page respectively.
+   * Navigates to the landing page.
+   *
+   * @function goToLandingPage
    */
   function goToLandingPage() {
     navigate("/");
   }
-
+  /**
+   * Navigates to the recruiter page.
+   *
+   * @function goToRecruiterPage
+   */
   function goToRecruiterPage() {
     navigate("/recruiter");
   }
 
 
-/**  
- * Extract: 
- * `login`, `isLoading`, `role` and `error` properties from the return value of the `useAuth()` custom hook. 
-*/
+  /**
+   * Extracts authentication-related properties using the `useAuth` hook.
+   *
+   * @constant {Function} login - Function to log in the user.
+   * @constant {boolean} isLoading - Indicates if authentication is in progress.
+   * @constant {number | null} role - The role of the authenticated user.
+   * @constant {string | null} error - Error message, if any, from authentication.
+   */
   const { login, isLoading, role, error } = useAuth();
 
   /* initializing a state variable named `errors` using the `useState` hook.  */
@@ -65,11 +74,10 @@ export default function LoginPage() {
 
  
   /**
-   * The function `handleInputChange` updates the `userData` state with the new value based on the
-   * input field name.
-   * @param event - The `event` parameter in the `handleInputChange` function is of type
-   * `React.ChangeEvent<HTMLInputElement>`. This means it is an event object that is triggered when the
-   * value of an input element changes in a React component.
+   * Handles input changes and updates the user data state.
+   *
+   * @function handleInputChange
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The input change event.
    */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -79,8 +87,11 @@ export default function LoginPage() {
     }));
   };
 
-/* The `async function onSubmit(event: React.FormEvent)` is a function that handles form submission in
-the login page. Here's a breakdown of what it does: */
+    /**
+   * Handles form submission, validates input fields, and attempts to log in the user.
+   * @function onSubmit
+   * @param {React.FormEvent} event - The form submission event.
+   */
 async function onSubmit(event: React.FormEvent) {
   event.preventDefault();
 
@@ -110,7 +121,14 @@ async function onSubmit(event: React.FormEvent) {
     console.error("Login failed:", loginError);
   }
 }
-  // Redirect when role is set
+
+  /**
+   * Redirects the user based on their role after authentication.
+   *
+   * @function useEffect
+   * @param {Function} callback - Function executed on component mount and when dependencies change.
+   * @param {Array} dependencies - Dependencies that trigger the effect.
+   */
   useEffect(() => {
     if (role === 2) {
       goToLandingPage();

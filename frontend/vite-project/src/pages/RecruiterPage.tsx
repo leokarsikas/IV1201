@@ -7,7 +7,12 @@ import { useAuth } from "../hooks/useAuthLogin";
 import { useFetchApplications } from "../hooks/useFetchApplications";
 
 import { ChevronRight } from "lucide-react";
-
+/**
+ * @module RecruiterPage
+ *
+ * This module provides the recruiter dashboard where recruiters can view and manage applications.
+ * It handles authentication, pagination, and navigation.
+ */
 export default function RecruiterPage() {
   const {
     applications,
@@ -19,12 +24,12 @@ export default function RecruiterPage() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
-  
   /** 
-   * Redirect unauthorized users
-   * For users that are not logged in and trying to access the endpoint
-   * */ 
-
+   * Redirects unauthorized users to the home page.
+   * Ensures that only users with the correct role (1) can access the recruiter page.
+   * @param {Function} callback - Function executed on component mount and when dependencies change.
+   * @param {Array} dependencies - Dependencies that trigger the effect.
+   */  
   useEffect(() => {
     if (!isAuthLoading && role !== 1) {
       navigate("/");
@@ -33,19 +38,37 @@ export default function RecruiterPage() {
 
   if (isAuthLoading || isFetchingApplications) return <p>Loading...</p>;
 
-  // Compute paginated data
+  /**
+   * Computes pagination-related data.
+   * Determines the total number of pages and slices the application list for display.
+   *
+   * @constant {number} pageCount - The total number of pages based on applications per page.
+   * @constant {number} offset - The starting index for the current page's applications.
+   * @constant {Array} currentItems - The list of applications to display on the current page.
+   */  
   const pageCount = Math.ceil(applications.length / itemsPerPage);
   const offset = currentPage * itemsPerPage;
   const currentItems = applications.slice(offset, offset + itemsPerPage);
 
-  // Handle page change
+  /**
+   * Handles page changes for pagination.
+   * Updates the current page state based on the selected page.
+   *
+   * @function handlePageClick
+   * @param {Object} param - Object containing the selected page number.
+   * @param {number} param.selected - The selected page index.
+   */
   const handlePageClick = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
   };
 
   const mapperOfStatus = ["Unhandled", "Accepted", "Rejected"];
 
-
+  /**
+   * Navigates to the application details page.
+   *
+   * @function goToApplication
+   */
   const goToApplication = () => {
     navigate("/application_user")
   };
