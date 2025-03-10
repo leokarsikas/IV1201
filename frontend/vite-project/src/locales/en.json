@@ -1,8 +1,8 @@
 {
   "welcome": "Welcome to our website!",
-  "dreamjob": "Your dream job is waiting for you",
+  "dreamjob": "Your dream job awaits you",
   "welcome-subtext": "👉 Apply now and take the chance to be part of our success story!",
-  "welcome-error": "To apply for our jobs, you must be registered",
+  "welcome-error": "To apply for our services, you must be registered",
   "landing-recruiter-granskning": "Review and edit applications by clicking the button below",
   "apply now": "Apply now",
   "login": "Login",
@@ -22,14 +22,23 @@
   "application-form": "Application Form",
   "application-subtext": "Fill in your competence profile and availability below",
   "add-competence": "Add new competence",
-  "application-availability-dates": "Enter the dates during which you are available to work",
+  "application-availability-dates": "Enter the dates when you will be able to work",
   "add-period": "Add new period",
   "application-succesfull": "Your application has been sent!",
+  "send-application": "Send application",
+  "sending-application": "Sending application...",
+  "choose-role": "Choose role",
   "competence-choose-role": "Select the role you want to apply for",
+  "competence-years-input": "Years of experience",
   "competence-years": "Years of experience in this role",
   "remove": "Remove",
   "availability-to": "Up to",
   "availability-from": "From",
+  "competence": {
+    "ticketSeller": "Ticket Seller",
+    "lotterySeller": "Lottery Seller",
+    "rollercoasterOperator": "Roller Coaster Operator"
+  },
   "error": {
     "invalidCredentials": "Invalid username or password"
   }

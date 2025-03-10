@@ -2,6 +2,8 @@ import Input from "./input";
 import RoleDropdown from "./DropDown";
 import { ApplicationData } from "../types/applicationData";
 import { useTranslation } from "react-i18next";
+
+
 interface CompetenceProfileProps {
   applicationData: ApplicationData;
   updateApplication: (
@@ -22,12 +24,14 @@ export default function CompetenceProfile({
   index,
   error,
 }: CompetenceProfileProps) {
+
+  const { t } = useTranslation();
+
   const competenceOptions = [
-    "Biljettförsäljare",
-    "Lotteriförsäljare",
-    "Berg och dalbansoperatör",
+    t("competence.ticketSeller"),
+    t("competence.lotterySeller"),
+    t("competence.rollercoasterOperator")
   ];
-  const { t} = useTranslation(); //for translation to other languages 
   const competence = applicationData.competenceProfile[index] || {
     profession: "",
     years_of_experience: 0,

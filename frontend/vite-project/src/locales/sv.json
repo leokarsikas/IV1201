@@ -25,16 +25,21 @@
   "application-availability-dates": "Ange mellan vilka datum du kommer kunna jobba",
   "add-period":"Lägg till ny period", 
   "application-succesfull":"Din ansökan har skickats!",
-  "send-application": "Skicka ansökna",
+  "send-application": "Skicka ansökan",
   "sending-application": "Skickar ansökan...",
+  "choose-role": "Välj roll",
   "competence-choose-role":"Välj den roll som du vill ansöka med",
   "competence-years-input": "År av erfarenhet",
   "competence-years":"År av erfarenhet inom denna roll",
   "remove":"Ta bort",
   "availability-to":"Till och med den",
-  "availability-from": "Från och med den",
+  "availability-from": "Från och med den", 
+  "competence": {
+    "ticketSeller": "Biljettförsäljare",
+    "lotterySeller": "Lotteriförsäljare",
+    "rollercoasterOperator": "Berg och dalbansoperatör"
+  },
   "error": {
     "invalidCredentials": "Felaktigt användarnamn eller lösenord"
   } 
-  
 }

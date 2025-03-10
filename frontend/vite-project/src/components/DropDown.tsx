@@ -1,6 +1,6 @@
 import React from "react";
 import "./DropDown.css";
-
+import { useTranslation } from 'react-i18next';
 
 interface DropdownProps {
   label?: string;
@@ -10,15 +10,16 @@ interface DropdownProps {
   onSelect: (selectedRole: string) => void;
   value?: string;
 }
-
 const Dropdown: React.FC<DropdownProps> = ({
-  label = "Välj roll",
+  label,
   options,
   borderColor,
   color,
   onSelect,
   value = "",
 }) => {
+  const { t } = useTranslation();
+  label = label ?? t("choose-role");
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (onSelect) {
       onSelect(event.target.value);
