@@ -80,7 +80,7 @@ public class ApplicationController {
     @GetMapping("admin/get-all-applications")
     public ResponseEntity<Object> getAllApplications() {
         List<ApplicationDTO> applications = applicationService.getAllApplications();
-        return ResponseEntity.status(HttpStatus.CREATED).body(applications);
+        return ResponseEntity.status(HttpStatus.OK).body(applications);
     }
 
 
@@ -94,6 +94,7 @@ public class ApplicationController {
     @GetMapping("user/get-application")
     public ResponseEntity<Object> getApplication(@RequestBody Integer personID) {
         RegAppDTO application = applicationService.getUserApplication(personID);
+
         return ResponseEntity.status(HttpStatus.OK).body(application);
     }
 

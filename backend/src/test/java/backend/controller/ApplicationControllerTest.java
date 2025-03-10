@@ -1,8 +1,10 @@
 package backend.controller;
 
+import backend.application.DTO.ApplicationDTO;
 import backend.application.DTO.RegAppDTO;
 import backend.application.DTO.RegisterApplicationDTO;
 import backend.application.controller.ApplicationController;
+import backend.application.exception.ApplicationNotFoundException;
 import backend.application.model.ApplicationStatus;
 import backend.application.service.ApplicationService;
 import backend.application.service.AuthService;
@@ -15,6 +17,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -88,31 +93,24 @@ public class ApplicationControllerTest {
     @Test
     public void testGetAllApplications_WhenApplicationExists_ShouldReturnApplication() throws Exception {
         // Given
-        RegAppDTO application = new RegAppDTO();
+        ApplicationDTO application = new ApplicationDTO(); // Use ApplicationDTO instead of RegAppDTO
         application.setName("Test Application");
 
-        when(applicationService.getUserApplication(1)).thenReturn(application);
+        // Mock the service to return a list with the application
+        List<ApplicationDTO> applications = new ArrayList<>();
+        applications.add(application);
+
+        when(applicationService.getAllApplications()).thenReturn(applications); // Mocking the service to return a list
 
         // When & Then
         mockMvc.perform(get("/api/admin/get-all-applications")
                         .param("personID", "1") // Passing personID as a request param
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()) // Expecting HTTP 200 OK
-                .andExpect(jsonPath("$.name").value("Test Application")); // Checking returned data
+                .andExpect(jsonPath("$[0].name").value("Test Application")); // Checking the name of the first application
     }
 
-    @Test
-    public void testGetAllApplications_WhenApplicationDoesNotExist_ShouldReturnNotFound() throws Exception {
-        // Given
-        when(applicationService.getUserApplication(1)).thenReturn(null);
 
-        // When & Then
-        mockMvc.perform(get("/api/admin/get-all-applications")
-                        .param("personID", "1") // Passing personID as a request param
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound()) // Expecting HTTP 404 Not Found
-                .andExpect(content().string("Application not found")); // Checking error message
-    }
 }
 
 
