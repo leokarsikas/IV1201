@@ -20,14 +20,7 @@ The recruiter interface can only be accessed by logged in administrative personn
 ### Landing page
 The first page when accessing the platform is used mainly for navigation. Additional functionality is options to change the language of the program, as well as the user's email or username being displays to provide confirmation to the user that they are in an authenticated mode.
 
-
-# Files
-All public declarations have been explained with **Javadoc** in the backend and **TSDoc** in the frontend. Though we hope that all declarations are named aptly enough to intuitively grant understanding of their purpose and function, below are some additional comments with key insights into a selection of files.
-
-
-## 
-
-
-
+# Documentation
+All public declarations have been explained with **Javadoc** in the backend and **TSDoc** in the frontend. We hope that all declarations are named aptly enough to intuitively grant understanding of their purpose and function.
 
 //Group 7
