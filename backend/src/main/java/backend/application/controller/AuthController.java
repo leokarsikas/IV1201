@@ -40,6 +40,7 @@ public class AuthController {
      * Constructs a new {@code AuthController} with the specified {@link AuthService} and {@link JWTService}.
      *
      * @param authService the service layer to handle user authentication
+     * @param jwtService the service layer to handle JWT creation hand manipulation
      */
     public AuthController(AuthService authService, JWTService jwtService) {
         this.authService = authService;
