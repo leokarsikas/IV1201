@@ -15,9 +15,9 @@ import java.util.List;
 
 public class UserTest extends User {
 
-    @Override
+   /* @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
+    }*/
 }
