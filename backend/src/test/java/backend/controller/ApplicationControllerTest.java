@@ -36,10 +36,10 @@ public class ApplicationControllerTest {
     private ApplicationService applicationService;
 
     @Mock
-    private AuthService authService;  // Added missing mock
+    private AuthService authService;
 
     @Mock
-    private UserService userService;  // Added missing mock
+    private UserService userService;
 
     private ApplicationController applicationController;
     private MockMvc mockMvc;
@@ -108,6 +108,18 @@ public class ApplicationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()) // Expecting HTTP 200 OK
                 .andExpect(jsonPath("$[0].name").value("Test Application")); // Checking the name of the first application
+    }
+
+    @Test
+    public void testGetApplication_NotFound() throws Exception {
+        // Given: Mock the service to return null when no application is found for the given personID
+        when(applicationService.getUserApplication(anyInt())).thenReturn(null);
+
+        // When & Then: Perform a GET request and expect a 404 Not Found status
+        mockMvc.perform(get("/api/user/get-application")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("123"))  // Example ID that would not have an application
+                .andExpect(status().isNotFound());  // Expect 404 status
     }
 
 

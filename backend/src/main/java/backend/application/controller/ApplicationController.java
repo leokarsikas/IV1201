@@ -95,6 +95,11 @@ public class ApplicationController {
     public ResponseEntity<Object> getApplication(@RequestBody Integer personID) {
         RegAppDTO application = applicationService.getUserApplication(personID);
 
+        if(application == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(application);
+
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(application);
     }
 
