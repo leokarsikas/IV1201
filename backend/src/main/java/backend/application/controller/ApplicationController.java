@@ -78,12 +78,9 @@ public class ApplicationController {
      * @return a {@link ResponseEntity} containing a list of {@link ApplicationDTO} objects representing all applications
      */
     @GetMapping("admin/get-all-applications")
-    public ResponseEntity<Object> getAllApplications(@RequestParam Integer personID) {
-        RegAppDTO application = applicationService.getUserApplication(personID);
-        if (application == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(application);
+    public ResponseEntity<Object> getAllApplications() {
+        List<ApplicationDTO> applications = applicationService.getAllApplications();
+        return ResponseEntity.status(HttpStatus.CREATED).body(applications);
     }
 
 
