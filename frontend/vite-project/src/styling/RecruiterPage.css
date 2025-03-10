@@ -47,6 +47,32 @@
     cursor: pointer; 
     color: #0e0e0e;
   }
+
+  .search-bar {
+    display: block;
+    width: 350px;
+    padding: 15px 20px;
+    border: 1px solid #d1d5db; /* Equivalent to border-gray-300 */
+    border-radius: 99px;
+    font-size: 14px;
+    color: #333;
+    background-color: white;
+
+  }
+
+  .search-bar:focus{
+    outline: none;
+    border-color: #4f46e5; 
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); 
+  }
+
+  .search-container {
+    margin: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+  }
   
 
   
