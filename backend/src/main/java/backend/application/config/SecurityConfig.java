@@ -74,7 +74,7 @@ public class SecurityConfig {
                 endpoints.requestMatchers("/api/register-user").permitAll();
                 endpoints.requestMatchers("/api/user/**").authenticated();
                 endpoints.requestMatchers("/api/admin/get-all-applications").hasAuthority("ROLE_1");
-                endpoints.requestMatchers("/api/send-application").permitAll();
+                endpoints.requestMatchers("/api/send-application").hasAuthority("ROLE_2");
                 endpoints.anyRequest().authenticated();
             })
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
