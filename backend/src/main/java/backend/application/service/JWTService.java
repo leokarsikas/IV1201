@@ -1,14 +1,12 @@
 package backend.application.service;
 
+import backend.application.DTO.SecretDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -24,15 +22,14 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    private static String secret = "OzKWdfFbK1hiOHyADb0nv0Mji+oVRRcMAg0Wt3rbKPs=";
-    private SecretKey key;
+    private static SecretKey key;
 
     /**
      * Constructor for the JWTService.
      * Creates keys for the tokens based on the secret.
      */
-    public JWTService() {
-        key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+    public JWTService(SecretDTO secret) {
+        key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret.getSecret()));
     }
 
     /**
@@ -55,7 +52,7 @@ public class JWTService {
                     //36000000 = 10 timmar
                     .expiration(new Date(System.currentTimeMillis()+36000000))
                     .and()
-                    .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)))
+                    .signWith(key)
                     .compact();
     }
 

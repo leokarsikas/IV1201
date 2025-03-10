@@ -41,9 +41,9 @@ public class AuthController {
      *
      * @param authService the service layer to handle user authentication
      */
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JWTService jwtService) {
         this.authService = authService;
-        this.jwtService = new JWTService();
+        this.jwtService = jwtService;
     }
 
     /**
