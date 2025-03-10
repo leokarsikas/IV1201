@@ -1,7 +1,19 @@
-import React from "react";
 import Input from "./input";
 import RoleDropdown from "./DropDown";
 import { ApplicationData } from "../types/applicationData";
+
+/**
+ * Interface for the properties of the CompetenceProfile component.
+ *
+ * @interface CompetenceProfileProps
+ * @property {ApplicationData} applicationData - The application data containing the user's competence profile.
+ * @property {Function} updateApplication - Function to update the application data.
+ * @property {Function} removeCompetence - Function to remove a competence entry.
+ * @property {number} index - The index of the competence profile in the list.
+ * @property {Object} error - Object containing validation errors for years of experience and role selection.
+ * @property {string | null} error.yearsError - Error message related to years of experience.
+ * @property {string | null} error.roleError - Error message related to role selection.
+ */
 
 interface CompetenceProfileProps {
   applicationData: ApplicationData;
@@ -16,6 +28,16 @@ interface CompetenceProfileProps {
   error: {yearsError: string | null, roleError: string | null}
 }
 
+/**
+ * CompetenceProfile Component
+ *
+ * A form component for users to input their competence profile, including profession and years of experience.
+ *
+ * @component
+ * @param {CompetenceProfileProps} props - The properties passed to the component.
+ * @returns The rendered competence profile form.
+ */
+
 export default function CompetenceProfile({
   applicationData,
   updateApplication,
@@ -23,11 +45,25 @@ export default function CompetenceProfile({
   index,
   error,
 }: CompetenceProfileProps) {
+
+   /**
+   * Available competence options that users can select from.
+   * 
+   * @constant {string[]} competenceOptions
+   */
+
   const competenceOptions = [
     "Biljettförsäljare",
     "Lotteriförsäljare",
     "Berg och dalbansoperatör",
   ];
+
+  /**
+   * Retrieves the competence profile at the given index or initializes an empty profile.
+   *
+   * @property {string} profession - The selected profession.
+   * @property {number} years_of_experience - The years of experience in the profession.
+   */
 
   const competence = applicationData.competenceProfile[index] || {
     profession: "",

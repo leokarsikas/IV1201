@@ -1,6 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import CustomDateInput from "./InputDate";
 import { ApplicationData } from "../types/applicationData";
+
+/**
+ * Interface defining the properties for the AvailabilityProfile component.
+ *
+ * @interface AvailabilityProfileProps
+ * @property {ApplicationData} applicationData - The application data containing availability profiles.
+ * @property {void} updateApplication - Function to update availability data.
+ * @property {void} removeAvailability - Function to remove an availability entry.
+ * @property {number} index - Index of the availability entry being edited.
+ * @property {Object} error - Object containing validation errors for start and end date.
+ * @property {string | null} error.availableFromError - Error message related to start date.
+ * @property {string | null} error.availableToError - Error message related to end date.
+ */
 
 interface AvailabilityProfileProps {
   applicationData: ApplicationData;
@@ -15,6 +28,16 @@ interface AvailabilityProfileProps {
   error: {availableFromError: string | null, availableToError: string | null};
 }
 
+/**
+ * AvailabilityProfile Component
+ *
+ * A component that allows users to input their availability dates.
+ *
+ * @component
+ * @param {AvailabilityProfileProps} props - The properties passed to the component.
+ * @returns The rendered availability profile form.
+ */
+
 export default function AvailabilityProfile({
   applicationData,
   updateApplication,
@@ -25,13 +48,16 @@ export default function AvailabilityProfile({
   const availability = applicationData.availabilityProfile[index] || {};
   const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
 
+
+  /**
+   * Handles the change of the availabilityFrom date.
+   * Ensures that the selected date is not earlier than the current date.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The event triggered by the input change.
+   */
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFromDateStr = e.target.value;
     const newFromDate = new Date(newFromDateStr);
-    /*const currentToDate = availability.availabilityTo
-      ? new Date(availability.availabilityTo)
-      : null;*/
-
 
     // Ensure fromDate is not earlier than the current date
     if (new Date(newFromDate) < new Date(currentDate)) {
@@ -48,16 +74,16 @@ export default function AvailabilityProfile({
     );
   };
 
+    /**
+   * Handles the change of the availabilityTo date.
+   * Ensures that the selected date is not before the availabilityFrom date.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The event triggered by the input change.
+   */
+
   const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newToDateStr = e.target.value;
     const newToDate = new Date(newToDateStr);
-   /* const currentFromDate = availability.availabilityFrom
-      ? new Date(availability.availabilityFrom)
-      : null;*/
-
-   
-   
-   
 
     // Update availabilityTo if all conditions are met
     updateApplication("availabilityProfile", index, "availabilityTo", newToDate);

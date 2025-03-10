@@ -2,8 +2,18 @@ import React from 'react';
 import '../styling/ErrorPage.css';
 import { useNavigate } from 'react-router-dom';
 
-/* The code `const ErrorPage: React.FC = () => { const navigate = useNavigate();` is defining a
-functional component named `ErrorPage` using TypeScript with React. */
+/**
+ * Displays an error page when an unexpected issue occurs.
+ * This page informs users that an unknown error has happened 
+ * and provides an option to navigate back to the home page.
+ * 
+ * It: 
+ * - Displays an error icon and message.
+ * - Informs users about the issue.
+ * - Provides a button to reload the page and navigate to the home route, using the useNavigate.
+ *
+ * @returns The rendered `ErrorPage` component.
+ */
 const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
 

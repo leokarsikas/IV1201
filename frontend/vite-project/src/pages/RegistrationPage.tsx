@@ -14,16 +14,44 @@ import {
 } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 
-export default function RegistrationPage() {
-  const { register, error, success } = useRegisterUser();
-  const navigate = useNavigate();
-  const { t} = useTranslation(); //for translation to other languages 
 /**
- * The function `handleGoHome` navigates to the home page when called.
+ * RegistrationPage Component
+ *
+ * This component handles user registration by collecting user information,
+ * validating inputs, and submitting the registration form.
+ * It also loads saved user data from localStorage and provides error handling.
+ *
  */
-  function handleGoHome(){
-    navigate('/');
+export default function RegistrationPage() {
+  /**
+   * Registers a new user and manages registration state.
+   * Extracts reg properties using the `useRegister` custom hook.
+   *
+   * @constant {Function} register - Function to register in the user.
+   * @constant {string | null} error - Error message, if any, from registration.
+   * @constant {boolean} success - Boolean value if it registration is successfull or not.
+   */
+  const { register, error, success } = useRegisterUser();
+
+  /* For navigation to other endpoints */
+  const navigate = useNavigate();
+
+  /* For translation to other languages  */
+  const { t } = useTranslation();
+
+  /**
+   * Navigates to the home page.
+   *
+   * @function handleGoHome
+   *
+   */
+  function handleGoHome() {
+    navigate("/");
   }
+
+  /**
+   * State to store user input data.
+   */
   const [userData, setUserData] = useState<UserData>({
     name: "",
     surname: "",
@@ -32,7 +60,9 @@ export default function RegistrationPage() {
     password: "",
     username: "",
   });
-
+  /**
+   * State to manage form validation errors.
+   */
   const [errors, setErrors] = useState({
     name: "",
     surname: "",
@@ -42,8 +72,13 @@ export default function RegistrationPage() {
     username: "",
   });
 
-  // Comprehensive input change handler with validation
-  // First, let's modify your existing handleInputChange function to save to localStorage
+  /**
+   * Handles input changes, updates state, and performs validation.
+   * Saves user input to localStorage for persistence.
+   *
+   * @function handleInputChange
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The input change event.
+   */
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
@@ -127,7 +162,11 @@ export default function RegistrationPage() {
     []
   );
 
-  // Add this function to load the saved data when the component mounts
+  /**
+   * Loads saved user data from localStorage when the component mounts.
+   *
+   * @function loadUserData
+   */
   const loadUserData = useCallback(() => {
     const savedData = localStorage.getItem("userData");
     if (savedData) {
@@ -140,12 +179,19 @@ export default function RegistrationPage() {
     }
   }, []);
 
-  // Use this in your useEffect to load data on component mount
+  /**
+   * Effect hook to load user data on component mount.
+   */
   useEffect(() => {
     loadUserData();
   }, [loadUserData]);
 
-  // Form submission with comprehensive validation
+  /**
+   * Validates and submits the registration form.
+   * If validation fails, error messages are displayed.
+   * @function onSubmit
+   * @param {React.FormEvent} event - The form submission event.
+   */
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     // Validate all fields before submission
@@ -181,11 +227,10 @@ export default function RegistrationPage() {
       return;
     }
 
-   /* The code `const registerResult = await register(userData); console.log("register result",
-   registerResult);` is performing an asynchronous call to the `register` function with the
-   `userData` object as a parameter. */
+    /**
+     * calls the `register` function with the userData and retrieving the response
+     */
     const registerResult = await register(userData);
-    console.log("register result", registerResult);
   };
 
   return (
@@ -301,29 +346,28 @@ export default function RegistrationPage() {
             </p>
           )}
           {success && (
-
-           <div> 
-            <p
-              style={{
-                justifySelf: "center",
-                color: "green",
-                fontWeight: "bold",
-              }}
-            >
-              {t("registration-pass")}
-            </p>
-            <div className="button-container">
-            <Button
-              className="custom-button-succesfull"
-              text={t("go-home-button")}
-              type="button"
-              onClick={handleGoHome}
-              padding="15px 100px"
-              borderRadius="99px"
-              fontWeight="600px"
-              border="none"
-            />
-            </div>
+            <div>
+              <p
+                style={{
+                  justifySelf: "center",
+                  color: "green",
+                  fontWeight: "bold",
+                }}
+              >
+                {t("registration-pass")}
+              </p>
+              <div className="button-container">
+                <Button
+                  className="custom-button-succesfull"
+                  text={t("go-home-button")}
+                  type="button"
+                  onClick={handleGoHome}
+                  padding="15px 100px"
+                  borderRadius="99px"
+                  fontWeight="600px"
+                  border="none"
+                />
+              </div>
             </div>
           )}
           <div className="button-container">

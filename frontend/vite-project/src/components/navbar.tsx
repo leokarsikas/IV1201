@@ -4,32 +4,47 @@ import { useAuth } from "../hooks/useAuthLogin";
 import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  /**
+   * Retrieves authentication state and logout function from the authentication context.
+   * @constant {string | null} userName - The authenticated user's username.
+   * @constant {Function} logout - Function to log out the user.
+   */
   const { userName, logout } = useAuth();
-
+  /**
+   * Retrieves translation functions from the i18n library.
+   * @constant {Function} t - Function to retrieve translated text.
+   * @constant {Function} changeLanguage - Function to switch languages.
+   */
   const {
     t,
     i18n: { changeLanguage },
   } = useTranslation();
+
+  /* For navigation to other endpoints */
   const navigate = useNavigate(); //used for navigation of endpoints
-  /* This hook returns the current location
-  object representing the current URL. It provides information about the current URL path, search,
-  hash, and state. */
+
   const location = useLocation();
 
-
-
-  /* `const isLandingPage = location.pathname === "/";` is checking if the current location pathname is
-  equal to "/". If the current page is the landing page (home page), the variable `isLandingPage`
-  will be set to `true`, otherwise it will be set to `false`.*/
+  /**
+   * Determines if the current page is the landing page.
+   *
+   * @constant {boolean} isLandingPage - Indicates if the current path is `/`.
+   */
   const isLandingPage = location.pathname === "/";
 
   /**
-   * The `handleLogout` function logs the user out and navigates to the home page.
+   * Logs the user out and navigates to the home page.
+   *
+   * @function handleLogout
    */
   const handleLogout = () => {
     logout();
     navigate("/");
   };
+
+  /**
+   * Rendering the navbar
+   */
 
   return (
     <header
@@ -45,9 +60,7 @@ const Navbar = () => {
         <div className="navbar-links">
           {userName ? (
             <>
-              <NavLink to="/profile" className="navbar-button-username">
-                {userName}
-              </NavLink>
+              <p className="navbar-button-username">{userName}</p>
               <button onClick={handleLogout} className="navbar-button-register">
                 {t("logout")}
               </button>

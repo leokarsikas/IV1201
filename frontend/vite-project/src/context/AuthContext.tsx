@@ -1,8 +1,17 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { loginUser, fetchUserData, logoutUser } from "../services/authService"; 
+import { loginUser, fetchUserData, logoutUser } from "../services/authService";
 import { UserLoginData } from "../types/userLoginData";
-import { useNavigate } from "react-router-dom";
 
+/**
+ * Interface defining the structure of the authentication context.
+ * @interface AuthContextType
+ * @property {string | null} userName - The authenticated user's username.
+ * @property {number | null} role - The user's role identifier.
+ * @property {Function} login - Function to log in the user.
+ * @property {Function} logout - Function to log out the user.
+ * @property {boolean} isLoading - Indicates whether authentication is in progress.
+ * @property {string | null} error - Stores authentication errors.
+ */
 interface AuthContextType {
   userName: string | null;
   role: number | null;
@@ -11,25 +20,36 @@ interface AuthContextType {
   isLoading: boolean;
   error: string | null;
 }
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
+/**
+ * Authentication context to provide user authentication state.
+ * @constant {React.Context<AuthContextType | undefined>} AuthContext - The authentication context.
+ */
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
+/**
+ * Provides authentication state management
+ * @function AuthProvider
+ * @param {ReactNode} children - React components that will have access to authentication state.
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userName, setUserName] = useState<string | null>(null);
   const [role, setRole] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
-  // Fetch user data on app load
+  /**
+   * Fetches user data on component mount to restore authentication state.
+   *
+   * @function useEffect
+   */
   useEffect(() => {
     const getUser = async () => {
       try {
         const userData = await fetchUserData();
         if (userData) {
-          setUserName(userData.username); 
-          setRole(userData.role);        
-          console.log("User fetched:", userData);
+          setUserName(userData.username);
+          setRole(userData.role);
         } else {
           console.warn("No user data received");
           setUserName(null);
@@ -47,17 +67,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     getUser();
   }, []);
-
+  /**
+   * Logs in the user by calling the authentication service.
+   * @param {UserLoginData} userData - The user's login credentials.
+   * @returns {Promise<string | null>} A promise resolving to `null` on success or an error message on failure.
+   */
   const login = async (userData: UserLoginData): Promise<string | null> => {
     setError(null); // Reset errors
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       await loginUser(userData);
-      console.log(userData)
-      const fetchedUser = await fetchUserData(); 
+      console.log(userData);
+      const fetchedUser = await fetchUserData();
       if (fetchedUser) {
-        setUserName(fetchedUser.username); 
-        setRole(fetchedUser.role);         
+        setUserName(fetchedUser.username);
+        setRole(fetchedUser.role);
       }
       return null; // Indicate success (no error)
     } catch (error: any) {
@@ -70,23 +94,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
-
-/**
- * The `logout` function clears user data, logs out the user, and clears the local storage in a
- * TypeScript React application.
- */
+  /**
+   * Logs out the user by clearing authentication state and local storage.
+   * @function logout
+   */
   const logout = () => {
-    setUserName(null); 
+    setUserName(null);
     setRole(null);
-    logoutUser(); 
-    localStorage.clear(); 
+    logoutUser();
+    localStorage.clear();
   };
 
   return (
-    <AuthContext.Provider value={{ userName, role, login, logout, isLoading, error}}>
+    <AuthContext.Provider
+      value={{ userName, role, login, logout, isLoading, error }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
-

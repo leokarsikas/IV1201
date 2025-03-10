@@ -38,5 +38,7 @@ Thumbs.db
 # ENV #
 node_modules
 
-backend/src/main/resources/competence.properties
-/backend/src/main/resources
+
+
+# backend #
+backend/

@@ -1,7 +1,13 @@
 import { API_URL } from "./apiConfig";
 import { UserData } from "../types/userRegistrationData";
 import { UserLoginData } from "../types/userLoginData";
-
+/**
+ * Logs in a user by sending credentials to the server.
+ *
+ * @param {UserLoginData} userData - The user's login credentials.
+ * @returns A promise that resolves with the login response.
+ * @throws {Error} If the login fails due to incorrect credentials or server issues.
+ */
 export const loginUser = async (userData: UserLoginData) => {
   try {
     const response = await fetch(`${API_URL}/login-user`, {
@@ -32,7 +38,12 @@ export const loginUser = async (userData: UserLoginData) => {
     throw error 
   }
 };
-
+/**
+ * Fetches user data from the server.
+ *
+ * @returns A promise that resolves to the user's data.
+ * @throws {Error} If the request fails.
+ */
 export const fetchUserData = async () => {
   try {
     // Send GET request with the token in the Cookie
@@ -52,7 +63,12 @@ export const fetchUserData = async () => {
     console.error(error);
   }
 };
-
+/**
+ * Logs out the user by invalidating the session on the server.
+ *
+ * @returns A promise that resolves when the user is logged out.
+ * @throws {Error} If the logout process fails.
+ */
 export const logoutUser = async () => {
   try {
     const response = await fetch(`${API_URL}/logout`, {
@@ -67,7 +83,13 @@ export const logoutUser = async () => {
     console.error(error);
   }
 };
-
+/**
+ * Registers a new user by sending their data to the server.
+ *
+ * @param {UserData} user - The user's registration details.
+ * @returns A promise that resolves with the registration response.
+ * @throws {Error} If registration fails due to network issues or server validation errors.
+ */
 export const registerUser = async (user: UserData) => {
   try {
     const response = await fetch(`${API_URL}/register-user`, {
