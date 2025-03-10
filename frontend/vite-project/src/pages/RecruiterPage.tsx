@@ -6,7 +6,6 @@ import "../styling/RecruiterPage.css";
 import { useAuth } from "../hooks/useAuthLogin";
 import { useFetchApplications } from "../hooks/useFetchApplications";
 
-import { ChevronRight } from "lucide-react";
 
 export default function RecruiterPage() {
   const {
@@ -42,9 +41,6 @@ export default function RecruiterPage() {
   const mapperOfStatus = ["Unhandled", "Accepted", "Rejected"];
 
 
-  const goToApplication = () => {
-    navigate("/application_user")
-  };
 
   return (
     <div className="recruiterPage">
@@ -59,7 +55,6 @@ export default function RecruiterPage() {
               </h3>
               <p>{mapperOfStatus[item.status - 1]}</p>
             </div>
-            <ChevronRight onClick={() => goToApplication()} className="chevron" />
           </a>
           ))}
         </ul>
