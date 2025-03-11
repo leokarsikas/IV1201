@@ -76,7 +76,7 @@ export default function CompetenceProfile({
         />
         <p>År av erfarenhet inom denna roll</p>
       </div>
-      <button onClick={() => removeCompetence(index)} className="btn-remove">
+      <button onClick={() => removeCompetence(index)} className="btn-remove" disabled={index < 1}>
         Ta bort
       </button>
     </div>

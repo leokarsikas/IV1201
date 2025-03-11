@@ -71,7 +71,7 @@ export default function AvailabilityProfile({
         />
         <p>Till och med den</p>
       </div>
-      <button onClick={() => removeAvailability(index)} className="btn-remove">
+      <button onClick={() => removeAvailability(index)} className="btn-remove" disabled={index < 1}>
         Ta bort
       </button>
     </div>
