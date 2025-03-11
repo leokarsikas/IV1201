@@ -40,7 +40,7 @@ const isUsernameThere = (username: string): boolean => {
 
 // New Set removes duplicates from an array. If the array argument have the same length as the new set: return true, else return false
 const validateRole = (role: string, allRoles: string[]): string => {
-  if (role === "") {
+  if (role === "" || role === "Väljr roll") {
     return "Välj en roll";
   }
 

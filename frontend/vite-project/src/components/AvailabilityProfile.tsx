@@ -26,12 +26,7 @@ export default function AvailabilityProfile({
   const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
   const { t} = useTranslation(); //for translation to other languages
   const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newFromDateStr = e.target.value;
-    const newFromDate = new Date(newFromDateStr);
-    /*const currentToDate = availability.availabilityTo
-      ? new Date(availability.availabilityTo)
-      : null;*/
-
+    const newFromDate = e.target.value;
 
     // Ensure fromDate is not earlier than the current date
     if (new Date(newFromDate) < new Date(currentDate)) {
@@ -40,24 +35,11 @@ export default function AvailabilityProfile({
       return;
     }
 
-    updateApplication(
-      "availabilityProfile",
-      index,
-      "availabilityFrom",
-      newFromDate
-    );
+    updateApplication("availabilityProfile", index, "availabilityFrom", newFromDate);
   };
 
   const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newToDateStr = e.target.value;
-    const newToDate = new Date(newToDateStr);
-   // const currentFromDate = availability.availabilityFrom
-   //   ? new Date(availability.availabilityFrom)
-   //   : null;
-
-   
-   
-   
+    const newToDate = e.target.value;
 
     // Update availabilityTo if all conditions are met
     updateApplication("availabilityProfile", index, "availabilityTo", newToDate);
@@ -66,16 +48,11 @@ export default function AvailabilityProfile({
   return (
     <div className="period-form">
       <div>
-     
         <CustomDateInput
           placeholder=""
           name="availabilityFrom"
           borderColor={!!error.availableFromError ? "red" : ""}
-          value={availability.availabilityFrom
-            ? new Date(availability.availabilityFrom)
-                .toISOString()
-                .split("T")[0]
-            : ""}
+          value={availability.availabilityFrom ?? ""}
           onChange={handleFromDateChange}
           min={currentDate} // Prevent selection of dates before today
         />
@@ -86,13 +63,7 @@ export default function AvailabilityProfile({
           placeholder=""
           borderColor={!!error.availableToError ? "red" : ""}
           name="availabilityTo"
-          value={
-            availability.availabilityTo
-              ? new Date(availability.availabilityTo)
-                  .toISOString()
-                  .split("T")[0]
-              : ""
-          }
+          value={availability.availabilityTo ?? ""}
           onChange={handleToDateChange}
           min={availability.availabilityFrom instanceof Date
             ? availability.availabilityFrom.toISOString().split("T")[0]
