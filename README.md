@@ -27,9 +27,9 @@ All public declarations have been explained with **Javadoc** in the backend and 
 
 ### Backend
 #### Java package
-  * Config  
+  * config  
       *Contains the security configuration and authentication filter files responsible for pre-authorisation/-authentication and access permissions (including CORS configuration).*  
-  * Controller  
+  * controller  
       *Contains all controllers responsible for receiving and distributing orders and data. Eaxh controller has api mappings of concern-specific nature for managing connections from and to clients.*   
   * DTO  
       *Contains dedicated objects responsible for shuttling data between the controllers and their respective services.*  
