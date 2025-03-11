@@ -1,6 +1,6 @@
 # Leos Jobbland - Group 7
 
-This is a student project submission for the course IV1201 - Design of Global Applications given at KTH, Stockholm. The developed programme provides a recruitment platform for a fictional company. It allows people who want to apply for a position at the company to send in an application, providing contact details and specifying their previous experience. Furthermore, administrative personnel have privileged access to a GUI where they can see if each user's application has yet been handled.
+This is a student project submission for the course IV1201 - Design of Global Applications given at KTH, Stockholm. The developed programme provides a recruitment platform for a fictional company. It allows people who want to apply for a position at the company to send in an application, providing contact details and specifying their previous experience. Furthermore, administrative personnel have privileged access to a GUI where they can see if each user's application has yet been handled.  
 The application is live through azure at https://red-sky-0a11c1a03.4.azurestaticapps.net/
 
 ## Functionalities of the platform
@@ -50,24 +50,26 @@ All public declarations have been explained with **Javadoc** in the backend and 
   * assets  
     *Contains images and logos displayed on the website.*  
   * components  
-    **  
+    *Contains functionality and design for specific isolated components such as buttons and calendars.*  
   * context  
     *Contains functions for validating authenticating with the server.*  
   * hooks  
-    **  
+    *Contains statefull*  
   * pages  
     *Contains the graphical structuring of each webpage. Like a view, the pages utilize mainly html code for the user to gain a graphical interface to interact with.*  
   * services  
     *Contains functions for contacting the RESTApi of the servers, using HTTP requests and configuration details.*  
   * styling  
-    *Contains all css files responsible for tuning the look of all pages.*  
+    *Contains the main chunk of css files responsible for tuning the look of all pages.*  
   * types  
-    **  
+    *Contains interfaces for the structure of complex objects communicated with the server.*  
   * utils  
     *Contains functions for validating the format of data entered by the user accross the different forms of the website.*  
     
 #### Other particular files
-  * The **package.json** file in the **vite-project** package contains all dependencies for the frontend
+  * The **package.json** and **stsconfig.app.json** files in the **vite-project** package contain all dependencies for the frontend.  
+  * The **Root.tsx** and **main.tsx** files in the **src** package specifies all page endpoints and renders it within authprovider wrappers.  
+  * The **i18n.ts** file in the **src** package handles ui locallisation for changing languages.
 
 ## Developing on localhost
 For the next team working on it, the following is what you need to do to get it running:
@@ -94,4 +96,4 @@ For the next team working on it, the following is what you need to do to get it 
 ## Architectural details
 Further resources and documentation can be found on the repository wiki.
 
-//Group 7
+## //Group 7
