@@ -20,6 +20,8 @@ The recruiter interface can only be accessed by logged in administrative personn
 ### Landing page
 The first page when accessing the platform is used mainly for navigation. Additional functionality is options to change the language of the program, as well as the user's email or username being displays to provide confirmation to the user that they are in an authenticated mode.
 
+***
+
 ## Detailed documentation
 All public declarations have been explained with **Javadoc** in the backend and **TSDoc** in the frontend. We hope that all declarations are named aptly enough to intuitively grant understanding of their purpose and function. Below follow some broad explanations of all packages.
 
@@ -54,7 +56,9 @@ All public declarations have been explained with **Javadoc** in the backend and 
   * context  
     *Contains functions for validating authenticating with the server.*  
   * hooks  
-    *Contains statefull*  
+    *Contains functions tracking state and async promise resolving when calling the server.*
+  * locales  
+    *Contains language translation tables for text in the UI*  
   * pages  
     *Contains the graphical structuring of each webpage. Like a view, the pages utilize mainly html code for the user to gain a graphical interface to interact with.*  
   * services  
@@ -67,9 +71,11 @@ All public declarations have been explained with **Javadoc** in the backend and 
     *Contains functions for validating the format of data entered by the user accross the different forms of the website.*  
     
 #### Other particular files
-  * The **package.json** and **stsconfig.app.json** files in the **vite-project** package contain all dependencies for the frontend.  
+  * The **package.json** and **tsconfig.app.json** files in the **vite-project** package contain all dependencies for the frontend.  
   * The **Root.tsx** and **main.tsx** files in the **src** package specifies all page endpoints and renders it within authprovider wrappers.  
-  * The **i18n.ts** file in the **src** package handles ui locallisation for changing languages.
+  * The **i18n.ts** file in the **src** package handles ui localisation for changing languages.
+
+***
 
 ## Developing on localhost
 For the next team working on it, the following is what you need to do to get it running:
@@ -93,7 +99,9 @@ For the next team working on it, the following is what you need to do to get it 
     while running the frontend in **VSCode** using the **npm run dev** command
 * The server will be running on http://localhost:5173/ unless your IDE specifies otherwise
 
+***
+
 ## Architectural details
 Further resources and documentation can be found on the repository wiki.
 
-## //Group 7
+### //Group 7
