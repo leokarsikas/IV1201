@@ -71,8 +71,8 @@ export default function AvailabilityProfile({
         />
         <p>{t("availability-to")}</p>
       </div>
-      <button onClick={() => removeAvailability(index)} className="btn-remove">
-      {t("remove")}
+      <button onClick={() => removeAvailability(index)} className="btn-remove" disabled={index < 1}>
+        {t("remove")}
       </button>
     </div>
   );

@@ -110,7 +110,7 @@
     border: none;
     font-size: 18px;
     font-weight: 500;
-    cursor: pointer;
+    cursor: not-allowed;
     margin-bottom: 5%;
 }
 

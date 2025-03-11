@@ -79,8 +79,8 @@ export default function CompetenceProfile({
         />
         <p>{t("competence-years")}</p>
       </div>
-      <button onClick={() => removeCompetence(index)} className="btn-remove">
-      {t("remove")}
+      <button onClick={() => removeCompetence(index)} className="btn-remove" disabled={index < 1}>
+        {t("remove")}
       </button>
     </div>
   );
