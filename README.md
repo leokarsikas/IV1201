@@ -27,19 +27,19 @@ All public declarations have been explained with **Javadoc** in the backend and 
 
 ### Backend
 #### Java package
-  * config  
+  * **config**  
       *Contains the security configuration and authentication filter files responsible for pre-authorisation/-authentication and access permissions (including CORS configuration).*  
-  * controller  
+  * **controller**  
       *Contains all controllers responsible for receiving and distributing orders and data. Eaxh controller has api mappings of concern-specific nature for managing connections from and to clients.*   
-  * DTO  
+  * **DTO**  
       *Contains dedicated objects responsible for shuttling data between the controllers and their respective services.*  
-  * exception  
+  * **exception**  
       *Contains customised errors for better error handling.*  
-  * model  
+  * **model**  
       *Contains classes for building and manipulating objects interacting with the database.*    
-  * repository  
+  * **repository**  
       *Contains interfaces for querying the database, mainly extending the JpaRepository part of the Spring Framework.*  
-  * service  
+  * **service**  
     *Contains all logic for handling and manipulating data from the user and data from the database in order to serve its controller.*  
 
 #### Other particular files
@@ -49,25 +49,25 @@ All public declarations have been explained with **Javadoc** in the backend and 
 
 ### Frontend
 #### Src package
-  * assets  
+  * **assets**  
     *Contains images and logos displayed on the website.*  
-  * components  
+  * **components**  
     *Contains functionality and design for specific isolated components such as buttons and calendars.*  
-  * context  
+  * **context**  
     *Contains functions for validating authenticating with the server.*  
-  * hooks  
+  * **hooks**  
     *Contains functions tracking state and async promise resolving when calling the server.*
-  * locales  
+  * **locales**  
     *Contains language translation tables for text in the UI*  
-  * pages  
+  * **pages**  
     *Contains the graphical structuring of each webpage. Like a view, the pages utilize mainly html code for the user to gain a graphical interface to interact with.*  
-  * services  
+  * **services**  
     *Contains functions for contacting the RESTApi of the servers, using HTTP requests and configuration details.*  
-  * styling  
+  * **styling**  
     *Contains the main chunk of css files responsible for tuning the look of all pages.*  
-  * types  
+  * **types**  
     *Contains interfaces for the structure of complex objects communicated with the server.*  
-  * utils  
+  * **utils**  
     *Contains functions for validating the format of data entered by the user accross the different forms of the website.*  
     
 #### Other particular files
