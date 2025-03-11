@@ -13,6 +13,7 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({
   label = "Välj roll",
+  value,
   options,
   borderColor,
   color,
@@ -31,7 +32,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className="custom-select">
-      <select style={{ borderColor: borderColor, color: color }} onChange={handleChange}>
+      <select style={{ borderColor: borderColor, color: color }} onChange={handleChange} value={value}>
         <option value="">{label}</option>
         {options.map((option, index) => (
           <option key={index} value={option}>

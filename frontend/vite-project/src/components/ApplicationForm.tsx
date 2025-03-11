@@ -36,9 +36,7 @@ export default function ApplicationForm() {
   }, [userName]);
 
   const [applicationData, setApplicationData] = useState<ApplicationData>(() => {
-    const savedData = localStorage.getItem('applicationData');
-    console.log("Retrieved data:", savedData);
-    
+    const savedData = localStorage.getItem('applicationData');  
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
@@ -53,8 +51,8 @@ export default function ApplicationForm() {
         
         // Process availability profile to ensure dates are Date objects
         const processedAvailabilityProfile = parsedData.availabilityProfile.map((item: any) => ({
-          availabilityFrom: item.availabilityFrom ? new Date(item.availabilityFrom) : null,
-          availabilityTo: item.availabilityTo ? new Date(item.availabilityTo) : null,
+          availabilityFrom: item.availabilityFrom ? new Date(item.availabilityFrom) : "",
+          availabilityTo: item.availabilityTo ? new Date(item.availabilityTo) : "",
         }));
         
         return {
@@ -79,8 +77,8 @@ export default function ApplicationForm() {
       ],
       availabilityProfile: [
         {
-          availabilityFrom: null,
-          availabilityTo: null,
+          availabilityFrom: "",
+          availabilityTo: "",
         },
       ],
     };
