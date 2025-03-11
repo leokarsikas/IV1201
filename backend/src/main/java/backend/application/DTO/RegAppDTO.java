@@ -4,6 +4,8 @@ import backend.application.Application;
 import backend.application.model.ApplicationStatus;
 import backend.application.model.Availability;
 import backend.application.model.Competence;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +32,17 @@ public class RegAppDTO {
      * The list of {@link Availability} associated with the user's registration application.
      * This represents the user's available times or schedules.
      */
-    private List<Availability> availability;
+    @NotNull(message = "Availability list cannot be null")
+    @Valid  // Ensures each item in the list is validated
+    private List<@NotNull(message = "Availability entry cannot be null") Availability> availability;
     /**
      * The list of {@link Competence} associated with the user's registration application.
      * This represents the skills or qualifications the user possesses.
      */
-    private List<Competence> competence;
+    @NotNull(message = "Competence list cannot be null")
+    @Valid  // Ensures each item in the list is validated
+    private List<@NotNull(message = "Competence entry cannot be null") Competence> competence;
+
     /**
      * The {@link ApplicationStatus} representing the current status of the user's application.
      * This can indicate whether the application is pending, approved, or rejected.

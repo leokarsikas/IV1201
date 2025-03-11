@@ -1,6 +1,8 @@
 package backend.application.DTO;
 
 import java.sql.Timestamp;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +25,12 @@ public class AvailabilityDTO {
      * The start timestamp of the user's availability period.
      * This represents when the user becomes available for an event or task.
      */
+    @NotNull(message = "Availability From cannot be null")
     private Timestamp availabilityFrom;
     /**
      * The end timestamp of the user's availability period.
      * This represents when the user is no longer available for an event or task.
      */
+    @NotNull(message = "Availability To cannot be null")
     private Timestamp availabilityTo;
 }
